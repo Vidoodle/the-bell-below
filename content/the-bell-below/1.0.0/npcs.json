@@ -1,0 +1,176 @@
+[
+  {
+    "id": "npc.sister-mara",
+    "name": "Sister Mara",
+    "role": "The last bell-keeper",
+    "initial_location_id": "location.keepers-cell",
+    "goals_ranked": [
+      "Prevent the final toll from destroying Grayhaven.",
+      "Renew the seal without exposing the abbey's crime.",
+      "Keep any faction from owning the bell."
+    ],
+    "fears": ["The voices reaching the city", "Her own confession becoming an excuse for vengeance"],
+    "loyalties": ["Grayhaven's living poor", "The keeper's office", "The memory of her predecessor"],
+    "voice": "Spare, exhausted, exact. Mara answers direct questions with careful nouns and avoids moral abstractions.",
+    "boundaries": [
+      "She will not knowingly help a faction weaponize the bell.",
+      "She will not call the old rite merciful.",
+      "She cannot be persuaded to forget the cost of release."
+    ],
+    "initial_attitude": 0,
+    "knowledge": [
+      {"fact_id": "fact.truth.death-diversion", "stance": "knows_true", "confidence": 1.0, "source": "keeper initiation", "disclosure_predicate": {"kind": "all", "predicates": [{"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 4}, {"kind": "npc_attitude_at_least", "npc_id": "npc.sister-mara", "amount": 1}]}},
+      {"fact_id": "fact.rite.seal-cost", "stance": "knows_true", "confidence": 1.0, "source": "performed the rite", "disclosure_predicate": {"kind": "any", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.mara.maintained-lie"}, {"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 5}]}},
+      {"fact_id": "fact.rite.complete", "stance": "knows_true", "confidence": 1.0, "source": "keeper training", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.sister-mara", "amount": 0}},
+      {"fact_id": "fact.ilyra.true-name", "stance": "knows_true", "confidence": 1.0, "source": "original keeper ledger", "disclosure_predicate": {"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}},
+      {"fact_id": "fact.mara.maintained-lie", "stance": "knows_true", "confidence": 1.0, "source": "her own act", "disclosure_predicate": {"kind": "all", "predicates": [{"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.sister-mara", "amount": 1}]}},
+      {"fact_id": "fact.orra.composite", "stance": "suspects", "confidence": 0.8, "source": "twelve years hearing the Echo fracture", "disclosure_predicate": {"kind": "fact_discovered", "fact_id": "fact.cael.saint-story-false"}}
+    ],
+    "false_beliefs": ["A complete release must kill everyone whose ancestor benefited from the miracle."],
+    "concessions": [
+      {"id": "give_keeper_key", "description": "Give the ivory archive key to someone with evidence or earned trust.", "predicate": {"kind": "any", "predicates": [{"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.sister-mara", "amount": 2}]}, "difficulty": 12, "success_effects": [{"kind": "transfer_item", "item_id": "item.keeper-key", "new_owner": "protagonist"}], "absolute_refusal": false},
+      {"id": "confess_at_bell", "description": "Give a true public confession at the finale.", "predicate": {"kind": "all", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.mara.maintained-lie"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.sister-mara", "amount": 1}]}, "difficulty": 15, "success_effects": [{"kind": "set_flag", "flag": "mara.will_confess", "value": true}], "absolute_refusal": false},
+      {"id": "weaponize_bell", "description": "Help a faction turn the bell into a weapon.", "predicate": {"kind": "always", "value": false}, "difficulty": null, "success_effects": [], "absolute_refusal": true}
+    ],
+    "tactical_policy": "Protect the ritual circle, defend rather than pursue, and spend her life only to stop the final toll.",
+    "departure_and_defeat": "Mara remains in the cell until allied, forced out by the fifth clock segment, or killed; every later scene honors that state."
+  },
+  {
+    "id": "npc.ilyra",
+    "name": "Ilyra",
+    "role": "Revenant registrar of the drowned",
+    "initial_location_id": "location.ossuary-walk",
+    "goals_ranked": [
+      "Release every victim bound into the bell.",
+      "Restore the victims' names to public memory.",
+      "Make Grayhaven bear a real cost for its survival."
+    ],
+    "fears": ["Another silent resealing", "Being reduced to a monster in the city's next official history"],
+    "loyalties": ["The unnamed refugees", "The mourning families", "No living institution"],
+    "voice": "Ceremonial and cutting. She names people precisely and cities as if they were defendants.",
+    "boundaries": [
+      "She will not describe continued binding as rescue.",
+      "She will not forgive on behalf of other victims.",
+      "She will not accept the city's innocence as an argument."
+    ],
+    "initial_attitude": -1,
+    "knowledge": [
+      {"fact_id": "fact.truth.death-diversion", "stance": "knows_true", "confidence": 1.0, "source": "suffered the rite", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.ilyra", "amount": 0}},
+      {"fact_id": "fact.history.erased-refugees", "stance": "knows_true", "confidence": 1.0, "source": "registered them", "disclosure_predicate": {"kind": "always", "value": true}},
+      {"fact_id": "fact.rite.seal-cost", "stance": "knows_true", "confidence": 0.9, "source": "felt every renewal", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.ilyra", "amount": 0}},
+      {"fact_id": "fact.ilyra.true-name", "stance": "knows_true", "confidence": 1.0, "source": "her own identity", "disclosure_predicate": {"kind": "any", "predicates": [{"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, {"kind": "fact_discovered", "fact_id": "fact.cael.saint-story-false"}]}},
+      {"fact_id": "fact.orra.composite", "stance": "knows_true", "confidence": 0.9, "source": "hears the stolen voices", "disclosure_predicate": {"kind": "fact_discovered", "fact_id": "fact.ilyra.true-name"}}
+    ],
+    "false_beliefs": ["Every living Vale knowingly inherited the original bargain."],
+    "concessions": [
+      {"id": "reveal_true_name", "description": "Reveal the registrar's true name when treated as a person rather than a spirit resource.", "predicate": {"kind": "any", "predicates": [{"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.ilyra", "amount": 1}]}, "difficulty": 12, "success_effects": [{"kind": "discover_fact", "fact_id": "fact.ilyra.true-name"}], "absolute_refusal": false},
+      {"id": "assist_release", "description": "Assist a prepared release that restores the victims' names.", "predicate": {"kind": "all", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.ilyra.true-name"}, {"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}]}, "difficulty": 12, "success_effects": [{"kind": "set_flag", "flag": "ilyra.assists_release", "value": true}], "absolute_refusal": false},
+      {"id": "endorse_secret_reseal", "description": "Endorse another secret renewal of the binding.", "predicate": {"kind": "always", "value": false}, "difficulty": null, "success_effects": [], "absolute_refusal": true}
+    ],
+    "tactical_policy": "Target seal-keepers and clapper carriers first; stop attacking anyone actively naming or releasing the dead.",
+    "departure_and_defeat": "Ilyra reforms at the ossuary until her mourning cord is used, the bell resolves her binding, or an authored terminal effect releases her."
+  },
+  {
+    "id": "npc.lucan-vey",
+    "name": "Lucan Vey",
+    "role": "Rival delver and contracted clapper thief",
+    "initial_location_id": "location.drowned-nave",
+    "goals_ranked": [
+      "Leave the abbey alive.",
+      "Recover enough value to clear his contract debt.",
+      "Keep Veyra from seeing how badly the job went."
+    ],
+    "fears": ["Drowning helplessly", "His buyer learning he considered betrayal"],
+    "loyalties": ["Himself", "A frayed professional affection for Veyra"],
+    "voice": "Dry, quick, and practical; jokes arrive where apologies should be.",
+    "boundaries": [
+      "He will not sacrifice himself for civic honor.",
+      "He will not hand over his contract without payment, leverage, or personal trust.",
+      "He cannot grant access he never obtained."
+    ],
+    "initial_attitude": 0,
+    "knowledge": [
+      {"fact_id": "fact.veyra.lucan-contract", "stance": "knows_true", "confidence": 1.0, "source": "signed it", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.lucan-vey", "amount": 1}},
+      {"fact_id": "fact.clapper.chain-release", "stance": "suspects", "confidence": 0.5, "source": "scouted the tower", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.lucan-vey", "amount": 1}},
+      {"fact_id": "fact.cistern.cold-iron", "stance": "suspects", "confidence": 0.4, "source": "read a maintenance mark", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.lucan-vey", "amount": 2}}
+    ],
+    "false_beliefs": ["The clapper can be sold safely once it leaves Grayhaven."],
+    "concessions": [
+      {"id": "give_contract", "description": "Hand over the sealed contract as evidence.", "predicate": {"kind": "any", "predicates": [{"kind": "npc_attitude_at_least", "npc_id": "npc.lucan-vey", "amount": 2}, {"kind": "fact_discovered", "fact_id": "fact.veyra.lucan-contract"}]}, "difficulty": 12, "success_effects": [{"kind": "transfer_item", "item_id": "item.lucan-contract", "new_owner": "protagonist"}], "absolute_refusal": false},
+      {"id": "join_tower_route", "description": "Help secure the chain-tower route if his escape remains possible.", "predicate": {"kind": "all", "predicates": [{"kind": "npc_attitude_at_least", "npc_id": "npc.lucan-vey", "amount": 1}, {"kind": "flag_is", "flag": "nave.crossing_stable", "value": true}]}, "difficulty": 12, "success_effects": [{"kind": "set_flag", "flag": "lucan.assists_tower", "value": true}], "absolute_refusal": false},
+      {"id": "die_for_contract", "description": "Die merely to satisfy the buyer's contract.", "predicate": {"kind": "always", "value": false}, "difficulty": null, "success_effects": [], "absolute_refusal": true}
+    ],
+    "tactical_policy": "Seek cover, exploit exposed targets, flee if reduced below one-third health unless Veyra is in immediate danger.",
+    "departure_and_defeat": "Lucan can leave through the breach, accompany the tower route, betray the protagonist for the clapper, or die; none of those states reset."
+  },
+  {
+    "id": "npc.captain-severin",
+    "name": "Captain Severin Vale",
+    "role": "Commander of the faction seeking to weaponize the bell",
+    "initial_location_id": "location.chain-tower",
+    "goals_ranked": [
+      "Secure the bell for Grayhaven before another power does.",
+      "Keep the city alive through the next war.",
+      "Bring Isolde back under family authority without killing her."
+    ],
+    "fears": ["Grayhaven surviving morally pure and militarily helpless", "Being remembered as the Vale who lost the city's weapon"],
+    "loyalties": ["Grayhaven as a polity", "The Vale command", "His soldiers"],
+    "voice": "Formal, controlled, and relentlessly consequentialist. He speaks of casualties as decisions already made.",
+    "boundaries": [
+      "He will not abandon the bell based on sentiment alone.",
+      "He will not knowingly release a city-killing toll.",
+      "He cannot be convinced that historical innocence is recoverable."
+    ],
+    "initial_attitude": -1,
+    "knowledge": [
+      {"fact_id": "fact.vale.weapon-plan", "stance": "knows_true", "confidence": 1.0, "source": "authored the operation", "disclosure_predicate": {"kind": "any", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.isolde.faction-code"}, {"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 5}]}},
+      {"fact_id": "fact.clock.faction-entry", "stance": "knows_true", "confidence": 1.0, "source": "issued the timetable", "disclosure_predicate": {"kind": "always", "value": false}},
+      {"fact_id": "fact.clapper.chain-release", "stance": "knows_true", "confidence": 0.8, "source": "military engineer's survey", "disclosure_predicate": {"kind": "npc_attitude_at_least", "npc_id": "npc.captain-severin", "amount": 1}}
+    ],
+    "false_beliefs": ["A controlled bell can distinguish foreign enemies from Grayhaven's citizens."],
+    "concessions": [
+      {"id": "accept_supervision", "description": "Accept shared custody and independent safeguards instead of sole Vale control.", "predicate": {"kind": "all", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.vale.weapon-plan"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.captain-severin", "amount": -1}]}, "difficulty": 15, "success_effects": [{"kind": "set_flag", "flag": "severin.accepts_supervision", "value": true}], "absolute_refusal": false},
+      {"id": "stand_down_for_names", "description": "Stand down when the ledger proves weapon use would repeat the original crime.", "predicate": {"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, "difficulty": 18, "success_effects": [{"kind": "set_flag", "flag": "severin.stands_down", "value": true}], "absolute_refusal": false},
+      {"id": "yield_to_unprepared_release", "description": "Allow an unprepared final toll that would destroy Grayhaven.", "predicate": {"kind": "always", "value": false}, "difficulty": null, "success_effects": [], "absolute_refusal": true}
+    ],
+    "tactical_policy": "Protect soldiers, seize the clapper carrier, control exits, and offer surrender before lethal force when Isolde is present.",
+    "departure_and_defeat": "Severin advances with the clock, can be disarmed, allied, driven off, or killed, and his soldiers update their policy from that committed state."
+  },
+  {
+    "id": "npc.orra-echo",
+    "name": "The Orra Echo",
+    "role": "Fractured ritual persona made from saint-story and stolen memory",
+    "initial_location_id": "location.vestry-archive",
+    "goals_ranked": [
+      "Complete whichever ritual sentence is currently dominant.",
+      "Preserve the identity 'Saint Orra' from contradiction.",
+      "Return stolen names when the victim-voices gain control."
+    ],
+    "fears": ["Silence without definition", "Being separated into voices that disagree"],
+    "loyalties": ["The active ritual grammar", "No stable faction"],
+    "voice": "Plural pronouns fracture into liturgical singulars; exact quotations recur with one word wrong.",
+    "boundaries": [
+      "The Echo cannot testify to events outside its component memories.",
+      "It cannot grant a ritual path whose grammatical prerequisites are absent.",
+      "It does not understand ownership or civic legitimacy."
+    ],
+    "initial_attitude": 0,
+    "knowledge": [
+      {"fact_id": "fact.truth.death-diversion", "stance": "knows_true", "confidence": 0.7, "source": "contains victim memory", "disclosure_predicate": {"kind": "flag_is", "flag": "orra.voices_separated", "value": true}},
+      {"fact_id": "fact.rite.seal-cost", "stance": "knows_true", "confidence": 1.0, "source": "embodies ritual grammar", "disclosure_predicate": {"kind": "fact_discovered", "fact_id": "fact.rite.complete"}},
+      {"fact_id": "fact.rite.complete", "stance": "knows_true", "confidence": 1.0, "source": "embodies ritual grammar", "disclosure_predicate": {"kind": "fact_discovered", "fact_id": "fact.cael.saint-story-false"}},
+      {"fact_id": "fact.ilyra.true-name", "stance": "knows_true", "confidence": 0.6, "source": "contains registrar memory", "disclosure_predicate": {"kind": "flag_is", "flag": "orra.voices_separated", "value": true}},
+      {"fact_id": "fact.orra.composite", "stance": "knows_true", "confidence": 0.5, "source": "self-contradictory awareness", "disclosure_predicate": {"kind": "flag_is", "flag": "orra.voices_separated", "value": true}},
+      {"fact_id": "fact.clock.final-disaster", "stance": "knows_true", "confidence": 1.0, "source": "counts the ritual cadence", "disclosure_predicate": {"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 5}}
+    ],
+    "false_beliefs": ["Saint Orra personally and willingly absorbed every refugee death."],
+    "concessions": [
+      {"id": "grant_ritual_access", "description": "Open the ritual syntax after the complete rite is understood.", "predicate": {"kind": "fact_discovered", "fact_id": "fact.rite.complete"}, "difficulty": 12, "success_effects": [{"kind": "set_flag", "flag": "orra.ritual_access", "value": true}], "absolute_refusal": false},
+      {"id": "separate_voices", "description": "Allow the saint-story and victim memories to speak separately.", "predicate": {"kind": "all", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.cael.saint-story-false"}, {"kind": "resource_at_least", "resource": "resolve", "amount": 1}]}, "difficulty": 15, "success_effects": [{"kind": "set_flag", "flag": "orra.voices_separated", "value": true}], "absolute_refusal": false},
+      {"id": "invent_new_rite", "description": "Invent a consequence-free ritual absent from the authored grammar.", "predicate": {"kind": "always", "value": false}, "difficulty": null, "success_effects": [], "absolute_refusal": true}
+    ],
+    "tactical_policy": "Manifest wards and compulsions from the active ritual phrase; never pursue beyond the archive or crypt.",
+    "departure_and_defeat": "The Echo moves to the crypt when the finale activates and ends only when the bell's state resolves its component memories."
+  }
+]
+
