@@ -1,0 +1,40 @@
+[
+  {
+    "id": "encounter.cistern-spirit",
+    "name": "The Bound Cistern Spirit",
+    "location_id": "location.black-cistern",
+    "optional": true,
+    "zones": ["maintenance_ledge", "black_water"],
+    "activation_predicate": {"kind": "encounter_state_is", "encounter_id": "encounter.cistern-spirit", "state": "active"},
+    "alternate_resolution_predicates": [
+      {"kind": "fact_discovered", "fact_id": "fact.ilyra.true-name"},
+      {"kind": "has_item", "item_id": "item.cael-ash-censer", "owner": "protagonist"}
+    ]
+  },
+  {
+    "id": "encounter.chain-sentinel",
+    "name": "The Drowned Chain Sentinel",
+    "location_id": "location.chain-tower",
+    "optional": true,
+    "zones": ["tower_floor", "counterweight_gallery", "crypt_descent"],
+    "activation_predicate": {"kind": "encounter_state_is", "encounter_id": "encounter.chain-sentinel", "state": "active"},
+    "alternate_resolution_predicates": [
+      {"kind": "flag_is", "flag": "lucan.assists_tower", "value": true},
+      {"kind": "fact_discovered", "fact_id": "fact.clapper.chain-release"}
+    ]
+  },
+  {
+    "id": "encounter.final-crypt",
+    "name": "The Contest at the Bell",
+    "location_id": "location.bell-crypt",
+    "optional": false,
+    "zones": ["keeper_circle", "bell_dais", "chain_gallery", "flooded_names"],
+    "activation_predicate": {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"},
+    "alternate_resolution_predicates": [
+      {"kind": "flag_is", "flag": "severin.stands_down", "value": true},
+      {"kind": "flag_is", "flag": "mara.will_confess", "value": true},
+      {"kind": "flag_is", "flag": "ilyra.assists_release", "value": true}
+    ]
+  }
+]
+
