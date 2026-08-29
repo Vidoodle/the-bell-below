@@ -1,0 +1,122 @@
+[
+  {
+    "id": "fact.premise.final-toll",
+    "truth": "The buried Bell of Mercy will ring its final toll at midnight unless someone intervenes.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.breach-stair"]
+  },
+  {
+    "id": "fact.truth.death-diversion",
+    "truth": "Saint Orra's miracle diverted the deaths of Grayhaven's citizens into refugees and attendants sheltered below the abbey.",
+    "audience": "engine_only",
+    "allowed_knowers": ["npc.sister-mara", "npc.ilyra", "npc.orra-echo"],
+    "discoverable_at": []
+  },
+  {
+    "id": "fact.history.erased-refugees",
+    "truth": "The official casualty ledger omitted hundreds of refugees who entered the lower abbey during the siege.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.ossuary-walk", "location.vestry-archive"]
+  },
+  {
+    "id": "fact.rite.seal-cost",
+    "truth": "Renewing the seal binds a living memory into the bell and perpetuates the victims' captivity.",
+    "audience": "npc_restricted",
+    "allowed_knowers": ["npc.sister-mara", "npc.ilyra", "npc.orra-echo"],
+    "discoverable_at": ["location.keepers-cell", "location.vestry-archive"]
+  },
+  {
+    "id": "fact.rite.complete",
+    "truth": "The complete sealing rite requires the keeper's cadence, the original clapper, and a willing living memory.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.vestry-archive", "location.keepers-cell"]
+  },
+  {
+    "id": "fact.ilyra.true-name",
+    "truth": "The revenant called Ilyra was Elaria Nymm, registrar of the refugees and first unwilling anchor of the bell.",
+    "audience": "npc_restricted",
+    "allowed_knowers": ["npc.sister-mara", "npc.ilyra", "npc.orra-echo"],
+    "discoverable_at": ["location.ossuary-walk", "location.vestry-archive"]
+  },
+  {
+    "id": "fact.clapper.chain-release",
+    "truth": "The original clapper can be released intact by pinning the third counterweight before cutting the black chain.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.chain-tower"]
+  },
+  {
+    "id": "fact.cistern.cold-iron",
+    "truth": "A cold-iron maintenance wedge in the cistern can immobilize the bell without breaking it.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.black-cistern"]
+  },
+  {
+    "id": "fact.mara.maintained-lie",
+    "truth": "Sister Mara renewed the seal twelve years ago and knowingly preserved the official lie.",
+    "audience": "npc_restricted",
+    "allowed_knowers": ["npc.sister-mara"],
+    "discoverable_at": ["location.keepers-cell"]
+  },
+  {
+    "id": "fact.vale.weapon-plan",
+    "truth": "Captain Severin Vale intends to remove the bell and use controlled tolls against Grayhaven's enemies.",
+    "audience": "npc_restricted",
+    "allowed_knowers": ["npc.captain-severin"],
+    "discoverable_at": ["location.chain-tower"]
+  },
+  {
+    "id": "fact.orra.composite",
+    "truth": "The Orra Echo is a composite of the official saint-story and memories stripped from the bound victims, not Saint Orra's surviving soul.",
+    "audience": "engine_only",
+    "allowed_knowers": ["npc.sister-mara", "npc.ilyra", "npc.orra-echo"],
+    "discoverable_at": []
+  },
+  {
+    "id": "fact.seren.ward-signs",
+    "truth": "The old civic ward-signs identify doors sealed by Grayhaven's siege guard rather than the abbey clergy.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.breach-stair"]
+  },
+  {
+    "id": "fact.veyra.lucan-contract",
+    "truth": "Lucan Vey accepted a competing contract to recover the original clapper.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.drowned-nave"]
+  },
+  {
+    "id": "fact.cael.saint-story-false",
+    "truth": "The liturgy of Saint Orra contains a repeated substitution where the name of a civic rite replaced a person.",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.breach-stair", "location.vestry-archive"]
+  },
+  {
+    "id": "fact.isolde.faction-code",
+    "truth": "The current Vale expedition answers to the challenge phrase 'The city outlives the innocent.'",
+    "audience": "player_discoverable",
+    "allowed_knowers": [],
+    "discoverable_at": ["location.breach-stair", "location.chain-tower"]
+  },
+  {
+    "id": "fact.clock.faction-entry",
+    "truth": "At the fourth segment of the Midnight Clock, Severin's surviving soldiers enter the drowned nave.",
+    "audience": "engine_only",
+    "allowed_knowers": ["npc.captain-severin"],
+    "discoverable_at": []
+  },
+  {
+    "id": "fact.clock.final-disaster",
+    "truth": "At the sixth segment, the bell tolls and forces the most severe currently eligible ending.",
+    "audience": "engine_only",
+    "allowed_knowers": ["npc.orra-echo"],
+    "discoverable_at": []
+  }
+]
+
