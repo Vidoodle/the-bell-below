@@ -1,0 +1,38 @@
+[
+  {
+    "id": "clock.midnight",
+    "name": "The Midnight Clock",
+    "maximum": 6,
+    "initial": 0,
+    "events": [
+      {
+        "threshold": 2,
+        "title": "Water Remembers",
+        "public_summary": "The nave water rises and repeats voices from the old siege.",
+        "effects": [
+          {"kind": "set_flag", "flag": "nave.water_stage_raised", "value": true},
+          {"kind": "set_flag", "flag": "nave.keeper_route_seen", "value": true}
+        ]
+      },
+      {
+        "threshold": 4,
+        "title": "The Vale Expedition Enters",
+        "public_summary": "Boots and shuttered lanterns descend through the breach above.",
+        "effects": [
+          {"kind": "set_flag", "flag": "faction.entered_nave", "value": true},
+          {"kind": "move_entity", "entity": "npc.captain-severin", "location_id": "location.drowned-nave"}
+        ]
+      },
+      {
+        "threshold": 6,
+        "title": "The Final Toll",
+        "public_summary": "The bell completes the movement everyone below has been trying to prevent.",
+        "effects": [
+          {"kind": "mark_ending_eligible", "ending_id": "ending.final-toll"},
+          {"kind": "set_flag", "flag": "bell.final_toll", "value": true}
+        ]
+      }
+    ]
+  }
+]
+
