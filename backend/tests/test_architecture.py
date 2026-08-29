@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-SOURCE_ROOT = REPOSITORY_ROOT / "backend" / "src" / "wayfarer"
+SOURCE_ROOT = REPOSITORY_ROOT / "backend" / "src" / "bell_below"
 
 
 class ArchitectureBoundaryTests(unittest.TestCase):
