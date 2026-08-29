@@ -1,0 +1,189 @@
+[
+  {
+    "id": "ending.reseal",
+    "name": "The Mercy Renewed",
+    "family": "reseal",
+    "predicate": {
+      "kind": "all",
+      "predicates": [
+        {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"},
+        {"kind": "fact_discovered", "fact_id": "fact.rite.complete"},
+        {"kind": "has_item", "item_id": "item.original-clapper", "owner": "protagonist"},
+        {"kind": "any", "predicates": [{"kind": "flag_is", "flag": "mara.will_confess", "value": true}, {"kind": "resource_at_least", "resource": "resolve", "amount": 1}]}
+      ]
+    },
+    "consequence_ledger": [
+      "Grayhaven survives the night.",
+      "The dead remain bound unless a public confession changes the next civic reckoning.",
+      "A living memory is surrendered according to the committed ritual state."
+    ],
+    "terminal_effects": [{"kind": "mark_ending_eligible", "ending_id": "ending.reseal"}],
+    "hidden_epilogue_facts": ["fact.rite.seal-cost"],
+    "witnesses": [
+      {
+        "name": "Seren reseals after winning Mara's confession",
+        "protagonist_id": "protagonist.seren-holt",
+        "location_id": "location.bell-crypt",
+        "flags": {"mara.will_confess": true},
+        "resources": {"resolve": 1},
+        "item_owners": {"item.original-clapper": "protagonist.seren-holt"},
+        "npc_attitudes": {},
+        "npc_knowledge": {},
+        "discovered_facts": ["fact.rite.complete", "fact.mara.maintained-lie"],
+        "quest_stages": {"quest.silence-bell": "confront_bell"},
+        "clocks": {"clock.midnight": 5},
+        "encounter_states": {"encounter.final-crypt": "resolved"},
+        "eligible_endings": []
+      }
+    ]
+  },
+  {
+    "id": "ending.break",
+    "name": "The Names Return",
+    "family": "break",
+    "predicate": {
+      "kind": "all",
+      "predicates": [
+        {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"},
+        {"kind": "flag_is", "flag": "ilyra.assists_release", "value": true},
+        {"kind": "fact_discovered", "fact_id": "fact.ilyra.true-name"},
+        {"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}
+      ]
+    },
+    "consequence_ledger": [
+      "The bound dead are released under their recorded names.",
+      "Grayhaven suffers supernatural and political consequences scaled by the clock and preparation.",
+      "The official miracle can no longer survive intact."
+    ],
+    "terminal_effects": [{"kind": "mark_ending_eligible", "ending_id": "ending.break"}],
+    "hidden_epilogue_facts": ["fact.truth.death-diversion"],
+    "witnesses": [
+      {
+        "name": "Cael restores the names and Ilyra opens the binding",
+        "protagonist_id": "protagonist.brother-cael",
+        "location_id": "location.bell-crypt",
+        "flags": {"ilyra.assists_release": true, "orra.voices_separated": true},
+        "resources": {"resolve": 1},
+        "item_owners": {"item.refugee-ledger": "protagonist.brother-cael"},
+        "npc_attitudes": {"npc.ilyra": 2},
+        "npc_knowledge": {},
+        "discovered_facts": ["fact.ilyra.true-name", "fact.history.erased-refugees", "fact.cael.saint-story-false"],
+        "quest_stages": {"quest.silence-bell": "confront_bell"},
+        "clocks": {"clock.midnight": 5},
+        "encounter_states": {"encounter.final-crypt": "resolved"},
+        "eligible_endings": []
+      }
+    ]
+  },
+  {
+    "id": "ending.silence",
+    "name": "A Borrowed Silence",
+    "family": "silence_without_release",
+    "predicate": {
+      "kind": "all",
+      "predicates": [
+        {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"},
+        {"kind": "has_item", "item_id": "item.cold-iron-wedge", "owner": "protagonist"},
+        {"kind": "not", "predicate": {"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 6}}
+      ]
+    },
+    "consequence_ledger": [
+      "The cold iron prevents the final toll without freeing the dead.",
+      "Grayhaven gains time rather than absolution.",
+      "Every surviving faction leaves with a reason to return."
+    ],
+    "terminal_effects": [{"kind": "mark_ending_eligible", "ending_id": "ending.silence"}],
+    "hidden_epilogue_facts": ["fact.cistern.cold-iron"],
+    "witnesses": [
+      {
+        "name": "Veyra wedges the mechanism before the sixth segment",
+        "protagonist_id": "protagonist.veyra-sable",
+        "location_id": "location.bell-crypt",
+        "flags": {},
+        "resources": {"resolve": 1},
+        "item_owners": {"item.cold-iron-wedge": "protagonist.veyra-sable"},
+        "npc_attitudes": {},
+        "npc_knowledge": {},
+        "discovered_facts": ["fact.cistern.cold-iron"],
+        "quest_stages": {"quest.silence-bell": "confront_bell"},
+        "clocks": {"clock.midnight": 4},
+        "encounter_states": {"encounter.final-crypt": "resolved"},
+        "eligible_endings": []
+      }
+    ]
+  },
+  {
+    "id": "ending.claim",
+    "name": "The Bell in Custody",
+    "family": "claim",
+    "predicate": {
+      "kind": "all",
+      "predicates": [
+        {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"},
+        {"kind": "has_item", "item_id": "item.original-clapper", "owner": "protagonist"},
+        {"kind": "any", "predicates": [{"kind": "flag_is", "flag": "severin.accepts_supervision", "value": true}, {"kind": "flag_is", "flag": "severin.stands_down", "value": true}]}
+      ]
+    },
+    "consequence_ledger": [
+      "The bell survives under a living authority determined by faction and relationship state.",
+      "Severin's survival and supervision decide whether custody is an armistice or a coup.",
+      "The dead remain a political constituency that can no longer be ignored."
+    ],
+    "terminal_effects": [{"kind": "mark_ending_eligible", "ending_id": "ending.claim"}],
+    "hidden_epilogue_facts": ["fact.vale.weapon-plan"],
+    "witnesses": [
+      {
+        "name": "Isolde binds Severin to supervised custody",
+        "protagonist_id": "protagonist.lady-isolde",
+        "location_id": "location.bell-crypt",
+        "flags": {"severin.accepts_supervision": true},
+        "resources": {"resolve": 1},
+        "item_owners": {"item.original-clapper": "protagonist.lady-isolde"},
+        "npc_attitudes": {"npc.captain-severin": 0},
+        "npc_knowledge": {},
+        "discovered_facts": ["fact.vale.weapon-plan", "fact.isolde.faction-code"],
+        "quest_stages": {"quest.silence-bell": "confront_bell"},
+        "clocks": {"clock.midnight": 5},
+        "encounter_states": {"encounter.final-crypt": "resolved"},
+        "eligible_endings": []
+      }
+    ]
+  },
+  {
+    "id": "ending.final-toll",
+    "name": "The Final Toll",
+    "family": "catastrophic_failure",
+    "predicate": {
+      "kind": "any",
+      "predicates": [
+        {"kind": "clock_at_least", "clock_id": "clock.midnight", "amount": 6},
+        {"kind": "ending_eligible", "ending_id": "ending.final-toll"}
+      ]
+    },
+    "consequence_ledger": [
+      "The bell completes the final toll.",
+      "The disaster reflects which names, factions, and safeguards survived to this moment.",
+      "The current run ends permanently."
+    ],
+    "terminal_effects": [{"kind": "mark_ending_eligible", "ending_id": "ending.final-toll"}],
+    "hidden_epilogue_facts": ["fact.clock.final-disaster"],
+    "witnesses": [
+      {
+        "name": "The clock completes before Seren can resolve the bell",
+        "protagonist_id": "protagonist.seren-holt",
+        "location_id": "location.chain-tower",
+        "flags": {"bell.final_toll": true},
+        "resources": {"resolve": 0},
+        "item_owners": {},
+        "npc_attitudes": {},
+        "npc_knowledge": {},
+        "discovered_facts": [],
+        "quest_stages": {"quest.silence-bell": "secure_asset"},
+        "clocks": {"clock.midnight": 6},
+        "encounter_states": {},
+        "eligible_endings": ["ending.final-toll"]
+      }
+    ]
+  }
+]
+
