@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "content_version": "content.the-bell-below.1.0.0",
+  "metadata": "metadata.json",
+  "facts": "facts.json",
+  "items": "items.json",
+  "protagonists": "protagonists.json",
+  "locations": "locations.json",
+  "npcs": "npcs.json",
+  "clocks": "clocks.json",
+  "quests": "quests.json",
+  "encounters": "encounters.json",
+  "endings": "endings.json"
+}
+
