@@ -1,4 +1,4 @@
-# Wayfarer Roleplay
+# The Bell Below
 
 This repository is being rebuilt around **The Bell Below**, a 60–90 minute
 authored gothic-fantasy RPG. The engine owns reality; language models will
@@ -15,7 +15,7 @@ From the repository root, using Python 3.12 with Pydantic 2 installed:
 
 ```powershell
 $env:PYTHONPATH = "backend/src"
-python -m wayfarer.adventure.validation content/the-bell-below/1.0.0/manifest.json
+python -m bell_below.adventure.validation content/the-bell-below/1.0.0/manifest.json
 python -m unittest discover -s backend/tests -v
 ```
 
@@ -24,8 +24,10 @@ machine-readable report suitable for CI.
 
 ## Source layout
 
-- `backend/src/wayfarer/domain`: framework-independent identifiers and action/event contracts.
-- `backend/src/wayfarer/adventure`: predicate/effect DSL, schemas, loader, and static validation.
+- `backend/src/bell_below/domain`: framework-independent identifiers and action/event contracts.
+- `backend/src/bell_below/adventure`: predicate/effect DSL, schemas, loader, and static validation.
 - `content/the-bell-below/1.0.0`: version-pinned authored adventure data and bible.
 - `backend/tests`: contract, validator, reachability, and secret-boundary tests.
 
+The canonical demo requirements and architecture are documented in
+[`docs/product-spec.md`](docs/product-spec.md).
