@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "wayfarer-roleplay"
+name = "the-bell-below"
 version = "0.1.0"
 description = "Typed content contracts and headless adventure data for The Bell Below."
 requires-python = ">=3.12"
@@ -17,10 +17,10 @@ dev = [
 ]
 
 [project.scripts]
-wayfarer-validate = "wayfarer.adventure.validation:main"
+bell-below-validate = "bell_below.adventure.validation:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["backend/src/wayfarer"]
+packages = ["backend/src/bell_below"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
@@ -39,4 +39,3 @@ python_version = "3.12"
 strict = true
 mypy_path = "backend/src"
 plugins = ["pydantic.mypy"]
-
