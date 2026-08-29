@@ -1,0 +1,298 @@
+[
+  {
+    "id": "location.breach-stair",
+    "name": "The Breach Stair",
+    "act": 1,
+    "summary": "Rain descends the broken civic stair into an abbey that should have remained sealed.",
+    "visible_facts": ["fact.premise.final-toll"],
+    "exits": [
+      {"to": "location.drowned-nave", "label": "Descend into the drowned nave", "predicate": {"kind": "always", "value": true}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.breach-read-wards",
+        "label": "Read the civic ward-signs",
+        "action_family": "examine",
+        "predicate": {"kind": "always", "value": true},
+        "check_attribute": null,
+        "difficulty": null,
+        "outcomes": null
+      }
+    ],
+    "item_ids": [],
+    "initial_npc_ids": [],
+    "persistent_variables": ["outer_seal_state", "retreat_route_state"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.drowned-nave",
+    "name": "The Drowned Nave",
+    "act": 1,
+    "summary": "Black water turns the central nave into a hub whose level and occupants change with the clock.",
+    "visible_facts": ["fact.veyra.lucan-contract"],
+    "exits": [
+      {"to": "location.breach-stair", "label": "Climb toward the breach", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.ossuary-walk", "label": "Take the bone-lined western walk", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.chain-tower", "label": "Cross to the chain tower", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.keepers-cell", "label": "Follow the keeper's chalk marks", "predicate": {"kind": "flag_is", "flag": "nave.keeper_route_seen", "value": true}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.nave-stabilize-crossing",
+        "label": "Stabilize the flooded crossing",
+        "action_family": "interact",
+        "predicate": {"kind": "flag_is", "flag": "nave.crossing_stable", "value": false},
+        "check_attribute": "might",
+        "difficulty": 12,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The crossing is secured without losing time.", "effects": [{"kind": "set_flag", "flag": "nave.crossing_stable", "value": true}], "narration_fact_ids": []},
+          "failure": {"summary": "The route holds, but the bell draws nearer.", "effects": [{"kind": "set_flag", "flag": "nave.crossing_stable", "value": true}, {"kind": "advance_clock", "clock_id": "clock.midnight", "amount": 1}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      },
+      {
+        "id": "affordance.nave-command-soldiers",
+        "label": "Use the Vale challenge phrase",
+        "action_family": "speak",
+        "predicate": {"kind": "fact_discovered", "fact_id": "fact.isolde.faction-code"},
+        "check_attribute": null,
+        "difficulty": null,
+        "outcomes": null
+      }
+    ],
+    "item_ids": [],
+    "initial_npc_ids": ["npc.lucan-vey"],
+    "persistent_variables": ["water_stage", "crossing_stable", "lucan_departure", "faction_occupancy"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.ossuary-walk",
+    "name": "The Ossuary Walk",
+    "act": 2,
+    "summary": "Collapsed niches expose the nameless dead and a route toward the altered records.",
+    "visible_facts": ["fact.history.erased-refugees"],
+    "exits": [
+      {"to": "location.drowned-nave", "label": "Return to the nave", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.vestry-archive", "label": "Pass through the registrar's arch", "predicate": {"kind": "any", "predicates": [{"kind": "flag_is", "flag": "ossuary.arch_open", "value": true}, {"kind": "fact_discovered", "fact_id": "fact.ilyra.true-name"}]}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.ossuary-call-registrar",
+        "label": "Call the registrar by her office",
+        "action_family": "speak",
+        "predicate": {"kind": "always", "value": true},
+        "check_attribute": null,
+        "difficulty": null,
+        "outcomes": null
+      },
+      {
+        "id": "affordance.ossuary-clear-arch",
+        "label": "Clear the registrar's arch",
+        "action_family": "interact",
+        "predicate": {"kind": "flag_is", "flag": "ossuary.arch_open", "value": false},
+        "check_attribute": "might",
+        "difficulty": 15,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The arch opens and the bones remain undisturbed.", "effects": [{"kind": "set_flag", "flag": "ossuary.arch_open", "value": true}, {"kind": "discover_fact", "fact_id": "fact.history.erased-refugees"}], "narration_fact_ids": ["fact.history.erased-refugees"]},
+          "failure": {"summary": "The arch opens, but the collapse advances the clock.", "effects": [{"kind": "set_flag", "flag": "ossuary.arch_open", "value": true}, {"kind": "advance_clock", "clock_id": "clock.midnight", "amount": 1}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      }
+    ],
+    "item_ids": [],
+    "initial_npc_ids": ["npc.ilyra"],
+    "persistent_variables": ["arch_open", "niches_disturbed", "ilyra_attitude_stage"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.vestry-archive",
+    "name": "The Vestry Archive",
+    "act": 2,
+    "summary": "Official miracles sit in dry cabinets above the names they replaced.",
+    "visible_facts": ["fact.history.erased-refugees", "fact.rite.complete"],
+    "exits": [
+      {"to": "location.ossuary-walk", "label": "Return through the registrar's arch", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.drowned-nave", "label": "Open the vestry service door", "predicate": {"kind": "flag_is", "flag": "archive.service_door_open", "value": true}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.archive-bypass-cabinet",
+        "label": "Bypass the warded cabinet",
+        "action_family": "interact",
+        "predicate": {"kind": "has_item", "item_id": "item.veyra-thieves-tools", "owner": "protagonist"},
+        "check_attribute": "grace",
+        "difficulty": 12,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The original ledger comes free without waking the ward.", "effects": [{"kind": "transfer_item", "item_id": "item.refugee-ledger", "new_owner": "protagonist"}, {"kind": "discover_fact", "fact_id": "fact.rite.complete"}], "narration_fact_ids": ["fact.rite.complete"]},
+          "failure": {"summary": "The ledger comes free, but the ward marks the intrusion and advances the clock.", "effects": [{"kind": "transfer_item", "item_id": "item.refugee-ledger", "new_owner": "protagonist"}, {"kind": "set_flag", "flag": "archive.ward_alerted", "value": true}, {"kind": "advance_clock", "clock_id": "clock.midnight", "amount": 1}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      },
+      {
+        "id": "affordance.archive-open-service-door",
+        "label": "Unbar the vestry service door",
+        "action_family": "interact",
+        "predicate": {"kind": "always", "value": true},
+        "check_attribute": null,
+        "difficulty": null,
+        "outcomes": null
+      }
+    ],
+    "item_ids": ["item.refugee-ledger"],
+    "initial_npc_ids": ["npc.orra-echo"],
+    "persistent_variables": ["cabinet_open", "ward_alerted", "service_door_open", "records_taken"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.chain-tower",
+    "name": "The Chain Tower",
+    "act": 2,
+    "summary": "Counterweights climb into darkness while every chain repeats the bell's smallest motion.",
+    "visible_facts": ["fact.clapper.chain-release"],
+    "exits": [
+      {"to": "location.drowned-nave", "label": "Return across the nave gantry", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.black-cistern", "label": "Descend the maintenance ladder", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.bell-crypt", "label": "Take the counterweight descent", "predicate": {"kind": "any", "predicates": [{"kind": "flag_is", "flag": "chain.descent_safe", "value": true}, {"kind": "resource_at_least", "resource": "resolve", "amount": 1}]}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.chain-safe-release",
+        "label": "Release the clapper without dropping the counterweight",
+        "action_family": "interact",
+        "predicate": {"kind": "fact_discovered", "fact_id": "fact.clapper.chain-release"},
+        "check_attribute": "grace",
+        "difficulty": 15,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The clapper and descent are secured.", "effects": [{"kind": "transfer_item", "item_id": "item.original-clapper", "new_owner": "protagonist"}, {"kind": "set_flag", "flag": "chain.descent_safe", "value": true}], "narration_fact_ids": ["fact.clapper.chain-release"]},
+          "failure": {"summary": "The clapper is recovered, but the falling weight wakes the tower guardian.", "effects": [{"kind": "transfer_item", "item_id": "item.original-clapper", "new_owner": "protagonist"}, {"kind": "set_encounter_state", "encounter_id": "encounter.chain-sentinel", "state": "active"}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      },
+      {
+        "id": "affordance.severin-claim-command",
+        "label": "Invoke the siege command oath",
+        "action_family": "social_attempt",
+        "predicate": {"kind": "fact_discovered", "fact_id": "fact.seren.ward-signs"},
+        "check_attribute": "presence",
+        "difficulty": 15,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The soldiers stand down for one exchange.", "effects": [{"kind": "set_flag", "flag": "severin.temporary_stand_down", "value": true}], "narration_fact_ids": []},
+          "failure": {"summary": "Severin names Seren an oathbreaker and hardens his position.", "effects": [{"kind": "set_npc_attitude", "npc_id": "npc.captain-severin", "amount": -2}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      }
+    ],
+    "item_ids": ["item.original-clapper"],
+    "initial_npc_ids": ["npc.captain-severin"],
+    "persistent_variables": ["counterweight_stage", "descent_safe", "clapper_removed", "soldier_state"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.black-cistern",
+    "name": "The Black Cistern",
+    "act": 2,
+    "summary": "A bound spirit circles beneath oil-black water and guards the abbey's cold iron.",
+    "visible_facts": ["fact.cistern.cold-iron"],
+    "exits": [
+      {"to": "location.chain-tower", "label": "Climb to the chain tower", "predicate": {"kind": "always", "value": true}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.cistern-take-wedge",
+        "label": "Recover the cold-iron wedge",
+        "action_family": "take",
+        "predicate": {"kind": "flag_is", "flag": "cistern.wedge_taken", "value": false},
+        "check_attribute": "wits",
+        "difficulty": 12,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The wedge is recovered without disturbing the spirit.", "effects": [{"kind": "transfer_item", "item_id": "item.cold-iron-wedge", "new_owner": "protagonist"}, {"kind": "set_flag", "flag": "cistern.wedge_taken", "value": true}], "narration_fact_ids": ["fact.cistern.cold-iron"]},
+          "failure": {"summary": "The wedge is recovered, but the bound spirit attacks.", "effects": [{"kind": "transfer_item", "item_id": "item.cold-iron-wedge", "new_owner": "protagonist"}, {"kind": "set_flag", "flag": "cistern.wedge_taken", "value": true}, {"kind": "set_encounter_state", "encounter_id": "encounter.cistern-spirit", "state": "active"}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      }
+    ],
+    "item_ids": ["item.cold-iron-wedge"],
+    "initial_npc_ids": [],
+    "persistent_variables": ["water_disturbed", "wedge_taken", "spirit_state"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.keepers-cell",
+    "name": "The Keeper's Cell",
+    "act": 2,
+    "summary": "Chalk circles and twelve years of exhausted vigilance surround the last bell-keeper.",
+    "visible_facts": ["fact.rite.complete"],
+    "exits": [
+      {"to": "location.drowned-nave", "label": "Return to the drowned nave", "predicate": {"kind": "always", "value": true}, "one_way": false},
+      {"to": "location.bell-crypt", "label": "Follow the keeper's stair", "predicate": {"kind": "any", "predicates": [{"kind": "flag_is", "flag": "mara.crypt_access", "value": true}, {"kind": "has_item", "item_id": "item.keeper-key", "owner": "protagonist"}]}, "one_way": false}
+    ],
+    "affordances": [
+      {
+        "id": "affordance.mara-request-confession",
+        "label": "Demand Mara's true confession",
+        "action_family": "social_attempt",
+        "predicate": {"kind": "any", "predicates": [{"kind": "has_item", "item_id": "item.refugee-ledger", "owner": "protagonist"}, {"kind": "fact_discovered", "fact_id": "fact.mara.maintained-lie"}]},
+        "check_attribute": "presence",
+        "difficulty": 15,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "Mara agrees to confess at the bell.", "effects": [{"kind": "set_flag", "flag": "mara.will_confess", "value": true}, {"kind": "set_flag", "flag": "mara.crypt_access", "value": true}, {"kind": "discover_fact", "fact_id": "fact.mara.maintained-lie"}], "narration_fact_ids": ["fact.mara.maintained-lie"]},
+          "failure": {"summary": "Mara opens the crypt but refuses public confession.", "effects": [{"kind": "set_flag", "flag": "mara.crypt_access", "value": true}, {"kind": "set_npc_attitude", "npc_id": "npc.sister-mara", "amount": -1}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      }
+    ],
+    "item_ids": [],
+    "initial_npc_ids": ["npc.sister-mara"],
+    "persistent_variables": ["mara_attitude_stage", "mara_will_confess", "crypt_access"],
+    "terminal_location": false
+  },
+  {
+    "id": "location.bell-crypt",
+    "name": "The Bell Crypt",
+    "act": 3,
+    "summary": "The Bell of Mercy hangs over the names it consumed, awaiting a final owner or an ending.",
+    "visible_facts": [],
+    "exits": [],
+    "affordances": [
+      {
+        "id": "affordance.orra-separate-voices",
+        "label": "Separate the victims' voices from the saint-story",
+        "action_family": "use_ability",
+        "predicate": {"kind": "fact_discovered", "fact_id": "fact.cael.saint-story-false"},
+        "check_attribute": "wits",
+        "difficulty": 18,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "The Echo separates long enough to name the bound dead.", "effects": [{"kind": "set_flag", "flag": "orra.voices_separated", "value": true}, {"kind": "discover_fact", "fact_id": "fact.history.erased-refugees"}], "narration_fact_ids": ["fact.history.erased-refugees"]},
+          "failure": {"summary": "The voices separate, but the effort consumes Resolve.", "effects": [{"kind": "set_flag", "flag": "orra.voices_separated", "value": true}, {"kind": "adjust_resource", "resource": "resolve", "amount": -1}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      },
+      {
+        "id": "affordance.severin-family-truce",
+        "label": "Offer Severin a binding family truce",
+        "action_family": "social_attempt",
+        "predicate": {"kind": "all", "predicates": [{"kind": "fact_discovered", "fact_id": "fact.vale.weapon-plan"}, {"kind": "npc_attitude_at_least", "npc_id": "npc.captain-severin", "amount": -1}]},
+        "check_attribute": "presence",
+        "difficulty": 15,
+        "outcomes": {
+          "critical_success": null,
+          "success": {"summary": "Severin accepts supervision rather than sole control.", "effects": [{"kind": "set_flag", "flag": "severin.accepts_supervision", "value": true}], "narration_fact_ids": ["fact.vale.weapon-plan"]},
+          "failure": {"summary": "Severin refuses and prepares to seize the bell.", "effects": [{"kind": "set_encounter_state", "encounter_id": "encounter.final-crypt", "state": "hostile"}], "narration_fact_ids": []},
+          "critical_failure": null
+        }
+      }
+    ],
+    "item_ids": [],
+    "initial_npc_ids": [],
+    "persistent_variables": ["bell_state", "ritual_stage", "final_factions", "irreversible_choice"],
+    "terminal_location": true
+  }
+]
