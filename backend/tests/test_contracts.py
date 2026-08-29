@@ -3,8 +3,7 @@ from __future__ import annotations
 import unittest
 from datetime import UTC, datetime
 
-from pydantic import ValidationError
-from wayfarer.domain.actions import (
+from bell_below.domain.actions import (
     ActionFamily,
     ActionProposal,
     ActionResolution,
@@ -12,7 +11,7 @@ from wayfarer.domain.actions import (
     ResolvedAction,
     StateEvent,
 )
-from wayfarer.domain.ids import (
+from bell_below.domain.ids import (
     ActionId,
     ContentVersion,
     EventId,
@@ -20,7 +19,8 @@ from wayfarer.domain.ids import (
     ProtagonistId,
     RunId,
 )
-from wayfarer.domain.models import CanonicalRunState, EntityKind, EntityRef, RunStatus
+from bell_below.domain.models import CanonicalRunState, EntityKind, EntityRef, RunStatus
+from pydantic import ValidationError
 
 
 class IdentifierTests(unittest.TestCase):
