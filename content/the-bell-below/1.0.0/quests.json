@@ -1,0 +1,15 @@
+[
+  {
+    "id": "quest.silence-bell",
+    "title": "Silence the Bell Below",
+    "initial_stage": "descend",
+    "stages": [
+      {"id": "descend", "title": "Enter the drowned abbey", "transition_predicate": {"kind": "at_location", "entity": "protagonist", "location_id": "location.drowned-nave"}},
+      {"id": "learn_cost", "title": "Learn what the old miracle cost", "transition_predicate": {"kind": "fact_discovered", "fact_id": "fact.history.erased-refugees"}},
+      {"id": "secure_asset", "title": "Secure a way to change or silence the bell", "transition_predicate": {"kind": "any", "predicates": [{"kind": "has_item", "item_id": "item.cold-iron-wedge", "owner": "protagonist"}, {"kind": "has_item", "item_id": "item.original-clapper", "owner": "protagonist"}, {"kind": "flag_is", "flag": "ilyra.assists_release", "value": true}]}},
+      {"id": "confront_bell", "title": "Reach the Bell Crypt", "transition_predicate": {"kind": "at_location", "entity": "protagonist", "location_id": "location.bell-crypt"}},
+      {"id": "resolved", "title": "Accept the binding consequence", "transition_predicate": {"kind": "any", "predicates": [{"kind": "ending_eligible", "ending_id": "ending.reseal"}, {"kind": "ending_eligible", "ending_id": "ending.break"}, {"kind": "ending_eligible", "ending_id": "ending.silence"}, {"kind": "ending_eligible", "ending_id": "ending.claim"}, {"kind": "ending_eligible", "ending_id": "ending.final-toll"}]}}
+    ]
+  }
+]
+
