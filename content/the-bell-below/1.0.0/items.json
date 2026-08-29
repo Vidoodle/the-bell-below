@@ -1,0 +1,83 @@
+[
+  {
+    "id": "item.seren-oath-shield",
+    "name": "Oath-Scarred Shield",
+    "description": "A civic shield with the siege oath chiseled away.",
+    "tags": ["shield", "ward-sign", "personal"],
+    "unique": true,
+    "initial_owner": "protagonist.seren-holt"
+  },
+  {
+    "id": "item.veyra-thieves-tools",
+    "name": "Relic Thief's Tools",
+    "description": "Fine hooks, black salt, and two sacrilegious little mirrors.",
+    "tags": ["tools", "infiltration", "personal"],
+    "unique": true,
+    "initial_owner": "protagonist.veyra-sable"
+  },
+  {
+    "id": "item.cael-ash-censer",
+    "name": "Heretic's Ash Censer",
+    "description": "A vented bronze censer that reveals the flow of bound spirits.",
+    "tags": ["ritual", "spirit", "personal"],
+    "unique": true,
+    "initial_owner": "protagonist.brother-cael"
+  },
+  {
+    "id": "item.isolde-signet",
+    "name": "Broken Vale Signet",
+    "description": "A signet snapped across the tower, still recognizable to the family guard.",
+    "tags": ["authority", "leverage", "personal"],
+    "unique": true,
+    "initial_owner": "protagonist.lady-isolde"
+  },
+  {
+    "id": "item.refugee-ledger",
+    "name": "Original Refugee Ledger",
+    "description": "Water-stained names omitted from every official history.",
+    "tags": ["evidence", "resolution-asset"],
+    "unique": true,
+    "initial_owner": "location.vestry-archive"
+  },
+  {
+    "id": "item.cold-iron-wedge",
+    "name": "Cold-Iron Wedge",
+    "description": "A maintenance wedge heavy enough to stop the clapper assembly.",
+    "tags": ["tool", "resolution-asset", "cold-iron"],
+    "unique": true,
+    "initial_owner": "location.black-cistern"
+  },
+  {
+    "id": "item.original-clapper",
+    "name": "Original Bell Clapper",
+    "description": "Black bronze veined with the names of people history erased.",
+    "tags": ["ritual", "resolution-asset", "dangerous"],
+    "unique": true,
+    "initial_owner": "location.chain-tower"
+  },
+  {
+    "id": "item.keeper-key",
+    "name": "Keeper's Ivory Key",
+    "description": "A tooth-shaped key for the warded archive cabinet.",
+    "tags": ["key", "social-asset"],
+    "unique": true,
+    "initial_owner": "npc.sister-mara"
+  },
+  {
+    "id": "item.lucan-contract",
+    "name": "Lucan's Sealed Contract",
+    "description": "Orders to deliver the clapper to a buyer outside Grayhaven.",
+    "tags": ["evidence", "leverage"],
+    "unique": true,
+    "initial_owner": "npc.lucan-vey"
+  },
+  {
+    "id": "item.mourning-cord",
+    "name": "Ilyra's Mourning Cord",
+    "description": "A knotted cord recording one name for every drowned family.",
+    "tags": ["ritual", "resolution-asset", "personal"],
+    "unique": true,
+    "initial_owner": "npc.ilyra"
+  }
+]
+
