@@ -1,0 +1,21 @@
+{
+  "id": "the-bell-below",
+  "title": "The Bell Below",
+  "content_version": "content.the-bell-below.1.0.0",
+  "schema_version": 1,
+  "target_minutes_min": 60,
+  "target_minutes_max": 90,
+  "start_location_id": "location.breach-stair",
+  "finale_location_id": "location.bell-crypt",
+  "required_reachable_locations": [
+    "location.breach-stair",
+    "location.drowned-nave",
+    "location.ossuary-walk",
+    "location.vestry-archive",
+    "location.chain-tower",
+    "location.black-cistern",
+    "location.keepers-cell",
+    "location.bell-crypt"
+  ]
+}
+
