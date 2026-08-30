@@ -4,7 +4,7 @@
 
 Orra was the cathedral's high priestess and keeper of the Bell of Mercy. She was declared a saint after the siege; she did not hold that title when the ritual was performed. The drowned cathedral was subsequently renamed for her.
 
-The Bell of Mercy originally served a funerary purpose. During the siege, Orra explained how its rite could be reversed and what that reversal would cost. The council authorized the ritual, the military completed a physical ward around the part of Grayhaven to be protected, and Orra performed the rite. The cathedral was deliberately designated as the place where diverted deaths would fall.
+The Bell of Mercy originally served a funerary purpose. During the siege, Orra explained how its rite could be reversed and what that reversal would cost. The council authorized the ritual, priests working under Orra applied the protective ward around the part of Grayhaven to be spared, and Orra performed the rite. The cathedral was deliberately designated as the place where diverted deaths would fall.
 
 Whenever someone protected by the ward suffered an otherwise fatal injury, a refugee inside the cathedral received that death instead. The victims were selected because they were already gathered beneath the bell and Grayhaven's leaders considered their lives expendable.
 

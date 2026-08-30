@@ -204,14 +204,14 @@ All protagonists are adults with fixed identities, concise histories, personal s
 ### Veyra Sable — The Relic Thief
 
 - **Benefit:** +1 Grace
-- **Stake:** Veyra was hired to recover the clapper before Severin claims it.
-- **Access:** concealed routes and criminal contacts.
+- **Stake:** Veyra was hired to steal a jeweled reliquary while the Breach Stair is open.
+- **Access:** professional experience and criminal contacts that support different approaches to the guarded entrance.
 
 ### Brother Cael — The Heretic
 
 - **Benefit:** +1 Wits
-- **Stake:** Cael believes Saint Orra's miracle was manufactured and intends to prove it.
-- **Access:** ritual literacy and communication with bound spirits.
+- **Stake:** Cael was excommunicated after finding evidence that the church altered the history of Saint Orra's miracle.
+- **Access:** ritual literacy, copied archival evidence, and a former relationship with Sister Mara.
 
 ### Dame Riona Voss — The Bell-Warden
 
@@ -425,5 +425,4 @@ The following may be chosen during implementation or playtesting without changin
 - initial model provider;
 - open access, invite code, or daily play allowance;
 - portfolio, validation, or commercial follow-on positioning;
-- Veyra's exact commission, including whether her target is the clapper or an unrelated relic;
 - Severin's objective and role now that controlling the bell is not an ending.

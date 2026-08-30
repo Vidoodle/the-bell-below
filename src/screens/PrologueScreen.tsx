@@ -28,7 +28,7 @@ export function PrologueScreen({
         <p className="eyebrow">{character.title}</p>
         <h2>{character.name}</h2>
         <p>{character.background}</p>
-        <p>{character.prologue}</p>
+        {character.prologue.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         <h3>What draws {character.shortName} below</h3>
         <p>{character.motivation}</p>
       </div>

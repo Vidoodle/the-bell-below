@@ -3,6 +3,8 @@
 These documents record working canon by subject. They are reference material, not player-facing prose. Unresolved questions stay with the subject they affect rather than being filled in by assumption.
 
 - [Grayhaven](grayhaven.md) — the city-state, delta, and neighboring raiding culture.
-- [The siege](siege.md) — the exceptional raid, fall of the lower city, and deliberate sacrifice.
+- [The siege](siege.md) — the exceptional raid, fall of the Lower Ward, and deliberate sacrifice.
+- [The drowned cathedral](cathedral.md) — the sealed site, the Breach Stair, and present-day access.
 - [Saint Orra and the bell](saint-orra-and-the-bell.md) — the ritual, its participants, and the undead below.
 - [Endings](endings.md) — the currently understood resolutions and their costs.
+- [Characters](characters/) — protagonist histories, knowledge, relationships, and unresolved ties.

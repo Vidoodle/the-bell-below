@@ -8,7 +8,7 @@ export type CharacterProfile = {
   title: string;
   background: string;
   motivation: string;
-  prologue: string;
+  prologue: string[];
   benefit: Stat;
 };
 
@@ -17,28 +17,44 @@ export const characters: CharacterProfile[] = [
     id: "seren", name: "Seren Holt", shortName: "Seren", title: "The Oathbreaker",
     background: "A former siege captain who helped seal the cathedral and left refugees below. He still knows the old soldiers and the lie they agreed to preserve.",
     motivation: "Confront the choice that saved Grayhaven before the bell exposes it.",
-    prologue: "Seren remembers the order that closed the cathedral and the voices on its other side. Some of the soldiers now guarding the Breach Stair once served beneath him; others know only the honored version of his name.",
+    prologue: [
+      "Forty years ago, Seren Holt commanded the city guard in Grayhaven's Lower Ward. While Orra's priests laid the ward, his soldiers kept the cathedral shut with refugees inside. Seren knew their confinement was part of the ritual. He obeyed.",
+      "When the Bell rang, dying soldiers rose and returned to the fighting. By morning, the raiders were retreating and the Lower Ward was underwater. Seren signed the report declaring the refugees lost in the flood and helped seal the remaining entrances. Grayhaven called him a hero. He began drinking to sleep.",
+      "At the first toll tonight, pain returns to the place where Seren was wounded during the siege. No scar remains. He cannot tell whether the Bell is calling him or guilt is drawing him back. Before the next toll, he is on his way to the Breach Stair.",
+    ],
     benefit: "Might",
   },
   {
     id: "veyra", name: "Veyra Sable", shortName: "Veyra", title: "The Relic Thief",
-    background: "A relic thief hired to recover the clapper before a city captain can turn the bell into a weapon. Her client expects delivery, and Veyra's contacts have already shown her routes the city insists do not exist.",
-    motivation: "Finish the job, survive the cathedral, and decide who deserves the weapon.",
-    prologue: "Veyra's patron paid half in advance and supplied a rubbing of the clapper's seal. The official entrance is watched, but smugglers once used the cellars along the buried cathedral wall—and Veyra knows where to look for their marks.",
+    background: "A relic thief hired to recover a jeweled reliquary from the drowned cathedral. The council has opened the Breach Stair for the first time since the siege, giving Veyra one chance to reach what Grayhaven buried forty years ago.",
+    motivation: "Steal the reliquary, deliver it to her client, and collect the rest of her fee.",
+    prologue: [
+      "After the first toll, the council announced that the Breach Stair would be opened. Within the hour, a collector sent Veyra an offer: recover a jeweled reliquary from the old cathedral treasury. Half the fee came with the message. The rest would be paid on delivery.",
+      "Veyra has stolen from chapels, tombs, and private collections. Her clients pay for objects, not opinions, and she delivers what the contract names. A drowned cathedral should be no different from any other locked room.",
+      "The city watch controls the newly opened stair and admits only those carrying council orders. Veyra has none. She joins the crowd outside the barricade and studies the guards. Somewhere below them, the reliquary is waiting.",
+    ],
     benefit: "Grace",
   },
   {
     id: "cael", name: "Brother Cael", shortName: "Cael", title: "The Heretic",
-    background: "A priest and scholar censured for claiming Saint Orra's miracle was manufactured. His research taught him to recognize rituals the priesthood denies ever practicing.",
-    motivation: "Find proof beneath the cathedral and force Grayhaven to face its history.",
-    prologue: "Cael carries copied fragments the church ordered destroyed: burial tallies that do not match the city's memorials and ritual diagrams scratched out of later editions. His censure is public, and the watch has been warned about his interest in the cathedral.",
+    background: "An excommunicated priest and former church archivist who found evidence that Grayhaven falsified the history of Saint Orra's miracle. Cael believes the missing truth remains inside the drowned cathedral.",
+    motivation: "Find the records that prove the church altered the history of Saint Orra's miracle.",
+    prologue: [
+      "Cael found the first discrepancy in burial rolls he had been assigned to catalogue. Refugees recorded entering the cathedral during the siege appeared nowhere on Grayhaven's memorials. He later found an older copy of the Bell's funerary rite with passages missing from every subsequent edition.",
+      "The church ordered him to end the investigation. Cael instead accused it publicly and was excommunicated. It took his position and his title, but not the copies he had made. Cael wants the missing people restored to Grayhaven's history. He also wants the church to admit what it did to him.",
+      "Opening the Breach Stair gives Cael his first chance to search the cathedral itself. The church has already sent his name to the city watch with orders to turn him away. Cael arrives carrying his copied records and nothing that grants him passage.",
+    ],
     benefit: "Wits",
   },
   {
     id: "riona", name: "Dame Riona Voss", shortName: "Riona", title: "The Bell-Warden",
     background: "A paladin of Grayhaven's civic order, formally commissioned by the council to stop the bell before midnight. She carries the city's authority and complete faith in her duty.",
     motivation: "Fulfill her oath and protect Grayhaven from the final toll.",
-    prologue: "Riona bears the council's sealed commission and the watch has orders to admit her. Grayhaven expects its Bell-Warden to descend where others cannot and return before the final toll.",
+    prologue: [
+      "Riona Voss grew up hearing that Saint Orra gave her life to save Grayhaven. She believed every word of it. When she came of age, she joined the civic order.",
+      "She swore to protect Grayhaven's people and has spent her adult life keeping that oath. The council makes the city's laws, the church tends its dead, and the watch guards its streets. Riona has served beside all three and trusts them because she has seen their duties carried out.",
+      "After the first toll, the council summons her. They name her Bell-Warden and give her a sealed commission ordering her to enter the cathedral and stop the Bell before midnight. The guards at the Breach Stair are waiting for her. Their captain has orders to admit the Bell-Warden and assist her if asked. The entrance stands open behind them.",
+    ],
     benefit: "Presence",
   },
 ];
