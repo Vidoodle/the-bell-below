@@ -13,7 +13,7 @@ export function BreachStairScreen({
   return <main className="game"><section className="scene">
     <p className="eyebrow">The Breach Stair</p>
     <h1>{character.protagonist.name} descends.</h1>
-    <p>Beneath Grayhaven, black water laps against the abbey steps. Far below, the Bell of Mercy waits for midnight.</p>
+    <p>Beneath Grayhaven, black water laps against the cathedral steps. Far below, the Bell of Mercy tolls again.</p>
     <dl className="final-stats">{statNames.map((stat) => <div key={stat}>
       <dt>{stat}</dt><dd>{character.effectiveStats[stat]}</dd>
     </div>)}</dl>

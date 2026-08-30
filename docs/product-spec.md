@@ -8,7 +8,7 @@
 
 ## 1. Product
 
-*The Bell Below* is an authored gothic-fantasy RPG played through contextual controls and freeform text. The player chooses one of three pre-generated protagonists, enters a flooded abbey beneath Grayhaven, and reaches a binding ending through conversation, exploration, resource use, and combat.
+*The Bell Below* is an authored gothic-fantasy RPG played through contextual controls and freeform text. The player chooses one of four pre-written protagonists, assigns their stats, enters a flooded cathedral beneath Grayhaven, and reaches a binding ending through conversation, exploration, resource use, and combat.
 
 The game is not an open-ended story generator. Its central promise is:
 
@@ -23,18 +23,18 @@ The demo is for narrative-RPG and tabletop players. It should prove that freefor
 The demo contains:
 
 - one 60–90 minute adventure;
-- three pre-generated protagonists;
+- four pre-written protagonists with player-assigned stats;
 - five persistent locations;
 - three principal NPCs;
 - social, exploration, and combat resolution;
 - a six-segment pressure clock;
-- three major endings plus one failure family covering death or catastrophe;
+- two deliberate endings plus a failure family covering the final toll, death, or catastrophe;
 - anonymous save and resume on the same browser;
 - a publicly hosted web client with server-side model access.
 
 It does not include:
 
-- character creation, user-generated campaigns, or procedural world expansion;
+- custom protagonists, user-generated campaigns, or procedural world expansion;
 - multiplayer, accounts, cross-device saves, or social features;
 - a full tabletop ruleset, tactical grid, voice, or native mobile app;
 - arbitrary player-created spells, major items, NPCs, locations, or world lore;
@@ -122,9 +122,9 @@ Contextual controls show clear, useful suggestions—not the exhaustive set of l
 
 ### 5.1 Premise
 
-At midnight, the buried Bell of Mercy beneath Grayhaven will ring. The city's priests claim its voice will wake those who died during the old siege. The protagonist enters the drowned Abbey of Saint Orra to silence it before the final toll.
+The buried Bell of Mercy has begun to toll beneath Grayhaven. For forty years, the church has denied rumors that the flood-dead still walk behind the seals of Saint Orra's drowned cathedral. The priests now fear that the final toll at midnight will break those seals. The protagonist enters through the guarded Breach Stair to silence the bell before that happens.
 
-The authored truth is immutable: during the siege, the abbey diverted death from the city into refugees sheltering below. The miracle that saved Grayhaven bound those victims to the bell and erased their sacrifice from official history. Characters may know, misunderstand, conceal, or lie about this truth; the DM cannot replace it.
+The authored truth is immutable: during the siege, the cathedral diverted death from the city into refugees sheltering below. The miracle that saved Grayhaven bound those victims to the bell and erased their sacrifice from official history. Characters may know, misunderstand, conceal, or lie about this truth; the DM cannot replace it.
 
 ### 5.2 Structure
 
@@ -134,9 +134,9 @@ The authored truth is immutable: during the siege, the abbey diverted death from
 - Teach movement, inspection, inventory, and one low-risk check.
 - Introduce the Midnight Clock and persistent world state.
 
-**Act II — The drowned abbey, 30–45 minutes**
+**Act II — The drowned cathedral, 30–45 minutes**
 
-- Explore the abbey in a flexible order.
+- Explore the cathedral in a flexible order.
 - Meet conflicting NPCs and uncover the erased history.
 - Acquire leverage, tools, or ritual knowledge.
 - Face an environmental hazard and an avoidable combat.
@@ -183,10 +183,9 @@ No asset is mandatory for every successful ending. Improvised solutions may chan
 
 ### 5.6 Endings
 
-1. **Reseal the Bell** — preserve Grayhaven and continue binding the dead; the cost depends on preparation and sacrifice.
-2. **Control the Bell** — allow Severin or the protagonist to control it; relationships and political state shape the epilogue.
-3. **Break the Bell** — free the dead; consequences depend on preparation and recovered names.
-4. **The Final Toll** — failure: the clock completes or the protagonist dies without a valid intervention.
+1. **Reseal the Bell** — preserve Grayhaven, suspend the diverted deaths, and continue binding the dead; the cost remains unresolved.
+2. **Free the Dead** — end the binding and allow the undead to die; the fatal wounds diverted during the siege return to the protected survivors who are still alive.
+3. **The Final Toll** — failure: the diverted wounds return while the undead remain trapped, or the protagonist dies without a valid intervention.
 
 Immobilizing or removing the clapper may buy time or support another resolution, but it is not a separate ending family.
 
@@ -194,50 +193,50 @@ Ending predicates must be mutually exclusive or have an explicit deterministic p
 
 ## 6. Protagonists
 
-All protagonists are adults with fixed identities, concise histories, complete starting loadouts, personal stakes, and distinct mechanical strengths.
+All protagonists are adults with fixed identities, concise histories, personal stakes, and one character benefit. The player assigns their stats after choosing a protagonist. Backgrounds shape authored knowledge, relationships, and access; they do not impose a fixed build or signature ability.
 
 ### Seren Holt — The Oathbreaker
 
-- **Strengths:** Might and Presence
-- **Role:** durable protector and forceful negotiator
-- **Stake:** Seren helped seal the abbey during the siege and left people below.
-- **Signature:** intercept an attack or hold a dangerous position.
-- **Access:** old military relationships, soldiers, and ward-signs.
+- **Benefit:** +1 Might
+- **Stake:** Seren helped seal the cathedral during the siege and left people below.
+- **Access:** old military relationships and an honored reputation among the city watch.
 
 ### Veyra Sable — The Relic Thief
 
-- **Strengths:** Grace and Wits
-- **Role:** infiltration, traps, positioning, and opportunistic damage
+- **Benefit:** +1 Grace
 - **Stake:** Veyra was hired to recover the clapper before Severin claims it.
-- **Signature:** exploit an opening without the normal action cost.
-- **Access:** thieves' tools, concealed routes, and criminal knowledge.
+- **Access:** concealed routes and criminal contacts.
 
 ### Brother Cael — The Heretic
 
-- **Strengths:** Wits and Presence
-- **Role:** occult interpretation, wards, support, and spirit negotiation
+- **Benefit:** +1 Wits
 - **Stake:** Cael believes Saint Orra's miracle was manufactured and intends to prove it.
-- **Signature:** expose an occult property or suppress a supernatural effect.
 - **Access:** ritual literacy and communication with bound spirits.
 
-Character variation comes from reactions, routes, knowledge, abilities, personal objectives, and ending modifiers. It does not require separate adventures or a fixed percentage of unique prose.
+### Dame Riona Voss — The Bell-Warden
+
+- **Benefit:** +1 Presence
+- **Stake:** Riona was formally commissioned by Grayhaven's council to stop the bell before midnight.
+- **Access:** the council's authority and orders requiring the city watch to admit her.
+
+Character variation comes from reactions, routes, knowledge, relationships, personal objectives, and ending modifiers. It does not require separate adventures or a fixed percentage of unique prose.
 
 ## 7. Rules
 
 ### 7.1 Characters and checks
 
-Four attribute modifiers are rated 0–5:
+The player begins with 1 in each of four stats, spends 8 additional points, and may raise each base stat to 5. Every protagonist adds +1 to one stat after allocation, allowing that effective stat to reach 6.
 
 - **Might:** force, endurance, close combat;
 - **Grace:** speed, precision, stealth;
 - **Wits:** perception, deduction, occult and technical knowledge;
 - **Presence:** persuasion, deception, intimidation, composure.
 
-Each protagonist assigns 5 and 4 to their two strengths and 2 and 1 to the remaining attributes. They also have HP, Guard and Spirit defenses, two trained disciplines, one signature ability, one passive trait, a weapon profile, starting items, and a small Resolve pool. Training adds +2 when a discipline applies. Resolve powers signature abilities, resistance, and explicitly granted rerolls.
+Stats are the only mechanical choices made during protagonist creation. Equipment, conditions, and later game state may modify what a character can do during the adventure.
 
 Uncertain, feasible, consequential actions use:
 
-`d20 + attribute + training + situational modifiers` versus difficulty 10, 13, 16, or 19.
+`d20 + stat + situational modifiers` versus difficulty 10, 13, 16, or 19.
 
 Advantage and disadvantage use two d20s and keep the higher or lower. Natural 20 and natural 1 may trigger authored or rules-bounded critical effects but cannot make an impossible action possible.
 
@@ -251,7 +250,7 @@ Resolved actions select effects from an engine-owned vocabulary. Important autho
 
 Ordinary conversation is freeform and requires no check. A social check occurs when the player attempts to overcome meaningful resistance: obtaining a withheld concession, sustaining a consequential lie, coercing compliance, or changing an NPC's committed course.
 
-The DM identifies the argument and requested outcome. The engine evaluates feasibility, leverage, relationship state, contradictions, promises, attribute, training, and difficulty. Success grants only a permitted concession.
+The DM identifies the argument and requested outcome. The engine evaluates feasibility, leverage, relationship state, contradictions, promises, stat, and difficulty. Success grants only a permitted concession.
 
 ### 7.4 Combat and action economy
 
@@ -367,9 +366,9 @@ The rules and adventure engine must run without an LLM. Automated structured-act
 
 The demo is complete when:
 
-- all three protagonists can begin, resume, complete, and die in a run correctly;
+- all four protagonists can begin, resume, complete, and die in a run correctly;
 - first-time players can reach an ending in approximately 60–90 minutes;
-- all three major ending families are reachable through tested paths;
+- both deliberate ending families and the final-toll failure are reachable through tested paths;
 - no mandatory progress depends on one successful check;
 - at least one combat can be avoided through prior action;
 - players can attempt reasonable actions absent from contextual suggestions;
@@ -425,4 +424,6 @@ The following may be chosen during implementation or playtesting without changin
 - static art package;
 - initial model provider;
 - open access, invite code, or daily play allowance;
-- portfolio, validation, or commercial follow-on positioning.
+- portfolio, validation, or commercial follow-on positioning;
+- Veyra's exact commission, including whether her target is the clapper or an unrelated relic;
+- Severin's objective and role now that controlling the bell is not an ending.

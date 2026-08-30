@@ -5,6 +5,7 @@ A curated gothic-fantasy RPG demo with persistent world state and an AI DM groun
 ## Documentation
 
 - [Product and technical specification](docs/product-spec.md)
+- [Setting lore](docs/lore/README.md)
 
 ## Development
 
