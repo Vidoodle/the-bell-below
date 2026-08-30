@@ -1,0 +1,169 @@
+{
+  "id": "35a83313-a63d-4b95-bf8d-1842c4791c6a",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.characters": {
+      "name": "characters",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "protagonist_id": {
+          "name": "protagonist_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "might": {
+          "name": "might",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grace": {
+          "name": "grace",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wits": {
+          "name": "wits",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "presence": {
+          "name": "presence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "characters_id_format": {
+          "name": "characters_id_format",
+          "value": "\"characters\".\"id\" ~ '^char[0-9a-f]{30}$'"
+        },
+        "characters_protagonist": {
+          "name": "characters_protagonist",
+          "value": "\"characters\".\"protagonist_id\" IN ('seren', 'veyra', 'cael', 'riona')"
+        },
+        "characters_might_range": {
+          "name": "characters_might_range",
+          "value": "\"characters\".\"might\" BETWEEN 1 AND 5"
+        },
+        "characters_grace_range": {
+          "name": "characters_grace_range",
+          "value": "\"characters\".\"grace\" BETWEEN 1 AND 5"
+        },
+        "characters_wits_range": {
+          "name": "characters_wits_range",
+          "value": "\"characters\".\"wits\" BETWEEN 1 AND 5"
+        },
+        "characters_presence_range": {
+          "name": "characters_presence_range",
+          "value": "\"characters\".\"presence\" BETWEEN 1 AND 5"
+        },
+        "characters_stat_total": {
+          "name": "characters_stat_total",
+          "value": "\"characters\".\"might\" + \"characters\".\"grace\" + \"characters\".\"wits\" + \"characters\".\"presence\" = 12"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.runs": {
+      "name": "runs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "character_id": {
+          "name": "character_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "runs_character_id_characters_id_fk": {
+          "name": "runs_character_id_characters_id_fk",
+          "tableFrom": "runs",
+          "tableTo": "characters",
+          "columnsFrom": [
+            "character_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "runs_id_format": {
+          "name": "runs_id_format",
+          "value": "\"runs\".\"id\" ~ '^runs[0-9a-f]{30}$'"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

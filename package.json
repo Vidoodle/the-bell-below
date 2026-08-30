@@ -7,21 +7,29 @@
     "dev": "pnpm run build:server && concurrently --kill-others --names types,api,web \"tsc -p tsconfig.server.json --watch --preserveWatchOutput\" \"node --watch .server-dist/server.js\" \"vite\"",
     "build": "tsc && pnpm run build:server && vite build",
     "build:server": "rimraf .server-dist && tsc -p tsconfig.server.json",
+    "db:check": "drizzle-kit check",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "start": "node .server-dist/server.js --production",
-    "test": "pnpm run build:server && node --test .server-dist/server/**/*.test.js"
+    "test": "pnpm run build:server && node --test .server-dist/server/api/runs.test.js .server-dist/server/domain/ids.test.js .server-dist/server/domain/run.test.js",
+    "test:integration": "pnpm run build:server && node --test .server-dist/server/storage/postgres-run-repository.integration.js"
   },
   "dependencies": {
     "@fastify/static": "^10.1.3",
     "@sinclair/typebox": "^0.34.52",
+    "drizzle-orm": "0.45.2",
     "fastify": "^5.12.1",
+    "pg": "^8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
     "concurrently": "^10.0.5",
+    "drizzle-kit": "0.31.10",
     "rimraf": "^6.1.3",
     "typescript": "7.0.2",
     "vite": "8.2.2"
