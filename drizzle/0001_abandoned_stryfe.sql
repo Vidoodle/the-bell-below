@@ -1,0 +1,1 @@
+ALTER TABLE "runs" ADD COLUMN "prologue_completed_at" timestamp with time zone;

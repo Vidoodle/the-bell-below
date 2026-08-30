@@ -1,4 +1,5 @@
 import type { RunSnapshot } from "../../shared/run.js";
+import { completePrologue } from "../domain/run.js";
 import type { RunRepository } from "./run-repository.js";
 
 export function createMemoryRunRepository(): RunRepository {
@@ -9,6 +10,13 @@ export function createMemoryRunRepository(): RunRepository {
     },
     async find(id) {
       return runs.get(id);
+    },
+    async completePrologue(id, completedAt) {
+      const run = runs.get(id);
+      if (!run) return undefined;
+      const updated = completePrologue(run, completedAt);
+      runs.set(id, updated);
+      return updated;
     },
   };
 }

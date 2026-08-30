@@ -1,4 +1,4 @@
-import { runPath, runsPath } from "../../shared/api";
+import { runPath, runProloguePath, runsPath } from "../../shared/api";
 import type { CreateRunRequest, RunSnapshot } from "../../shared/run";
 
 async function readRun(response: Response): Promise<RunSnapshot> {
@@ -18,4 +18,8 @@ export async function createRun(request: CreateRunRequest): Promise<RunSnapshot>
 
 export async function getRun(id: string): Promise<RunSnapshot> {
   return readRun(await fetch(runPath(id)));
+}
+
+export async function completePrologue(id: string): Promise<RunSnapshot> {
+  return readRun(await fetch(runProloguePath(id), { method: "POST" }));
 }

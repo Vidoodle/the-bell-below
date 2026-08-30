@@ -16,4 +16,8 @@ export const RunParamsSchema = Type.Object({ id: RunIdSchema });
 
 export type CreateRunRequest = CharacterCreation;
 export type RunParams = Static<typeof RunParamsSchema>;
-export type RunSnapshot = { id: RunId; character: CharacterSnapshot };
+export type RunSnapshot = {
+  id: RunId;
+  character: CharacterSnapshot;
+  prologueCompletedAt: string | null;
+};

@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import type { ProtagonistId } from "../shared/protagonist";
 import type { CreateRunRequest, RunSnapshot } from "../shared/run";
 import { statNames, type BaseStats, type Stat } from "../shared/stats";
-import { createRun, getRun } from "./api/runs";
+import { completePrologue, createRun, getRun } from "./api/runs";
+import { characters, findCharacter, type CharacterProfile } from "./content/characters";
+import { PrologueScreen } from "./screens/PrologueScreen";
+import { TitleScreen } from "./screens/TitleScreen";
 import "./styles.css";
 
-type Character = {
-  id: ProtagonistId; name: string; shortName: string; title: string; background: string;
-  motivation: string; benefit: Stat;
-};
-
 const runStorageKey = "the-bell-below.run";
+type View = "title" | "characters" | "stats" | "prologue" | "breach-stair";
 const statDescriptions: Record<Stat, string> = {
   Might: "Force, endurance, and close combat.",
   Grace: "Speed, precision, and stealth.",
@@ -19,40 +17,17 @@ const statDescriptions: Record<Stat, string> = {
   Presence: "Persuasion, deception, intimidation, and composure.",
 };
 const freshStats = (): BaseStats => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
-const characters: Character[] = [
-  {
-    id: "seren", name: "Seren Holt", shortName: "Seren", title: "The Oathbreaker",
-    background: "A former siege captain who helped seal the abbey and left refugees below. He still knows the old soldiers and the lie they agreed to preserve.",
-    motivation: "Confront the choice that saved Grayhaven before the bell exposes it.",
-    benefit: "Might",
-  },
-  {
-    id: "veyra", name: "Veyra Sable", shortName: "Veyra", title: "The Relic Thief",
-    background: "A relic thief hired to recover the clapper before a city captain can turn the bell into a weapon. Her client expects delivery, and Veyra's contacts have already shown her routes the city insists do not exist.",
-    motivation: "Finish the job, survive the abbey, and decide who deserves the weapon.",
-    benefit: "Grace",
-  },
-  {
-    id: "cael", name: "Brother Cael", shortName: "Cael", title: "The Heretic",
-    background: "A priest and scholar censured for claiming Saint Orra's miracle was manufactured. His research taught him to recognize rituals the priesthood denies ever practicing.",
-    motivation: "Find proof beneath the abbey and force Grayhaven to face its history.",
-    benefit: "Wits",
-  },
-  {
-    id: "riona", name: "Dame Riona Voss", shortName: "Riona", title: "The Bell-Warden",
-    background: "A paladin of Grayhaven's civic order, formally commissioned by the council to stop the bell before midnight. She carries the city's authority and complete faith in her duty.",
-    motivation: "Fulfill her oath and protect Grayhaven from the final toll.",
-    benefit: "Presence",
-  },
-];
 
 function App() {
+  const [view, setView] = useState<View>("title");
   const [index, setIndex] = useState(0);
-  const [chosen, setChosen] = useState<Character>();
+  const [chosen, setChosen] = useState<CharacterProfile>();
   const [assigned, setAssigned] = useState(freshStats);
   const [run, setRun] = useState<RunSnapshot>();
   const [creating, setCreating] = useState(false);
+  const [continuing, setContinuing] = useState(false);
   const [runError, setRunError] = useState<string>();
+  const [recoveryError, setRecoveryError] = useState<string>();
   const [resuming, setResuming] = useState(() => Boolean(sessionStorage.getItem(runStorageKey)));
   const character = characters[index];
   const remaining = 12 - Object.values(assigned).reduce((total, value) => total + value, 0);
@@ -66,11 +41,15 @@ function App() {
     if (!storedRun) return;
     getRun(storedRun)
       .then(setRun)
-      .catch((error: unknown) => setRunError(
+      .catch((error: unknown) => setRecoveryError(
         error instanceof Error ? error.message : "The run could not be recovered.",
       ))
       .finally(() => setResuming(false));
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
 
   const startRun = async () => {
     if (!chosen) return;
@@ -81,6 +60,7 @@ function App() {
       const createdRun = await createRun(request);
       sessionStorage.setItem(runStorageKey, createdRun.id);
       setRun(createdRun);
+      setView("prologue");
     } catch (error) {
       setRunError(error instanceof Error ? error.message : "The run could not be created.");
     } finally {
@@ -88,40 +68,68 @@ function App() {
     }
   };
 
-  if (resuming) return (
-    <main className="game"><section className="scene">
-      <p className="eyebrow">The Bell Below</p><h1>Recovering your descent…</h1>
-    </section></main>
-  );
+  const beginNewGame = () => {
+    if (!run) sessionStorage.removeItem(runStorageKey);
+    setChosen(undefined);
+    setAssigned(freshStats());
+    setRunError(undefined);
+    setRecoveryError(undefined);
+    setView("characters");
+  };
 
-  if (runError && !chosen) return (
-    <main className="game"><section className="scene">
-      <p className="eyebrow">Run unavailable</p><h1>The descent could not be recovered.</h1>
-      <p>{runError}</p>
-      <button className="back" onClick={() => {
-        sessionStorage.removeItem(runStorageKey);
-        setRunError(undefined);
-      }}>Begin again</button>
-    </section></main>
-  );
+  const resumeRun = () => {
+    if (!run) return;
+    setView(run.prologueCompletedAt ? "breach-stair" : "prologue");
+  };
 
-  if (run) return (
+  const enterBreachStair = async () => {
+    if (!run) return;
+    setContinuing(true);
+    setRunError(undefined);
+    try {
+      const updatedRun = await completePrologue(run.id);
+      setRun(updatedRun);
+      setView("breach-stair");
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : "The descent could not begin.");
+    } finally {
+      setContinuing(false);
+    }
+  };
+
+  if (view === "title") return <TitleScreen
+    canResume={Boolean(run)}
+    recovering={resuming}
+    recoveryError={recoveryError}
+    onNewGame={beginNewGame}
+    onResume={resumeRun}
+  />;
+
+  if (view === "prologue" && run) return <PrologueScreen
+    character={findCharacter(run.character.protagonist.id)}
+    continuing={continuing}
+    error={runError}
+    onBack={() => setView("title")}
+    onContinue={enterBreachStair}
+  />;
+
+  if (view === "breach-stair" && run) return (
     <main className="game"><section className="scene">
       <p className="eyebrow">The Breach Stair</p><h1>{run.character.protagonist.name} descends.</h1>
       <p>Beneath Grayhaven, black water laps against the abbey steps. Far below, the Bell of Mercy waits for midnight.</p>
       <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{run.character.effectiveStats[stat]}</dd></div>)}</dl>
       <button className="back" onClick={() => {
-        sessionStorage.removeItem(runStorageKey);
-        setRun(undefined);
-      }}>← Rebuild character</button>
+        setView("characters");
+      }}>← Start a new character</button>
     </section></main>
   );
 
-  if (chosen) return (
+  if (view === "stats" && chosen) return (
     <main className="builder"><section className="sheet">
       <button className="back" onClick={() => {
         setChosen(undefined);
         setRunError(undefined);
+        setView("characters");
       }}>← Characters</button>
       <p className="eyebrow">{chosen.title}</p><h1>Build {chosen.shortName}</h1>
       <p className="intro">Spend 8 points across your stats. Raise each from 1 to 5; your character's bonus is added on top. Higher stats improve your chances on related checks.</p>
@@ -135,13 +143,15 @@ function App() {
       <p className="remaining">{remaining} points remaining</p>
       {runError && <p className="run-error" role="alert">{runError}</p>}
       <button className="choose" disabled={remaining !== 0 || creating} onClick={startRun}>
-        {creating ? "Entering…" : "Enter the abbey"}
+        {creating ? "Preparing…" : "Begin the adventure"}
       </button>
     </section></main>
   );
 
   return (
-    <main className="select"><header><p className="eyebrow">The Bell Below</p><h1>Who answers the final toll?</h1></header>
+    <main className="select">
+      <button className="back select-back" onClick={() => setView("title")}>← Title</button>
+      <header><p className="eyebrow">The Bell Below</p><h1>Who answers the final toll?</h1></header>
       <section className="carousel" aria-label="Choose a protagonist">
         <div className="portrait" role="img" aria-label={`${character.name} portrait placeholder`}>Portrait forthcoming</div>
         <article className="profile"><p className="eyebrow">{character.title}</p><h2>{character.name}</h2>
@@ -150,7 +160,11 @@ function App() {
             <button onClick={() => setIndex((index + characters.length - 1) % characters.length)} aria-label="Previous protagonist">←</button>
             <span>{index + 1} / {characters.length}</span><button onClick={() => setIndex((index + 1) % characters.length)} aria-label="Next protagonist">→</button>
           </nav>
-          <button className="choose" onClick={() => { setChosen(character); setAssigned(freshStats()); }}>Choose {character.shortName}</button>
+          <button className="choose" onClick={() => {
+            setChosen(character);
+            setAssigned(freshStats());
+            setView("stats");
+          }}>Choose {character.shortName}</button>
         </article>
       </section>
     </main>

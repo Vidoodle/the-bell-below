@@ -1,10 +1,46 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import type { CharacterCreation } from "../../shared/character.js";
+import type { RunId, RunSnapshot } from "../../shared/run.js";
 import type { Database } from "../db/client.js";
 import { characters } from "../db/schema/characters.js";
 import { runs } from "../db/schema/runs.js";
 import { createRun } from "../domain/run.js";
 import { RunStorageError, type RunRepository } from "./run-repository.js";
+
+async function findRun(database: Database, id: RunId): Promise<RunSnapshot | undefined> {
+  const [row] = await database
+    .select({
+      runId: runs.id,
+      prologueCompletedAt: runs.prologueCompletedAt,
+      characterId: characters.id,
+      protagonistId: characters.protagonistId,
+      might: characters.might,
+      grace: characters.grace,
+      wits: characters.wits,
+      presence: characters.presence,
+    })
+    .from(runs)
+    .innerJoin(characters, eq(characters.id, runs.characterId))
+    .where(eq(runs.id, id))
+    .limit(1);
+  if (!row) return undefined;
+
+  const input: CharacterCreation = {
+    protagonistId: row.protagonistId,
+    baseStats: {
+      Might: row.might,
+      Grace: row.grace,
+      Wits: row.wits,
+      Presence: row.presence,
+    },
+  };
+  return createRun(
+    row.runId,
+    row.characterId,
+    input,
+    row.prologueCompletedAt?.toISOString() ?? null,
+  );
+}
 
 export function createPostgresRunRepository(database: Database): RunRepository {
   return {
@@ -32,34 +68,20 @@ export function createPostgresRunRepository(database: Database): RunRepository {
     },
     async find(id) {
       try {
-        const [row] = await database
-          .select({
-            runId: runs.id,
-            characterId: characters.id,
-            protagonistId: characters.protagonistId,
-            might: characters.might,
-            grace: characters.grace,
-            wits: characters.wits,
-            presence: characters.presence,
-          })
-          .from(runs)
-          .innerJoin(characters, eq(characters.id, runs.characterId))
-          .where(eq(runs.id, id))
-          .limit(1);
-        if (!row) return undefined;
-
-        const input: CharacterCreation = {
-          protagonistId: row.protagonistId,
-          baseStats: {
-            Might: row.might,
-            Grace: row.grace,
-            Wits: row.wits,
-            Presence: row.presence,
-          },
-        };
-        return createRun(row.runId, row.characterId, input);
+        return await findRun(database, id);
       } catch (cause) {
         throw new RunStorageError("Run could not be loaded.", { cause });
+      }
+    },
+    async completePrologue(id, completedAt) {
+      try {
+        const timestamp = new Date(completedAt);
+        await database.update(runs)
+          .set({ prologueCompletedAt: timestamp, updatedAt: timestamp })
+          .where(and(eq(runs.id, id), isNull(runs.prologueCompletedAt)));
+        return await findRun(database, id);
+      } catch (cause) {
+        throw new RunStorageError("Run could not be updated.", { cause });
       }
     },
   };

@@ -14,6 +14,7 @@ type RunRoutesOptions = {
   runs: RunRepository;
   createCharacterId: () => CharacterId;
   createRunId: () => RunId;
+  now: () => string;
 };
 
 export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, options) => {
@@ -33,6 +34,13 @@ export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, op
     schema: { params: RunParamsSchema },
   }, async (request, reply) => {
     const run = await options.runs.find(request.params.id);
+    return run ?? reply.code(404).send({ error: "Run not found." });
+  });
+
+  server.post<{ Params: RunParams }>("/:id/prologue", {
+    schema: { params: RunParamsSchema },
+  }, async (request, reply) => {
+    const run = await options.runs.completePrologue(request.params.id, options.now());
     return run ?? reply.code(404).send({ error: "Run not found." });
   });
 };

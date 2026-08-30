@@ -33,7 +33,12 @@ test("persists a run across server and connection-pool restarts", async () => {
         },
       });
       assert.equal(created.statusCode, 201);
-      createdRun = created.json() as RunSnapshot;
+      const completed = await firstServer.inject({
+        method: "POST",
+        url: `/api/runs/${(created.json() as RunSnapshot).id}/prologue`,
+      });
+      assert.equal(completed.statusCode, 200);
+      createdRun = completed.json() as RunSnapshot;
     } finally {
       await firstServer.close();
     }

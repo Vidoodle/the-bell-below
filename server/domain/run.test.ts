@@ -19,6 +19,7 @@ test("creates canonical run state", () => {
 
   assert.equal(run.id, runId);
   assert.equal(run.character.id, characterId);
+  assert.equal(run.prologueCompletedAt, null);
   assert.deepEqual(run.character.effectiveStats, {
     Might: 6, Grace: 3, Wits: 2, Presence: 2,
   });

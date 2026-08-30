@@ -10,6 +10,7 @@ export const runs = pgTable("runs", {
     .notNull()
     .$type<CharacterId>()
     .references(() => characters.id),
+  prologueCompletedAt: timestamp("prologue_completed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [

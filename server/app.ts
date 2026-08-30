@@ -15,6 +15,7 @@ type ServerOptions = {
   production?: boolean;
   createCharacterId?: () => CharacterId;
   createRunId?: () => RunId;
+  now?: () => string;
   runs?: RunRepository;
 };
 
@@ -22,6 +23,7 @@ export function buildServer({
   production = false,
   createCharacterId: makeCharacterId = createCharacterId,
   createRunId: makeRunId = createRunId,
+  now = () => new Date().toISOString(),
   runs = createMemoryRunRepository(),
 }: ServerOptions = {}) {
   const server = Fastify({ logger: production });
@@ -32,6 +34,7 @@ export function buildServer({
     runs,
     createCharacterId: makeCharacterId,
     createRunId: makeRunId,
+    now,
   });
 
   if (production) {

@@ -6,11 +6,13 @@ import { buildServer } from "../app.js";
 
 const runId = `runs${"0".repeat(30)}` as RunId;
 const characterId = `char${"0".repeat(30)}` as CharacterId;
+const completedAt = "2026-08-30T12:00:00.000Z";
 
-test("creates and retrieves a run through the API", async () => {
+test("creates, starts, and retrieves a run through the API", async () => {
   const server = buildServer({
     createRunId: () => runId,
     createCharacterId: () => characterId,
+    now: () => completedAt,
   });
   const created = await server.inject({
     method: "POST",
@@ -24,10 +26,18 @@ test("creates and retrieves a run through the API", async () => {
   assert.equal(created.statusCode, 201);
   assert.equal(created.json().id, runId);
   assert.equal(created.json().character.id, characterId);
+  assert.equal(created.json().prologueCompletedAt, null);
 
   const retrieved = await server.inject({ method: "GET", url: `/api/runs/${runId}` });
   assert.equal(retrieved.statusCode, 200);
   assert.deepEqual(retrieved.json(), created.json());
+
+  const completed = await server.inject({ method: "POST", url: `/api/runs/${runId}/prologue` });
+  assert.equal(completed.statusCode, 200);
+  assert.equal(completed.json().prologueCompletedAt, completedAt);
+
+  const resumed = await server.inject({ method: "GET", url: `/api/runs/${runId}` });
+  assert.deepEqual(resumed.json(), completed.json());
 });
 
 test("separates request validation from game-rule validation", async () => {
