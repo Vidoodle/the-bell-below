@@ -1,42 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import {
+  statNames,
+  type BaseStats,
+  type ProtagonistId,
+  type RunSnapshot,
+  type Stat,
+} from "../shared/run";
+import type { CreateRunRequest } from "../shared/run-schema";
+import { createRun, getRun } from "./api/runs";
 import "./styles.css";
 
-type Stat = "Might" | "Grace" | "Wits" | "Presence";
 type Character = {
-  name: string; shortName: string; title: string; background: string;
+  id: ProtagonistId; name: string; shortName: string; title: string; background: string;
   motivation: string; benefit: Stat;
 };
 
-const statNames: Stat[] = ["Might", "Grace", "Wits", "Presence"];
+const runStorageKey = "the-bell-below.run";
 const statDescriptions: Record<Stat, string> = {
   Might: "Force, endurance, and close combat.",
   Grace: "Speed, precision, and stealth.",
   Wits: "Perception, deduction, and occult or technical knowledge.",
   Presence: "Persuasion, deception, intimidation, and composure.",
 };
-const freshStats = (): Record<Stat, number> => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
+const freshStats = (): BaseStats => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
 const characters: Character[] = [
   {
-    name: "Seren Holt", shortName: "Seren", title: "The Oathbreaker",
+    id: "seren", name: "Seren Holt", shortName: "Seren", title: "The Oathbreaker",
     background: "A former siege captain who helped seal the abbey and left refugees below. He still knows the old soldiers and the lie they agreed to preserve.",
     motivation: "Confront the choice that saved Grayhaven before the bell exposes it.",
     benefit: "Might",
   },
   {
-    name: "Veyra Sable", shortName: "Veyra", title: "The Relic Thief",
+    id: "veyra", name: "Veyra Sable", shortName: "Veyra", title: "The Relic Thief",
     background: "A relic thief hired to recover the clapper before a city captain can turn the bell into a weapon. Her client expects delivery, and Veyra's contacts have already shown her routes the city insists do not exist.",
     motivation: "Finish the job, survive the abbey, and decide who deserves the weapon.",
     benefit: "Grace",
   },
   {
-    name: "Brother Cael", shortName: "Cael", title: "The Heretic",
+    id: "cael", name: "Brother Cael", shortName: "Cael", title: "The Heretic",
     background: "A priest and scholar censured for claiming Saint Orra's miracle was manufactured. His research taught him to recognize rituals the priesthood denies ever practicing.",
     motivation: "Find proof beneath the abbey and force Grayhaven to face its history.",
     benefit: "Wits",
   },
   {
-    name: "Dame Riona Voss", shortName: "Riona", title: "The Bell-Warden",
+    id: "riona", name: "Dame Riona Voss", shortName: "Riona", title: "The Bell-Warden",
     background: "A paladin of Grayhaven's civic order, formally commissioned by the council to stop the bell before midnight. She carries the city's authority and complete faith in her duty.",
     motivation: "Fulfill her oath and protect Grayhaven from the final toll.",
     benefit: "Presence",
@@ -47,7 +55,10 @@ function App() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<Character>();
   const [assigned, setAssigned] = useState(freshStats);
-  const [started, setStarted] = useState(false);
+  const [run, setRun] = useState<RunSnapshot>();
+  const [creating, setCreating] = useState(false);
+  const [runError, setRunError] = useState<string>();
+  const [resuming, setResuming] = useState(() => Boolean(sessionStorage.getItem(runStorageKey)));
   const character = characters[index];
   const remaining = 12 - Object.values(assigned).reduce((total, value) => total + value, 0);
   const score = (stat: Stat) => assigned[stat] + (chosen?.benefit === stat ? 1 : 0);
@@ -55,18 +66,68 @@ function App() {
     ...current, [stat]: current[stat] + change,
   }));
 
-  if (started && chosen) return (
+  useEffect(() => {
+    const storedRun = sessionStorage.getItem(runStorageKey);
+    if (!storedRun) return;
+    getRun(storedRun)
+      .then(setRun)
+      .catch((error: unknown) => setRunError(
+        error instanceof Error ? error.message : "The run could not be recovered.",
+      ))
+      .finally(() => setResuming(false));
+  }, []);
+
+  const startRun = async () => {
+    if (!chosen) return;
+    setCreating(true);
+    setRunError(undefined);
+    try {
+      const request: CreateRunRequest = { protagonistId: chosen.id, baseStats: assigned };
+      const createdRun = await createRun(request);
+      sessionStorage.setItem(runStorageKey, createdRun.id);
+      setRun(createdRun);
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : "The run could not be created.");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  if (resuming) return (
     <main className="game"><section className="scene">
-      <p className="eyebrow">The Breach Stair</p><h1>{chosen.name} descends.</h1>
+      <p className="eyebrow">The Bell Below</p><h1>Recovering your descent…</h1>
+    </section></main>
+  );
+
+  if (runError && !chosen) return (
+    <main className="game"><section className="scene">
+      <p className="eyebrow">Run unavailable</p><h1>The descent could not be recovered.</h1>
+      <p>{runError}</p>
+      <button className="back" onClick={() => {
+        sessionStorage.removeItem(runStorageKey);
+        setRunError(undefined);
+      }}>Begin again</button>
+    </section></main>
+  );
+
+  if (run) return (
+    <main className="game"><section className="scene">
+      <p className="eyebrow">The Breach Stair</p><h1>{run.protagonist.name} descends.</h1>
       <p>Beneath Grayhaven, black water laps against the abbey steps. Far below, the Bell of Mercy waits for midnight.</p>
-      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{score(stat)}</dd></div>)}</dl>
-      <button className="back" onClick={() => setStarted(false)}>← Rebuild character</button>
+      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{run.effectiveStats[stat]}</dd></div>)}</dl>
+      <button className="back" onClick={() => {
+        sessionStorage.removeItem(runStorageKey);
+        setRun(undefined);
+      }}>← Rebuild character</button>
     </section></main>
   );
 
   if (chosen) return (
     <main className="builder"><section className="sheet">
-      <button className="back" onClick={() => setChosen(undefined)}>← Characters</button>
+      <button className="back" onClick={() => {
+        setChosen(undefined);
+        setRunError(undefined);
+      }}>← Characters</button>
       <p className="eyebrow">{chosen.title}</p><h1>Build {chosen.shortName}</h1>
       <p className="intro">Spend 8 points across your stats. Raise each from 1 to 5; your character's bonus is added on top. Higher stats improve your chances on related checks.</p>
       <p className="benefit"><strong>{chosen.shortName}'s benefit:</strong> +1 {chosen.benefit}. {chosen.benefit} can reach 6.</p>
@@ -77,7 +138,10 @@ function App() {
         </div>
       </article>)}</div>
       <p className="remaining">{remaining} points remaining</p>
-      <button className="choose" disabled={remaining !== 0} onClick={() => setStarted(true)}>Enter the abbey</button>
+      {runError && <p className="run-error" role="alert">{runError}</p>}
+      <button className="choose" disabled={remaining !== 0 || creating} onClick={startRun}>
+        {creating ? "Entering…" : "Enter the abbey"}
+      </button>
     </section></main>
   );
 

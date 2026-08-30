@@ -350,6 +350,13 @@ button:disabled {
   text-transform: uppercase;
 }
 
+.run-error {
+  padding: 0.75rem 1rem;
+  border-left: 2px solid #a94a57;
+  color: #e8c8cb;
+  background: #762f3926;
+}
+
 .final-stats { padding: 0; }
 .final-stats dd { margin-bottom: 0; }
 

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+    "incremental": true,
+    "tsBuildInfoFile": ".server-dist/.tsbuildinfo",
+    "strict": true,
+    "noEmit": false,
+    "rootDir": ".",
+    "outDir": ".server-dist"
+  },
+  "include": ["server.ts", "server/**/*.ts", "shared/**/*.ts"]
+}
