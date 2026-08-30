@@ -2,7 +2,6 @@ import { Type, type Static } from "@sinclair/typebox";
 import {
   CharacterCreationSchema,
   type CharacterCreation,
-  type CharacterSnapshot,
 } from "./character.js";
 import { sidSchema, type Sid } from "./sid.js";
 
@@ -18,6 +17,5 @@ export type CreateRunRequest = CharacterCreation;
 export type RunParams = Static<typeof RunParamsSchema>;
 export type RunSnapshot = {
   id: RunId;
-  character: CharacterSnapshot;
   prologueCompletedAt: string | null;
 };

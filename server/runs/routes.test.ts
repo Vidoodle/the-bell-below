@@ -25,8 +25,13 @@ test("creates, starts, and retrieves a run through the API", async () => {
 
   assert.equal(created.statusCode, 201);
   assert.equal(created.json().id, runId);
-  assert.equal(created.json().character.id, characterId);
   assert.equal(created.json().prologueCompletedAt, null);
+  assert.equal(created.json().character, undefined);
+
+  const character = await server.inject({ method: "GET", url: `/api/runs/${runId}/character` });
+  assert.equal(character.statusCode, 200);
+  assert.equal(character.json().id, characterId);
+  assert.equal(character.json().runId, runId);
 
   const retrieved = await server.inject({ method: "GET", url: `/api/runs/${runId}` });
   assert.equal(retrieved.statusCode, 200);
@@ -38,6 +43,11 @@ test("creates, starts, and retrieves a run through the API", async () => {
 
   const resumed = await server.inject({ method: "GET", url: `/api/runs/${runId}` });
   assert.deepEqual(resumed.json(), completed.json());
+
+  const resumedCharacter = await server.inject({
+    method: "GET", url: `/api/runs/${runId}/character`,
+  });
+  assert.deepEqual(resumedCharacter.json(), character.json());
 });
 
 test("separates request validation from game-rule validation", async () => {

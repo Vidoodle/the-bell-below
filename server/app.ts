@@ -4,40 +4,54 @@ import { resolve } from "node:path";
 import type { CharacterId } from "../shared/character.js";
 import { runsPath } from "../shared/api.js";
 import type { RunId } from "../shared/run.js";
-import { handleError } from "./api/errors.js";
-import { runRoutes } from "./api/runs.js";
-import { CharacterValidationError } from "./domain/character.js";
-import { createCharacterId, createRunId } from "./domain/ids.js";
-import { createMemoryRunRepository } from "./storage/memory-run-repository.js";
-import { RunStorageError, type RunRepository } from "./storage/run-repository.js";
+import type { CharacterReader } from "./characters/reader.js";
+import { characterRoutes } from "./characters/routes.js";
+import { CharacterValidationError } from "./characters/model.js";
+import { handleError } from "./error-handler.js";
+import { createCharacterId, createRunId } from "./ids.js";
+import { createMemoryStorage } from "./memory-storage.js";
+import { buildCreateRun } from "./runs/create.js";
+import type { RunReader } from "./runs/reader.js";
+import { runRoutes } from "./runs/routes.js";
+import type { RunWriter } from "./runs/writer.js";
+import { StorageError } from "./storage-error.js";
 
 type ServerOptions = {
   production?: boolean;
   createCharacterId?: () => CharacterId;
   createRunId?: () => RunId;
   now?: () => string;
-  runs?: RunRepository;
+  runReader?: RunReader;
+  runWriter?: RunWriter;
+  characterReader?: CharacterReader;
 };
 
-export function buildServer({
-  production = false,
-  createCharacterId: makeCharacterId = createCharacterId,
-  createRunId: makeRunId = createRunId,
-  now = () => new Date().toISOString(),
-  runs = createMemoryRunRepository(),
-}: ServerOptions = {}) {
-  const server = Fastify({ logger: production });
+export function buildServer(options: ServerOptions = {}) {
+  const memory = createMemoryStorage();
+  const runReader = options.runReader ?? memory.runReader;
+  const runWriter = options.runWriter ?? memory.runWriter;
+  const characterReader = options.characterReader ?? memory.characterReader;
+  const createRun = buildCreateRun({
+    writer: runWriter,
+    createCharacterId: options.createCharacterId ?? createCharacterId,
+    createRunId: options.createRunId ?? createRunId,
+  });
+  const server = Fastify({ logger: options.production ?? false });
 
-  server.setErrorHandler<FastifyError | CharacterValidationError | RunStorageError>(handleError);
+  server.setErrorHandler<FastifyError | CharacterValidationError | StorageError>(handleError);
   server.register(runRoutes, {
     prefix: runsPath,
-    runs,
-    createCharacterId: makeCharacterId,
-    createRunId: makeRunId,
-    now,
+    createRun,
+    reader: runReader,
+    writer: runWriter,
+    now: options.now ?? (() => new Date().toISOString()),
+  });
+  server.register(characterRoutes, {
+    prefix: runsPath,
+    reader: characterReader,
   });
 
-  if (production) {
+  if (options.production) {
     server.register(fastifyStatic, { root: resolve("dist") });
   }
 

@@ -1,10 +1,17 @@
 import { sql } from "drizzle-orm";
 import { check, pgTable, smallint, text, timestamp } from "drizzle-orm/pg-core";
-import type { CharacterId } from "../../../shared/character.js";
-import type { ProtagonistId } from "../../../shared/protagonist.js";
+import type { CharacterId } from "../../shared/character.js";
+import type { ProtagonistId } from "../../shared/protagonist.js";
+import type { RunId } from "../../shared/run.js";
+import { runs } from "../runs/table.js";
 
 export const characters = pgTable("characters", {
   id: text().primaryKey().$type<CharacterId>(),
+  runId: text("run_id")
+    .notNull()
+    .$type<RunId>()
+    .unique()
+    .references(() => runs.id),
   protagonistId: text("protagonist_id").notNull().$type<ProtagonistId>(),
   might: smallint().notNull(),
   grace: smallint().notNull(),

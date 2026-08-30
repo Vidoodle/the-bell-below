@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
-import type { CharacterId } from "../../shared/character.js";
-import type { RunId } from "../../shared/run.js";
-import type { Sid } from "../../shared/sid.js";
+import type { CharacterId } from "../shared/character.js";
+import type { RunId } from "../shared/run.js";
+import type { Sid } from "../shared/sid.js";
 
 const randomHex = () => randomBytes(15).toString("hex");
 const createSid = <Prefix extends string>(prefix: Prefix): Sid<Prefix> => (

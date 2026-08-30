@@ -3,6 +3,7 @@ import type {
   CharacterId,
   CharacterSnapshot,
 } from "../../shared/character.js";
+import type { RunId } from "../../shared/run.js";
 import { statNames, type BaseStats } from "../../shared/stats.js";
 import { protagonists } from "./protagonists.js";
 
@@ -10,6 +11,7 @@ export class CharacterValidationError extends Error {}
 
 export function createCharacter(
   id: CharacterId,
+  runId: RunId,
   input: CharacterCreation,
 ): CharacterSnapshot {
   const baseStats = { ...input.baseStats };
@@ -26,5 +28,5 @@ export function createCharacter(
   const effectiveStats = Object.fromEntries(
     statNames.map((stat) => [stat, baseStats[stat] + (protagonist.benefit === stat ? 1 : 0)]),
   ) as BaseStats;
-  return { id, protagonist, baseStats, effectiveStats };
+  return { id, runId, protagonist, baseStats, effectiveStats };
 }

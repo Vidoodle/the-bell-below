@@ -4,12 +4,12 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import { CharacterValidationError } from "../domain/character.js";
-import { RunStorageError } from "../storage/run-repository.js";
+import { CharacterValidationError } from "./characters/model.js";
+import { StorageError } from "./storage-error.js";
 
 export function handleError(
   this: FastifyInstance,
-  error: FastifyError | CharacterValidationError | RunStorageError,
+  error: FastifyError | CharacterValidationError | StorageError,
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -17,9 +17,9 @@ export function handleError(
     return reply.code(400).send({ error: error.message });
   }
 
-  if (error instanceof RunStorageError) {
-    request.log.error({ err: error }, "Run storage error");
-    return reply.code(503).send({ error: "Run storage is unavailable." });
+  if (error instanceof StorageError) {
+    request.log.error({ err: error }, "Storage error");
+    return reply.code(503).send({ error: "Game storage is unavailable." });
   }
 
   const status = error.statusCode ?? 500;

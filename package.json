@@ -11,8 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "start": "node .server-dist/server.js --production",
-    "test": "pnpm run build:server && node --test .server-dist/server/api/runs.test.js .server-dist/server/domain/ids.test.js .server-dist/server/domain/run.test.js",
-    "test:integration": "pnpm run build:server && node --test .server-dist/server/storage/postgres-run-repository.integration.js"
+    "test": "pnpm run build:server && node --test .server-dist/server/characters/model.test.js .server-dist/server/ids.test.js .server-dist/server/runs/model.test.js .server-dist/server/runs/routes.test.js",
+    "test:integration": "pnpm run build:server && node --test .server-dist/server/runs/persistence.integration.js"
   },
   "dependencies": {
     "@fastify/static": "^10.1.3",

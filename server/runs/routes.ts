@@ -4,43 +4,36 @@ import {
   RunParamsSchema,
   type CreateRunRequest,
   type RunParams,
-  type RunId,
 } from "../../shared/run.js";
-import type { CharacterId } from "../../shared/character.js";
-import { createRun } from "../domain/run.js";
-import type { RunRepository } from "../storage/run-repository.js";
+import type { CreateRun } from "./create.js";
+import type { RunReader } from "./reader.js";
+import type { RunWriter } from "./writer.js";
 
 type RunRoutesOptions = {
-  runs: RunRepository;
-  createCharacterId: () => CharacterId;
-  createRunId: () => RunId;
+  createRun: CreateRun;
+  reader: RunReader;
+  writer: RunWriter;
   now: () => string;
 };
 
 export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, options) => {
   server.post<{ Body: CreateRunRequest }>("/", {
     schema: { body: CreateRunRequestSchema },
-  }, async (request, reply) => {
-    const run = createRun(
-      options.createRunId(),
-      options.createCharacterId(),
-      request.body,
-    );
-    await options.runs.save(run);
-    return reply.code(201).send(run);
-  });
+  }, async (request, reply) => (
+    reply.code(201).send(await options.createRun(request.body))
+  ));
 
   server.get<{ Params: RunParams }>("/:id", {
     schema: { params: RunParamsSchema },
   }, async (request, reply) => {
-    const run = await options.runs.find(request.params.id);
+    const run = await options.reader.find(request.params.id);
     return run ?? reply.code(404).send({ error: "Run not found." });
   });
 
   server.post<{ Params: RunParams }>("/:id/prologue", {
     schema: { params: RunParamsSchema },
   }, async (request, reply) => {
-    const run = await options.runs.completePrologue(request.params.id, options.now());
+    const run = await options.writer.completePrologue(request.params.id, options.now());
     return run ?? reply.code(404).send({ error: "Run not found." });
   });
 };

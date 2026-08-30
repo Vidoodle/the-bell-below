@@ -6,6 +6,7 @@ import {
 import { sidSchema, type Sid } from "./sid.js";
 import { BaseStatsSchema } from "./stats-schema.js";
 import type { BaseStats } from "./stats.js";
+import type { RunId } from "./run.js";
 
 export type CharacterId = Sid<"char">;
 
@@ -19,6 +20,7 @@ export const CharacterCreationSchema = Type.Object({
 export type CharacterCreation = Static<typeof CharacterCreationSchema>;
 export type CharacterSnapshot = {
   id: CharacterId;
+  runId: RunId;
   protagonist: ProtagonistSnapshot;
   baseStats: BaseStats;
   effectiveStats: BaseStats;

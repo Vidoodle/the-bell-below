@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import type { CharacterSnapshot } from "../shared/character";
 import type { CreateRunRequest, RunSnapshot } from "../shared/run";
 import { statNames, type BaseStats, type Stat } from "../shared/stats";
+import { getRunCharacter } from "./api/characters";
 import { completePrologue, createRun, getRun } from "./api/runs";
 import { characters, findCharacter, type CharacterProfile } from "./content/characters";
 import { PrologueScreen } from "./screens/PrologueScreen";
@@ -24,6 +26,7 @@ function App() {
   const [chosen, setChosen] = useState<CharacterProfile>();
   const [assigned, setAssigned] = useState(freshStats);
   const [run, setRun] = useState<RunSnapshot>();
+  const [activeCharacter, setActiveCharacter] = useState<CharacterSnapshot>();
   const [creating, setCreating] = useState(false);
   const [continuing, setContinuing] = useState(false);
   const [runError, setRunError] = useState<string>();
@@ -39,8 +42,11 @@ function App() {
   useEffect(() => {
     const storedRun = sessionStorage.getItem(runStorageKey);
     if (!storedRun) return;
-    getRun(storedRun)
-      .then(setRun)
+    Promise.all([getRun(storedRun), getRunCharacter(storedRun)])
+      .then(([recoveredRun, recoveredCharacter]) => {
+        setRun(recoveredRun);
+        setActiveCharacter(recoveredCharacter);
+      })
       .catch((error: unknown) => setRecoveryError(
         error instanceof Error ? error.message : "The run could not be recovered.",
       ))
@@ -53,16 +59,27 @@ function App() {
 
   const startRun = async () => {
     if (!chosen) return;
+    let createdRun: RunSnapshot | undefined;
     setCreating(true);
     setRunError(undefined);
     try {
       const request: CreateRunRequest = { protagonistId: chosen.id, baseStats: assigned };
-      const createdRun = await createRun(request);
+      createdRun = await createRun(request);
       sessionStorage.setItem(runStorageKey, createdRun.id);
+      const createdCharacter = await getRunCharacter(createdRun.id);
       setRun(createdRun);
+      setActiveCharacter(createdCharacter);
       setView("prologue");
     } catch (error) {
-      setRunError(error instanceof Error ? error.message : "The run could not be created.");
+      const message = error instanceof Error ? error.message : "The run could not be created.";
+      if (createdRun) {
+        setRun(undefined);
+        setActiveCharacter(undefined);
+        setRecoveryError(message);
+        setView("title");
+      } else {
+        setRunError(message);
+      }
     } finally {
       setCreating(false);
     }
@@ -78,7 +95,7 @@ function App() {
   };
 
   const resumeRun = () => {
-    if (!run) return;
+    if (!run || !activeCharacter) return;
     setView(run.prologueCompletedAt ? "breach-stair" : "prologue");
   };
 
@@ -98,26 +115,26 @@ function App() {
   };
 
   if (view === "title") return <TitleScreen
-    canResume={Boolean(run)}
+    canResume={Boolean(run && activeCharacter)}
     recovering={resuming}
     recoveryError={recoveryError}
     onNewGame={beginNewGame}
     onResume={resumeRun}
   />;
 
-  if (view === "prologue" && run) return <PrologueScreen
-    character={findCharacter(run.character.protagonist.id)}
+  if (view === "prologue" && run && activeCharacter) return <PrologueScreen
+    character={findCharacter(activeCharacter.protagonist.id)}
     continuing={continuing}
     error={runError}
     onBack={() => setView("title")}
     onContinue={enterBreachStair}
   />;
 
-  if (view === "breach-stair" && run) return (
+  if (view === "breach-stair" && run && activeCharacter) return (
     <main className="game"><section className="scene">
-      <p className="eyebrow">The Breach Stair</p><h1>{run.character.protagonist.name} descends.</h1>
+      <p className="eyebrow">The Breach Stair</p><h1>{activeCharacter.protagonist.name} descends.</h1>
       <p>Beneath Grayhaven, black water laps against the abbey steps. Far below, the Bell of Mercy waits for midnight.</p>
-      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{run.character.effectiveStats[stat]}</dd></div>)}</dl>
+      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{activeCharacter.effectiveStats[stat]}</dd></div>)}</dl>
       <button className="back" onClick={() => {
         setView("characters");
       }}>← Start a new character</button>
