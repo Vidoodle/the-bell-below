@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  statNames,
-  type BaseStats,
-  type ProtagonistId,
-  type RunSnapshot,
-  type Stat,
-} from "../shared/run";
-import type { CreateRunRequest } from "../shared/run-schema";
+import type { ProtagonistId } from "../shared/protagonist";
+import type { CreateRunRequest, RunSnapshot } from "../shared/run";
+import { statNames, type BaseStats, type Stat } from "../shared/stats";
 import { createRun, getRun } from "./api/runs";
 import "./styles.css";
 
@@ -112,9 +107,9 @@ function App() {
 
   if (run) return (
     <main className="game"><section className="scene">
-      <p className="eyebrow">The Breach Stair</p><h1>{run.protagonist.name} descends.</h1>
+      <p className="eyebrow">The Breach Stair</p><h1>{run.character.protagonist.name} descends.</h1>
       <p>Beneath Grayhaven, black water laps against the abbey steps. Far below, the Bell of Mercy waits for midnight.</p>
-      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{run.effectiveStats[stat]}</dd></div>)}</dl>
+      <dl className="final-stats">{statNames.map((stat) => <div key={stat}><dt>{stat}</dt><dd>{run.character.effectiveStats[stat]}</dd></div>)}</dl>
       <button className="back" onClick={() => {
         sessionStorage.removeItem(runStorageKey);
         setRun(undefined);

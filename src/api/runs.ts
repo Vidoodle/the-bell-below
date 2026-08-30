@@ -1,6 +1,5 @@
 import { runPath, runsPath } from "../../shared/api";
-import type { RunSnapshot } from "../../shared/run";
-import type { CreateRunRequest } from "../../shared/run-schema";
+import type { CreateRunRequest, RunSnapshot } from "../../shared/run";
 
 async function readRun(response: Response): Promise<RunSnapshot> {
   const body = await response.json() as RunSnapshot & { error?: string };

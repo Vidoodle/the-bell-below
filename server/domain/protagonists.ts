@@ -1,4 +1,4 @@
-import type { ProtagonistId, ProtagonistSnapshot } from "../../shared/run.js";
+import type { ProtagonistId, ProtagonistSnapshot } from "../../shared/protagonist.js";
 
 export const protagonists = {
   seren: { id: "seren", name: "Seren Holt", benefit: "Might" },

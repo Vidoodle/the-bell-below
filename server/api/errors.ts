@@ -4,16 +4,22 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import { RunValidationError } from "../domain/run.js";
+import { CharacterValidationError } from "../domain/character.js";
+import { RunStorageError } from "../storage/run-repository.js";
 
 export function handleError(
   this: FastifyInstance,
-  error: FastifyError | RunValidationError,
+  error: FastifyError | CharacterValidationError | RunStorageError,
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  if (error instanceof RunValidationError) {
+  if (error instanceof CharacterValidationError) {
     return reply.code(400).send({ error: error.message });
+  }
+
+  if (error instanceof RunStorageError) {
+    request.log.error({ err: error }, "Run storage error");
+    return reply.code(503).send({ error: "Run storage is unavailable." });
   }
 
   const status = error.statusCode ?? 500;

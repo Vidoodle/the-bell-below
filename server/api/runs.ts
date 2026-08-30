@@ -4,20 +4,27 @@ import {
   RunParamsSchema,
   type CreateRunRequest,
   type RunParams,
-} from "../../shared/run-schema.js";
+  type RunId,
+} from "../../shared/run.js";
+import type { CharacterId } from "../../shared/character.js";
 import { createRun } from "../domain/run.js";
 import type { RunRepository } from "../storage/run-repository.js";
 
 type RunRoutesOptions = {
   runs: RunRepository;
-  createId: () => string;
+  createCharacterId: () => CharacterId;
+  createRunId: () => RunId;
 };
 
 export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, options) => {
   server.post<{ Body: CreateRunRequest }>("/", {
     schema: { body: CreateRunRequestSchema },
   }, async (request, reply) => {
-    const run = createRun(options.createId(), request.body);
+    const run = createRun(
+      options.createRunId(),
+      options.createCharacterId(),
+      request.body,
+    );
     await options.runs.save(run);
     return reply.code(201).send(run);
   });

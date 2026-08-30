@@ -1,9 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { CharacterId } from "../../shared/character.js";
+import type { RunId } from "../../shared/run.js";
 import { buildServer } from "../app.js";
 
+const runId = `runs${"0".repeat(30)}` as RunId;
+const characterId = `char${"0".repeat(30)}` as CharacterId;
+
 test("creates and retrieves a run through the API", async () => {
-  const server = buildServer({ createId: () => "run-1" });
+  const server = buildServer({
+    createRunId: () => runId,
+    createCharacterId: () => characterId,
+  });
   const created = await server.inject({
     method: "POST",
     url: "/api/runs",
@@ -14,9 +22,10 @@ test("creates and retrieves a run through the API", async () => {
   });
 
   assert.equal(created.statusCode, 201);
-  assert.equal(created.json().id, "run-1");
+  assert.equal(created.json().id, runId);
+  assert.equal(created.json().character.id, characterId);
 
-  const retrieved = await server.inject({ method: "GET", url: "/api/runs/run-1" });
+  const retrieved = await server.inject({ method: "GET", url: `/api/runs/${runId}` });
   assert.equal(retrieved.statusCode, 200);
   assert.deepEqual(retrieved.json(), created.json());
 });
