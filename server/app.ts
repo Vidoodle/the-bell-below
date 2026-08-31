@@ -4,6 +4,8 @@ import { resolve } from "node:path";
 import type { CharacterId } from "../shared/character.js";
 import { runsPath } from "../shared/api.js";
 import type { RunId } from "../shared/run.js";
+import type { Adventure } from "./adventure/model.js";
+import { theBellBelow } from "./adventure/the-bell-below.js";
 import type { CharacterReader } from "./characters/reader.js";
 import { characterRoutes } from "./characters/routes.js";
 import { CharacterValidationError } from "./characters/model.js";
@@ -14,6 +16,7 @@ import { buildCreateRun } from "./runs/create.js";
 import type { RunReader } from "./runs/reader.js";
 import { runRoutes } from "./runs/routes.js";
 import type { RunWriter } from "./runs/writer.js";
+import { sceneRoutes } from "./scenes/routes.js";
 import { StorageError } from "./storage-error.js";
 
 type ServerOptions = {
@@ -24,6 +27,7 @@ type ServerOptions = {
   runReader?: RunReader;
   runWriter?: RunWriter;
   characterReader?: CharacterReader;
+  adventure?: Adventure;
 };
 
 export function buildServer(options: ServerOptions = {}) {
@@ -49,6 +53,12 @@ export function buildServer(options: ServerOptions = {}) {
   server.register(characterRoutes, {
     prefix: runsPath,
     reader: characterReader,
+  });
+  server.register(sceneRoutes, {
+    prefix: runsPath,
+    adventure: options.adventure ?? theBellBelow,
+    runReader,
+    characterReader,
   });
 
   if (options.production) {

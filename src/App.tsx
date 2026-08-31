@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import type { CharacterSnapshot } from "../shared/character";
+import type { CurrentScenePresentation } from "../shared/current-scene";
 import type { CreateRunRequest, RunSnapshot } from "../shared/run";
 import type { BaseStats, Stat } from "../shared/stats";
 import { getRunCharacter } from "./api/characters";
+import { getCurrentScene } from "./api/current-scene";
 import { completePrologue, createRun, getRun } from "./api/runs";
 import { CharacterStatsHud } from "./components/CharacterStatsHud";
 import { characters, findCharacter, type CharacterProfile } from "./content/characters";
-import { DrownedStairScreen } from "./screens/DrownedStairScreen";
+import { CurrentSceneScreen } from "./screens/CurrentSceneScreen";
 import { CharacterSelectionScreen } from "./screens/CharacterSelectionScreen";
 import { PrologueScreen } from "./screens/PrologueScreen";
 import { SettingIntroductionScreen } from "./screens/SettingIntroductionScreen";
@@ -14,7 +16,7 @@ import { StatAllocationScreen } from "./screens/StatAllocationScreen";
 import { TitleScreen } from "./screens/TitleScreen";
 
 const runStorageKey = "the-bell-below.run";
-type View = "title" | "introduction" | "characters" | "stats" | "prologue" | "drowned-stair";
+type View = "title" | "introduction" | "characters" | "stats" | "prologue" | "current-scene";
 const freshStats = (): BaseStats => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
 
 export function App() {
@@ -24,6 +26,7 @@ export function App() {
   const [assigned, setAssigned] = useState(freshStats);
   const [run, setRun] = useState<RunSnapshot>();
   const [activeCharacter, setActiveCharacter] = useState<CharacterSnapshot>();
+  const [currentScene, setCurrentScene] = useState<CurrentScenePresentation>();
   const [creating, setCreating] = useState(false);
   const [continuing, setContinuing] = useState(false);
   const [runError, setRunError] = useState<string>();
@@ -35,9 +38,13 @@ export function App() {
     const storedRun = sessionStorage.getItem(runStorageKey);
     if (!storedRun) return;
     Promise.all([getRun(storedRun), getRunCharacter(storedRun)])
-      .then(([recoveredRun, recoveredCharacter]) => {
+      .then(async ([recoveredRun, recoveredCharacter]) => {
+        const recoveredScene = recoveredRun.prologueCompletedAt
+          ? await getCurrentScene(storedRun)
+          : undefined;
         setRun(recoveredRun);
         setActiveCharacter(recoveredCharacter);
+        setCurrentScene(recoveredScene);
       })
       .catch((error: unknown) => setRecoveryError(
         error instanceof Error ? error.message : "The run could not be recovered.",
@@ -61,6 +68,7 @@ export function App() {
       const createdCharacter = await getRunCharacter(createdRun.id);
       setRun(createdRun);
       setActiveCharacter(createdCharacter);
+      setCurrentScene(undefined);
       setView("prologue");
     } catch (error) {
       const message = error instanceof Error ? error.message : "The run could not be created.";
@@ -83,12 +91,14 @@ export function App() {
     setAssigned(freshStats());
     setRunError(undefined);
     setRecoveryError(undefined);
+    setCurrentScene(undefined);
     setView("introduction");
   };
 
   const resumeRun = () => {
     if (!run || !activeCharacter) return;
-    setView(run.prologueCompletedAt ? "drowned-stair" : "prologue");
+    if (run.prologueCompletedAt && currentScene) setView("current-scene");
+    else if (!run.prologueCompletedAt) setView("prologue");
   };
 
   const approachDrownedStair = async () => {
@@ -97,8 +107,10 @@ export function App() {
     setRunError(undefined);
     try {
       const updatedRun = await completePrologue(run.id);
+      const scene = await getCurrentScene(run.id);
       setRun(updatedRun);
-      setView("drowned-stair");
+      setCurrentScene(scene);
+      setView("current-scene");
     } catch (error) {
       setRunError(error instanceof Error ? error.message : "The approach could not begin.");
     } finally {
@@ -135,9 +147,9 @@ export function App() {
     />
   </>;
 
-  if (view === "drowned-stair" && run && activeCharacter) return <>
+  if (view === "current-scene" && run && activeCharacter && currentScene) return <>
     <CharacterStatsHud stats={activeCharacter.effectiveStats} />
-    <DrownedStairScreen character={activeCharacter} onStartNewCharacter={beginNewGame} />
+    <CurrentSceneScreen currentScene={currentScene} onStartNewCharacter={beginNewGame} />
   </>;
 
   if (view === "stats" && chosen) return <StatAllocationScreen

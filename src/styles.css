@@ -365,6 +365,50 @@ button:disabled {
 
 .prologue-sheet { width: min(58rem, 100%); }
 
+.current-scene { width: min(64rem, 100%); }
+
+.scene-participants {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.scene-participants > section {
+  padding: 1.25rem;
+  border: 1px solid #47756d66;
+  background: #07101466;
+}
+
+.scene-participants h2 {
+  margin: 0 0 1rem;
+  color: var(--bone);
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.scene-participants article + article {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #47756d44;
+}
+
+.scene-participants h3 { margin: 0 0 0.35rem; }
+
+.scene-participants p {
+  margin: 0;
+  color: var(--dim-bone);
+  line-height: 1.6;
+}
+
+.scene-participants .participant-reputation {
+  margin-bottom: 0.35rem;
+  color: var(--brass);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .lore-copy {
   margin: 2rem 0;
   padding-bottom: 1.25rem;
@@ -622,6 +666,8 @@ button:disabled {
   .profile { padding: 1.75rem; }
 
   .allocation { grid-template-columns: repeat(2, 1fr); }
+
+  .scene-participants { grid-template-columns: 1fr; }
 
   .with-character-hud { padding-top: 5.25rem; }
 

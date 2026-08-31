@@ -1,3 +1,6 @@
+import type { ProtagonistId } from "../../../shared/protagonist.js";
+import type { Reputation } from "../../../shared/reputation.js";
+
 declare const npcIdBrand: unique symbol;
 
 export type NpcId = string & { readonly [npcIdBrand]: "npc" };
@@ -8,4 +11,5 @@ export type NpcDefinition = Readonly<{
   id: NpcId;
   name: string;
   description: string;
+  initialReputationByProtagonist: Readonly<Record<ProtagonistId, Reputation>>;
 }>;
