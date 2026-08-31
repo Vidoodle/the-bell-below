@@ -20,7 +20,7 @@ export function CharacterSelectionScreen({
   onSelect,
 }: CharacterSelectionScreenProps) {
   return <main className="select">
-    <button className="back select-back" onClick={onBack}>← Title</button>
+    <button className="back select-back" onClick={onBack}>← The Bell Below</button>
     <header><p className="eyebrow">The Bell Below</p><h1>Who answers the final toll?</h1></header>
     <section className="carousel" aria-label="Choose a protagonist">
       <div className="portrait" role="img" aria-label={`${character.name} portrait placeholder`}>

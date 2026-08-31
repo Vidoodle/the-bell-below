@@ -1,5 +1,4 @@
 import type { CharacterProfile } from "../content/characters";
-import { publicLore } from "../content/prologue";
 
 type PrologueScreenProps = {
   character: CharacterProfile;
@@ -16,17 +15,13 @@ export function PrologueScreen({
   onBack,
   onContinue,
 }: PrologueScreenProps) {
-  return <main className="game prologue">
+  return <main className="game prologue with-character-hud">
     <section className="scene prologue-sheet">
       <button className="back" onClick={onBack}>← Title</button>
       <p className="eyebrow">Before the final toll</p>
-      <h1>The Bell Below</h1>
-      <div className="lore-copy">
-        {publicLore.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-      </div>
+      <h1>{character.name}</h1>
       <div className="character-prologue">
         <p className="eyebrow">{character.title}</p>
-        <h2>{character.name}</h2>
         <p>{character.background}</p>
         {character.prologue.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         <h3>What draws {character.shortName} below</h3>

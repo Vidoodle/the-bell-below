@@ -15,7 +15,7 @@ export type CharacterProfile = {
 export const characters: CharacterProfile[] = [
   {
     id: "seren", name: "Seren Holt", shortName: "Seren", title: "The Oathbreaker",
-    background: "A former siege captain who helped seal the cathedral and left refugees below. He still knows the old soldiers and the lie they agreed to preserve.",
+    background: "A former siege captain remembered as one of the heroes who saved Grayhaven. He helped seal the cathedral with refugees inside and has spent forty years living with what the city chose to forget.",
     motivation: "Confront the choice that saved Grayhaven before the bell exposes it.",
     prologue: [
       "Forty years ago, Seren Holt commanded the city guard in Grayhaven's Lower Ward. While Orra's priests laid the ward, his soldiers kept the cathedral shut with refugees inside. Seren knew their confinement was part of the ritual. He obeyed.",

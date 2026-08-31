@@ -4,15 +4,17 @@ import type { CreateRunRequest, RunSnapshot } from "../shared/run";
 import type { BaseStats, Stat } from "../shared/stats";
 import { getRunCharacter } from "./api/characters";
 import { completePrologue, createRun, getRun } from "./api/runs";
+import { CharacterStatsHud } from "./components/CharacterStatsHud";
 import { characters, findCharacter, type CharacterProfile } from "./content/characters";
 import { DrownedStairScreen } from "./screens/DrownedStairScreen";
 import { CharacterSelectionScreen } from "./screens/CharacterSelectionScreen";
 import { PrologueScreen } from "./screens/PrologueScreen";
+import { SettingIntroductionScreen } from "./screens/SettingIntroductionScreen";
 import { StatAllocationScreen } from "./screens/StatAllocationScreen";
 import { TitleScreen } from "./screens/TitleScreen";
 
 const runStorageKey = "the-bell-below.run";
-type View = "title" | "characters" | "stats" | "prologue" | "drowned-stair";
+type View = "title" | "introduction" | "characters" | "stats" | "prologue" | "drowned-stair";
 const freshStats = (): BaseStats => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
 
 export function App() {
@@ -81,7 +83,7 @@ export function App() {
     setAssigned(freshStats());
     setRunError(undefined);
     setRecoveryError(undefined);
-    setView("characters");
+    setView("introduction");
   };
 
   const resumeRun = () => {
@@ -117,18 +119,26 @@ export function App() {
     onResume={resumeRun}
   />;
 
-  if (view === "prologue" && run && activeCharacter) return <PrologueScreen
-    character={findCharacter(activeCharacter.protagonist.id)}
-    continuing={continuing}
-    error={runError}
+  if (view === "introduction") return <SettingIntroductionScreen
     onBack={() => setView("title")}
-    onContinue={approachDrownedStair}
+    onContinue={() => setView("characters")}
   />;
 
-  if (view === "drowned-stair" && run && activeCharacter) return <DrownedStairScreen
-    character={activeCharacter}
-    onStartNewCharacter={() => setView("characters")}
-  />;
+  if (view === "prologue" && run && activeCharacter) return <>
+    <CharacterStatsHud stats={activeCharacter.effectiveStats} />
+    <PrologueScreen
+      character={findCharacter(activeCharacter.protagonist.id)}
+      continuing={continuing}
+      error={runError}
+      onBack={() => setView("title")}
+      onContinue={approachDrownedStair}
+    />
+  </>;
+
+  if (view === "drowned-stair" && run && activeCharacter) return <>
+    <CharacterStatsHud stats={activeCharacter.effectiveStats} />
+    <DrownedStairScreen character={activeCharacter} onStartNewCharacter={beginNewGame} />
+  </>;
 
   if (view === "stats" && chosen) return <StatAllocationScreen
     assigned={assigned}
@@ -148,7 +158,7 @@ export function App() {
     character={character}
     index={index}
     total={characters.length}
-    onBack={() => setView("title")}
+    onBack={() => setView("introduction")}
     onNext={() => setIndex((index + 1) % characters.length)}
     onPrevious={() => setIndex((index + characters.length - 1) % characters.length)}
     onSelect={() => {
