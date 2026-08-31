@@ -36,7 +36,7 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 - Prefer the smallest end-to-end playable behavior over disconnected setup work.
 - Treat an authored scene as a situation with participants, stakes, boundaries, and legal transitions, not as a dialogue tree or a list of every possible player action.
 - Keep protected truth and major content in server-only authored definitions, per-run consequences in committed state, and generated prose in presentation. Do not blur these categories for implementation convenience.
-- Keep mechanics server-owned and reproducible from committed state, a validated proposal, and a random seed. An LLM may interpret intent, choose among authorized NPC behaviors, or narrate an outcome, but it must not decide rules, difficulty, success, or committed state.
+- Keep mechanics reproducible from committed state, an accepted AI DM adjudication, and a random seed. The AI DM may classify an attempt, select a stat and contextual difficulty from the supported scale, cite situational factors, propose bounded effects, choose among authorized NPC behaviors, and narrate an outcome. The server must validate the proposal and owns rules limits, randomness, mechanical success, and committed state.
 - Treat all model output that would affect future legality or outcomes as a proposal. Validate it, assign any runtime identity, and commit it before narration.
 - Keep principal NPCs, major discoveries, important resources, secret routes, and endings authored. Generated entities must be mundane, bounded, run-scoped, and unable to introduce protected knowledge or dramatic authority.
 - Commit mechanical outcomes before requesting narration, and make narration retryable without resolving the action again.

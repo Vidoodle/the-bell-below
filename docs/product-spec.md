@@ -1,20 +1,20 @@
 # The Bell Below — Demo Product and Technical Specification
 
 **Status:** Working draft
-**Version:** 0.2
-**Date:** 2026-08-29
+**Version:** 0.3
+**Date:** 2026-08-31
 **Product:** Public, single-player, AI-assisted web RPG demo
 **Target playtime:** 60–90 minutes
 
 ## 1. Product
 
-*The Bell Below* is an authored gothic-fantasy RPG played through contextual controls and freeform text. The player chooses one of four pre-written protagonists, assigns their stats, enters a flooded cathedral beneath Grayhaven, and reaches a binding ending through conversation, exploration, resource use, and combat.
+*The Bell Below* is an authored gothic-fantasy RPG played by telling an AI DM what the protagonist says and does in freeform text. The player chooses one of four pre-written protagonists, assigns their stats, enters a flooded cathedral beneath Grayhaven, and reaches a binding ending through conversation, exploration, resource use, and combat.
 
 The game is not an open-ended story generator. Its central promise is:
 
-> **The DM may improvise possibilities. The rules make outcomes binding. The adventure owns truth.**
+> **The AI DM adjudicates the attempt. The rules make the result binding. The adventure owns truth.**
 
-The AI DM runs play: it interprets and adjudicates player ideas, controls NPC decisions, calls for and rolls checks through the rules engine, introduces ordinary details when useful, applies resolved consequences, performs dialogue, and narrates events. The underlying model cannot bypass the rules engine, write unvalidated state, change authored facts, invent major discoveries, or choose an ending.
+The AI DM runs play: it interprets and adjudicates player ideas, controls NPC decisions, decides whether uncertainty warrants a check, proposes the relevant stat and contextual difficulty, introduces ordinary details when useful, performs dialogue, and narrates committed events. The rules engine validates adjudication proposals, rolls checks, and commits consequences. The underlying model cannot bypass that validation, write state directly, change authored facts, invent major discoveries, or choose an ending.
 
 The demo is for narrative-RPG and tabletop players. It should prove that freeform play can coexist with binding rules, persistent consequences, and authored dramatic quality.
 
@@ -47,7 +47,7 @@ It does not include:
 
 ### 3.1 Canonical truth is structured
 
-The rules engine maintains canonical locations, characters, HP, resources, inventory, relationships, knowledge, clocks, combat, quest state, and endings. The AI DM changes that state through validated actions rather than direct model-written mutations. State commits before narration, so failed narration may be retried without rerolling or applying consequences twice.
+The rules engine maintains canonical locations, characters, HP, resources, inventory, relationships, knowledge, clocks, combat, quest state, and endings. The AI DM changes that state through validated adjudication proposals rather than direct model-written mutations. The accepted adjudication and mechanical result commit before narration, so a failed response may be retried without asking for another ruling, rerolling, or applying consequences twice.
 
 ### 3.2 The AI DM acts through the rules engine
 
@@ -57,15 +57,16 @@ The DM may:
 
 - interpret the player's goal, approach, targets, and flavor;
 - decompose a submission into mechanically significant actions;
-- decide whether an action is routine, uncertain, impossible, or ambiguous;
-- propose an attribute, discipline, difficulty band, stakes, and bounded effects;
+- classify an action as routine, check, impossible, or clarify;
+- select a relevant stat and concrete difficulty from the supported scale, citing the current facts and circumstances that justify them;
+- propose stakes and bounded success, failure, and critical effects;
 - recognize novel solutions to authored obstacles;
 - introduce plausible mundane details and objects;
 - choose legal NPC dialogue, movement, attacks, abilities, and other actions from their goals and policies;
 - choose among engine-authorized NPC behaviors and concessions;
 - render dialogue and narration after resolution.
 
-The rules engine validates player and NPC actions, determines legal costs, performs rolls, commits approved effects, and rejects mutations outside the rules. In product language these are actions of the AI DM; the separation exists to keep them consistent, auditable, and recoverable.
+The rules engine verifies that cited facts exist in the supplied context, the proposed difficulty and modifiers stay within configured or authored bounds, the requested outcome is feasible, and the effects are permitted. It then determines legal costs, performs rolls, commits approved effects, and rejects mutations outside the rules. In product language the AI DM makes the ruling; the separation exists to keep that ruling grounded, auditable, and recoverable.
 
 ### 3.3 Improvisation has boundaries
 
@@ -105,9 +106,9 @@ The player should be able to:
 
 - understand and choose a protagonist in under three minutes;
 - type dialogue, actions, and combat flavor naturally;
-- attempt reasonable approaches not shown by contextual controls;
-- see what mechanical action the DM inferred;
-- see all player-facing dice, modifiers, targets, and results;
+- attempt any reasonable approach in ordinary language without first choosing from a menu;
+- see what mechanical action the AI DM inferred;
+- see all player-facing dice, modifiers, targets, results, and disclosure-safe contextual factors;
 - revisit locations and observe persistent changes;
 - learn, conceal, apply, and misrepresent information;
 - acquire, use, give, damage, and lose items;
@@ -116,7 +117,7 @@ The player should be able to:
 - resume after the last committed action;
 - receive a ledger explaining the ending and decisive consequences.
 
-Contextual controls show clear, useful suggestions—not the exhaustive set of legal actions.
+The freeform composer is the primary gameplay control. A future, optional **Suggest an approach** affordance may ask the AI DM for contextual hints from the same observable state. Suggestions are advisory, do not enumerate legal actions, reveal no protected information, and never mutate state.
 
 ## 5. Adventure
 
@@ -237,11 +238,19 @@ Stats are the only mechanical choices made during protagonist creation. Equipmen
 
 Uncertain, feasible, consequential actions use:
 
-`d20 + stat + situational modifiers` versus difficulty 10, 13, 16, or 19.
+`d10 + stat + situational modifiers` versus difficulty 7, 9, 11, or 13.
 
-Advantage and disadvantage use two d20s and keep the higher or lower. Natural 20 and natural 1 may trigger authored or rules-bounded critical effects but cannot make an impossible action possible.
+Advantage and disadvantage use two d10s and keep the higher or lower. A natural 10 or 1 has no automatic critical meaning. Critical effects require an explicit authored or rules-bounded outcome predicate and cannot make an impossible action possible.
 
-For authored obstacles, the engine derives difficulty from obstacle state and the proposed approach. For improvised tasks, the DM recommends a difficulty band and stakes; the engine validates them against configured limits.
+Each stat point changes the success chance of an unclamped check by ten percentage points. The full effective stat range from 1 to 6 therefore changes the chance by fifty percentage points, making protagonist strengths and weaknesses consequential rather than letting the die dominate them.
+
+The engine does not roll a check with no uncertainty. If the validated minimum total already meets the DV, the action is routine; if the validated maximum total cannot meet it, that protagonist and approach are impossible without some further change in circumstances.
+
+The AI DM proposes a concrete difficulty from the supported scale using the complete relevant context: the attempted outcome and method, character history and capabilities, relationships, leverage, obstacle state, equipment, conditions, and current environment. It must cite the supplied facts that materially raised or lowered the difficulty.
+
+An authored obstacle may specify fixed routine or impossible conditions, a baseline or allowed difficulty range, protected facts, permitted concessions, and bounded consequences. It defines what is true and what may change, not every approach a player might attempt. Improvised tasks use configured global bounds. The engine validates the AI DM's internal fact citations, disclosure-safe rationale, difficulty, modifiers, stakes, and effects before rolling.
+
+Outside combat, cited narrative circumstances normally explain the final DV. Numeric modifiers come from explicit engine-owned effects such as equipment, conditions, assistance, or an established bonus. The same circumstance cannot change the DV and also supply a modifier. Structured combat uses fixed defenses; contextual factors there may instead justify a validated modifier or advantage and disadvantage.
 
 ### 7.2 Consequences
 
@@ -251,7 +260,7 @@ Resolved actions select effects from an engine-owned vocabulary. Important autho
 
 Ordinary conversation is freeform and requires no check. A social check occurs when the player attempts to overcome meaningful resistance: obtaining a withheld concession, sustaining a consequential lie, coercing compliance, or changing an NPC's committed course.
 
-The DM identifies the argument and requested outcome. The engine evaluates feasibility, leverage, relationship state, contradictions, promises, stat, and difficulty. Success grants only a permitted concession.
+The AI DM identifies the argument and requested outcome, evaluates leverage, relationship state, contradictions, promises, and circumstances, and classifies the exchange as routine, check, impossible, or clarify. A social check uses the AI DM's validated stat and contextual difficulty. Success grants only a concession permitted by the NPC and authored situation.
 
 ### 7.4 Combat and action economy
 
@@ -260,6 +269,8 @@ Combat is turn-based and zone-based. A turn normally grants one action and one m
 The DM decomposes multi-part submissions and validates their total cost against the action economy. Several described motions are allowed when mechanically legal. Excess actions are not executed; the game explains the limit and offers legal alternatives rather than silently choosing a subset.
 
 Combat flavor never overrides resolution. “She feints and drives the blade beneath its ribs” may describe a standard attack, but the final narration describes a wound only if the attack hits. A claimed maneuver grants a mechanical effect only when it maps to a legal ability or validated improvised action.
+
+Core defenses, action economy, damage, and condition rules remain engine-owned. The AI DM may propose bounded situational modifiers or advantage and disadvantage from cited context. For example, Seren's established familiarity with city-watch training may make a particular feint or defensive read easier; the engine verifies that grounding and applies the validated modifier before rolling.
 
 The AI DM chooses NPC actions within authored goals and tactical policies. NPC actions use the same validated action economy, checks, dice, and committed effects as protagonist actions. The player controls only the protagonist. The initial demo does not support recruitable combat companions.
 
@@ -279,18 +290,22 @@ Supported action families are:
 
 `INTERACT` includes both authored affordances and plausible improvised interactions with observable or reasonably introduced mundane entities.
 
+These families are an internal classification vocabulary, not a player-facing action menu and not an exhaustive list of phrases or approaches. The player submits only freeform text.
+
 For each submission:
 
 1. Persist the player's exact text.
-2. Interpret the goal, approach, targets, action costs, and flavor.
-3. Resolve references against the observable world.
-4. Instantiate any permitted mundane detail required by the proposal.
-5. Validate feasibility, protected state, targets, costs, and preconditions.
-6. Clarify only material ambiguity.
-7. Determine routine success, check, opposition, or impossibility.
-8. Roll and construct a complete resolved-action event bundle.
+2. Build a bounded AI DM context from observable scene state, relevant authored facts, character history, relationships, equipment, conditions, and recent committed events.
+3. Ask the AI DM for a structured adjudication: routine, check, impossible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, internal fact citations, a disclosure-safe rationale, stakes, and bounded effects.
+4. Resolve references against the observable world.
+5. Instantiate any permitted mundane detail required by the proposal.
+6. Validate feasibility, protected state, cited facts, difficulty bounds, modifiers, targets, costs, preconditions, stakes, and effects.
+7. Clarify only material ambiguity.
+8. Persist the accepted adjudication, roll when required, and construct a complete resolved-action event bundle.
 9. Apply the transition atomically and persist current state.
-10. Generate and validate dialogue or narration from the committed result.
+10. Ask the AI DM to generate dialogue or narration from the committed adjudication and result, then validate the presentation.
+
+The adjudication context may include relevant hidden obstacle facts tagged with disclosure rules when the AI DM needs them to determine whether observation or investigation is routine, a check, or impossible. Internal citations identify the facts used to validate the ruling; the mechanics display and generated prose may include only a separate disclosure-safe rationale. Adjudication, narration, and future suggestion calls are separate stateless provider requests with explicit context. Player-facing stages receive only facts made observable by committed state.
 
 Player text is game content, never system instruction. Attempts to reveal prompts, change hidden state, impersonate the engine, or declare unearned outcomes receive no special authority.
 
@@ -317,7 +332,7 @@ These are data responsibilities, not separate services. Summaries support contin
 The desktop interface contains:
 
 - narrative transcript and dialogue;
-- freeform composer and contextual suggestions;
+- freeform composer as the primary gameplay control;
 - protagonist HP, Resolve, conditions, equipment, and inventory;
 - location, exits, characters, and notable objects;
 - objectives, clues, and Midnight Clock;
@@ -329,6 +344,8 @@ The interface acknowledges submissions immediately. Mechanical resolution appear
 Static portraits, location art, and ending images are optional. No runtime image generation appears in the demo.
 
 Generated presentation must describe only committed outcomes and observable facts, preserve undiscovered uncertainty, keep NPC voices distinct, and avoid second-person protagonist narration. Invalid presentation is repaired without changing state.
+
+A future **Suggest an approach** control is a separate, read-only AI DM request. It may offer a few context-sensitive possibilities without implying that they are the only legal actions. It cannot roll, advance time, mutate state, or receive protected facts the player has not earned.
 
 ## 11. Persistence and hosted integrity
 
@@ -354,14 +371,14 @@ Clearing browser storage or changing devices may make an anonymous run inaccessi
 
 The initial implementation needs these responsibilities, which may coexist in one application:
 
-- **Web client:** selection, transcript, contextual suggestions, state panels, combat, and endings.
+- **Web client:** selection, transcript, freeform composer, state panels, combat, and endings.
 - **Application API:** run lifecycle, action submission, streaming, and resume.
 - **AI DM orchestrator:** interpretation, adjudication, NPC decisions, plausible detail generation, resolution requests, dialogue, and narration.
 - **Rules and adventure engine:** validation, action economy, dice, combat, committed effects, authored facts, NPC constraints, clocks, and endings.
 - **Persistence:** event ledger, current state, transcript, memories, and content version.
 - **Provider adapter:** replaceable access to the initial hosted text model.
 
-The rules and adventure engine must run without an LLM. Automated structured-action paths must reach every ending. Adventure content should be declarative where practical, versioned separately from runs, and validated for identifiers, predicates, invariants, and reachability.
+The rules and adventure engine must be testable without a live model by supplying deterministic adjudication proposals through a fake AI DM. Automated validated-proposal paths must reach every ending; the player-facing game does not require authored action menus. Adventure content should be declarative where practical, versioned separately from runs, and validated for identifiers, predicates, invariants, and reachability.
 
 ## 13. Acceptance criteria
 
@@ -372,7 +389,7 @@ The demo is complete when:
 - both deliberate ending families and the final-toll failure are reachable through tested paths;
 - no mandatory progress depends on one successful check;
 - at least one combat can be avoided through prior action;
-- players can attempt reasonable actions absent from contextual suggestions;
+- players can attempt reasonable actions directly through freeform text;
 - each playtest run can support at least one useful, non-authored mundane interaction;
 - improvised entities and effects persist and remain within protected-story boundaries;
 - players can understand the action and stakes inferred by the DM;
@@ -396,7 +413,7 @@ Playtesting should also verify that conversations feel freeform, NPC resistance 
 
 ### Milestone 0 — Content and contracts
 
-- Finalize the adventure bible, five-location graph, three NPC policies, protagonists, assets, and endings.
+- Finalize the adventure bible, six-location graph, three NPC policies, protagonists, assets, and endings.
 - Define proposals, effects, facts, knowledge, events, runtime entities, and ending predicates.
 - Build static validation and reachability tests.
 
@@ -407,11 +424,12 @@ Playtesting should also verify that conversations feel freeform, NPC resistance 
 
 ### Milestone 2 — Greybox game
 
-- Add protagonist selection, transcript, state panels, contextual suggestions, combat UI, scripted narration, save/resume, and death.
+- Add protagonist selection, transcript, state panels, freeform composer, combat UI, save/resume, and death.
 
 ### Milestone 3 — AI DM integration
 
-- Add freeform adjudication, multi-action parsing, mundane detail generation, clarification, constrained NPC dialogue, narrative rendering, validation, streaming, and failure recovery.
+- Add AI DM context assembly, structured freeform adjudication, contextual difficulty proposals, multi-action parsing, mundane detail generation, clarification, constrained NPC dialogue, post-commit narrative rendering, validation, streaming, and failure recovery.
+- Defer AI-generated approach suggestions until the primary freeform loop is proven in play.
 
 ### Milestone 4 — Complete and host
 
