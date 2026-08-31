@@ -6,13 +6,13 @@ Veyra is a professional thief who specializes in religious and antiquarian objec
 
 ## The contract
 
-A wealthy collector has long sought a jeweled reliquary believed to remain in the drowned cathedral's treasury. The cathedral was inaccessible until the council opened the Breach Stair in response to the Bell. The collector hires Veyra to exploit that opportunity, pays half in advance, and expects the reliquary in return.
+A wealthy collector has long sought a jeweled reliquary believed to remain in the drowned cathedral's treasury. The cathedral was inaccessible until the council opened the Drowned Stair in response to the Bell. The collector hires Veyra to exploit that opportunity, pays half in advance, and expects the reliquary in return.
 
 Veyra regards relics as valuable objects rather than sacred ones. She is accustomed to stealing from the dead and assumes they have no further claim on what was buried with them. The undead inside the cathedral will complicate that assumption, but the player determines whether Veyra changes her mind.
 
 ## Access
 
-Veyra has no authority to pass the city watch at the Breach Stair. Her professional experience and criminal contacts can help her assess the entrance, prepare a lie, or find a way around the guards, but they do not provide a secret route that skips the encounter.
+Veyra has no authority to pass the city watch at the Drowned Stair. Her professional experience and criminal contacts can help her assess the entrance, prepare a lie, or find a way around the guards, but they do not provide a secret route that skips the encounter.
 
 ## Unresolved
 

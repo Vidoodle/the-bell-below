@@ -14,7 +14,7 @@ Riona's oath is to the city's people, not merely to whoever gives her orders. Sh
 
 After the Bell's first toll, the council gives Riona the temporary office of Bell-Warden. Her sealed commission directs her to enter the drowned cathedral and stop the Bell before midnight. It does not contain a hidden order to preserve the Bell or conceal what she finds.
 
-The city watch has orders to admit Riona at the Breach Stair and assist her if asked. She is the only protagonist with automatic lawful access to the cathedral.
+The city watch has orders to admit Riona at the Drowned Stair and assist her if asked. She is the only protagonist with automatic lawful access to the cathedral.
 
 ## What Riona knows
 
@@ -25,4 +25,4 @@ Riona knows the public account of Saint Orra's miracle and the rumors that the f
 - Riona's age, family, and path into the civic order.
 - The civic order's structure, practices, and relationship with the church and council.
 - Whether Riona's paladin abilities are explicitly supernatural.
-- What authority the office of Bell-Warden grants beyond access to the Breach Stair.
+- What authority the office of Bell-Warden grants beyond access to the Drowned Stair.

@@ -6,6 +6,7 @@ A curated gothic-fantasy RPG demo with persistent world state and an AI DM groun
 
 - [Product and technical specification](docs/product-spec.md)
 - [AI-assisted play design](docs/game-design/ai-assisted-play.md)
+- [Engineering decisions](docs/decisions/README.md)
 - [Setting lore](docs/lore/README.md)
 
 ## Development

@@ -5,14 +5,14 @@ import type { BaseStats, Stat } from "../shared/stats";
 import { getRunCharacter } from "./api/characters";
 import { completePrologue, createRun, getRun } from "./api/runs";
 import { characters, findCharacter, type CharacterProfile } from "./content/characters";
-import { BreachStairScreen } from "./screens/BreachStairScreen";
+import { DrownedStairScreen } from "./screens/DrownedStairScreen";
 import { CharacterSelectionScreen } from "./screens/CharacterSelectionScreen";
 import { PrologueScreen } from "./screens/PrologueScreen";
 import { StatAllocationScreen } from "./screens/StatAllocationScreen";
 import { TitleScreen } from "./screens/TitleScreen";
 
 const runStorageKey = "the-bell-below.run";
-type View = "title" | "characters" | "stats" | "prologue" | "breach-stair";
+type View = "title" | "characters" | "stats" | "prologue" | "drowned-stair";
 const freshStats = (): BaseStats => ({ Might: 1, Grace: 1, Wits: 1, Presence: 1 });
 
 export function App() {
@@ -86,19 +86,19 @@ export function App() {
 
   const resumeRun = () => {
     if (!run || !activeCharacter) return;
-    setView(run.prologueCompletedAt ? "breach-stair" : "prologue");
+    setView(run.prologueCompletedAt ? "drowned-stair" : "prologue");
   };
 
-  const enterBreachStair = async () => {
+  const approachDrownedStair = async () => {
     if (!run) return;
     setContinuing(true);
     setRunError(undefined);
     try {
       const updatedRun = await completePrologue(run.id);
       setRun(updatedRun);
-      setView("breach-stair");
+      setView("drowned-stair");
     } catch (error) {
-      setRunError(error instanceof Error ? error.message : "The descent could not begin.");
+      setRunError(error instanceof Error ? error.message : "The approach could not begin.");
     } finally {
       setContinuing(false);
     }
@@ -122,10 +122,10 @@ export function App() {
     continuing={continuing}
     error={runError}
     onBack={() => setView("title")}
-    onContinue={enterBreachStair}
+    onContinue={approachDrownedStair}
   />;
 
-  if (view === "breach-stair" && run && activeCharacter) return <BreachStairScreen
+  if (view === "drowned-stair" && run && activeCharacter) return <DrownedStairScreen
     character={activeCharacter}
     onStartNewCharacter={() => setView("characters")}
   />;

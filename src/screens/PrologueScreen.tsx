@@ -34,7 +34,7 @@ export function PrologueScreen({
       </div>
       {error && <p className="run-error" role="alert">{error}</p>}
       <button className="choose" disabled={continuing} onClick={onContinue}>
-        {continuing ? "Opening the way…" : "Enter the Breach Stair"}
+        {continuing ? "Approaching the stair…" : "Approach the Drowned Stair"}
       </button>
     </section>
   </main>;

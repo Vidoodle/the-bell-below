@@ -4,10 +4,11 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 
 ## Before changing code
 
-- Read the Linear ticket, the relevant product specification, [the AI-assisted play design](docs/game-design/ai-assisted-play.md), and any applicable files under `docs/lore/`.
+- Read the Linear ticket, the relevant product specification, [the AI-assisted play design](docs/game-design/ai-assisted-play.md), applicable files under `docs/lore/`, and any relevant [engineering decisions](docs/decisions/README.md).
 - Inspect the existing implementation and tests around the feature before proposing new structure.
 - Preserve unrelated work in the working tree.
 - Discuss a change first if it alters the data model, adds a dependency, establishes a new cross-cutting abstraction, or substantially changes established architecture.
+- Record an accepted, durable architectural choice in a focused file under `docs/decisions/`. Update or supersede the existing decision when one changes; do not create decision records for routine implementation details.
 
 ## Code organization
 

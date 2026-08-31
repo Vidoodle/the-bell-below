@@ -22,7 +22,7 @@ Cael genuinely wants the truth exposed, but he also wants proof that he was righ
 
 ## Access
 
-Opening the Breach Stair gives Cael his first opportunity to search the cathedral itself. The church has warned the city watch not to admit him, making a direct approach harder for Cael than for the other protagonists.
+Opening the Drowned Stair gives Cael his first opportunity to search the cathedral itself. The church has warned the city watch not to admit him, making a direct approach harder for Cael than for the other protagonists.
 
 ## Unresolved
 

@@ -24,7 +24,7 @@ The demo contains:
 
 - one 60–90 minute adventure;
 - four pre-written protagonists with player-assigned stats;
-- five persistent locations;
+- six persistent locations;
 - three principal NPCs;
 - social, exploration, and combat resolution;
 - a six-segment pressure clock;
@@ -122,7 +122,7 @@ Contextual controls show clear, useful suggestions—not the exhaustive set of l
 
 ### 5.1 Premise
 
-The buried Bell of Mercy has begun to toll beneath Grayhaven. For forty years, the church has denied rumors that the flood-dead still walk behind the seals of Saint Orra's drowned cathedral. The priests now fear that the final toll at midnight will break those seals. The protagonist enters through the guarded Breach Stair to silence the bell before that happens.
+The buried Bell of Mercy has begun to toll beneath Grayhaven. For forty years, the church has denied rumors that the flood-dead still walk behind the seals of Saint Orra's drowned cathedral. The priests now fear that the final toll at midnight will break those seals. The protagonist enters through the guarded Drowned Stair to silence the bell before that happens.
 
 The authored truth is immutable: during the siege, the cathedral diverted death from the city into refugees sheltering below. The miracle that saved Grayhaven bound those victims to the bell and erased their sacrifice from official history. Characters may know, misunderstand, conceal, or lie about this truth; the DM cannot replace it.
 
@@ -150,11 +150,12 @@ The authored truth is immutable: during the siege, the cathedral diverted death 
 
 ### 5.3 Locations
 
-1. **The Breach Stair** — entrance, tutorial, and retreat point.
-2. **The Drowned Nave** — central hub; contains the keeper's refuge and changes as water rises.
-3. **The Ossuary Archive** — remains, altered records, wards, and evidence of the erased refugees.
-4. **The Chain Cistern** — bell machinery, vertical and water hazards, optional bound spirit, and alternate crypt access.
-5. **The Bell Crypt** — final encounter and ending resolution.
+1. **The Drowned Stair** — entrance, tutorial, and retreat point.
+2. **The Cathedral Close** — flooded courtyard and surrounding precinct outside the cathedral.
+3. **The Drowned Nave** — central hub; contains the keeper's refuge and changes as water rises.
+4. **The Ossuary Archive** — remains, altered records, wards, and evidence of the erased refugees.
+5. **The Chain Cistern** — bell machinery, vertical and water hazards, optional bound spirit, and alternate crypt access.
+6. **The Bell Crypt** — final encounter and ending resolution.
 
 Each location records exits, occupants, objects, hazards, discoveries, environmental stage, and changes caused by actions or the clock.
 
@@ -204,7 +205,7 @@ All protagonists are adults with fixed identities, concise histories, personal s
 ### Veyra Sable — The Relic Thief
 
 - **Benefit:** +1 Grace
-- **Stake:** Veyra was hired to steal a jeweled reliquary while the Breach Stair is open.
+- **Stake:** Veyra was hired to steal a jeweled reliquary while the Drowned Stair is open.
 - **Access:** professional experience and criminal contacts that support different approaches to the guarded entrance.
 
 ### Brother Cael — The Heretic

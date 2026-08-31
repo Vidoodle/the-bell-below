@@ -1,0 +1,11 @@
+declare const npcIdBrand: unique symbol;
+
+export type NpcId = string & { readonly [npcIdBrand]: "npc" };
+
+export const npcId = <Value extends string>(value: Value) => value as Value & NpcId;
+
+export type NpcDefinition = Readonly<{
+  id: NpcId;
+  name: string;
+  description: string;
+}>;

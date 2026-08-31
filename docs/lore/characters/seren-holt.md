@@ -30,7 +30,7 @@ Seren has no commission to enter the cathedral. When the bell begins to toll, pa
 
 That compulsion does not determine what Seren will do below. He may preserve the binding, expose the crime, free the dead, or act from self-preservation. The choice belongs to the player.
 
-The city watch knows Seren by reputation, and its senior officers know the honored account of his actions during the siege. That gives him a plausible way to persuade the guards at the Breach Stair without granting him Riona's automatic access.
+The city watch knows Seren by reputation, and its senior officers know the honored account of his actions during the siege. That gives him a plausible way to persuade the guards at the Drowned Stair without granting him Riona's automatic access.
 
 ## Unresolved
 
