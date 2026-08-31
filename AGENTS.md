@@ -4,7 +4,7 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 
 ## Before changing code
 
-- Read the Linear ticket, the relevant product specification, and any applicable files under `docs/lore/`.
+- Read the Linear ticket, the relevant product specification, [the AI-assisted play design](docs/game-design/ai-assisted-play.md), and any applicable files under `docs/lore/`.
 - Inspect the existing implementation and tests around the feature before proposing new structure.
 - Preserve unrelated work in the working tree.
 - Discuss a change first if it alters the data model, adds a dependency, establishes a new cross-cutting abstraction, or substantially changes established architecture.
@@ -33,7 +33,11 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 ## Gameplay and lore
 
 - Prefer the smallest end-to-end playable behavior over disconnected setup work.
-- Keep authored mechanics deterministic and server-owned. An LLM may interpret intent or narrate an outcome, but it must not silently decide rules, difficulty, success, or committed state.
+- Treat an authored scene as a situation with participants, stakes, boundaries, and legal transitions, not as a dialogue tree or a list of every possible player action.
+- Keep protected truth and major content in server-only authored definitions, per-run consequences in committed state, and generated prose in presentation. Do not blur these categories for implementation convenience.
+- Keep mechanics server-owned and reproducible from committed state, a validated proposal, and a random seed. An LLM may interpret intent, choose among authorized NPC behaviors, or narrate an outcome, but it must not decide rules, difficulty, success, or committed state.
+- Treat all model output that would affect future legality or outcomes as a proposal. Validate it, assign any runtime identity, and commit it before narration.
+- Keep principal NPCs, major discoveries, important resources, secret routes, and endings authored. Generated entities must be mundane, bounded, run-scoped, and unable to introduce protected knowledge or dramatic authority.
 - Commit mechanical outcomes before requesting narration, and make narration retryable without resolving the action again.
 - Treat established lore as source material, not filler to rewrite during implementation. Put new canon in the relevant focused file under `docs/lore/`; do not create a single catch-all lore document.
 
