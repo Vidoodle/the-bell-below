@@ -4,15 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run build:server && concurrently --kill-others --names types,api,web \"tsc -p tsconfig.server.json --watch --preserveWatchOutput\" \"node --watch .server-dist/server.js\" \"vite\"",
+    "dev": "pnpm run build:server && concurrently --kill-others --names types,api,web \"tsc -p tsconfig.server.json --watch --preserveWatchOutput\" \"node --watch scripts/run-local-server.mjs\" \"vite\"",
     "build": "tsc && pnpm run build:server && vite build",
     "build:server": "rimraf .server-dist && tsc -p tsconfig.server.json",
     "db:check": "drizzle-kit check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:local": "node scripts/manage-local-postgres.mjs migrate",
+    "db:reset": "node scripts/manage-local-postgres.mjs reset",
+    "db:setup": "node scripts/manage-local-postgres.mjs setup",
+    "db:start": "node scripts/manage-local-postgres.mjs start",
+    "db:stop": "node scripts/manage-local-postgres.mjs stop",
     "start": "node .server-dist/server.js --production",
     "test": "pnpm run build:server && node --test \".server-dist/**/*.test.js\"",
-    "test:integration": "pnpm run build:server && node --test .server-dist/server/runs/persistence.integration.js"
+    "test:integration": "node scripts/run-postgres-integration.mjs",
+    "test:integration:database": "pnpm run build:server && node --test .server-dist/server/runs/persistence.integration.js"
   },
   "dependencies": {
     "@fastify/static": "^10.1.3",

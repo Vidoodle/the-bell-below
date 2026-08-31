@@ -18,6 +18,28 @@ if (!databaseUrl) {
   throw new Error("TEST_DATABASE_URL is required for PostgreSQL integration tests.");
 }
 
+function databaseIdentity(value: string) {
+  const url = new URL(value);
+  const loopbackHosts = new Set(["127.0.0.1", "::1", "localhost"]);
+  const normalizedHost = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, "");
+  const host = loopbackHosts.has(normalizedHost) ? "loopback" : normalizedHost;
+  return `${host}:${url.port || "5432"}/${decodeURIComponent(url.pathname).replace(/^\/+/, "")}`;
+}
+
+const databaseName = decodeURIComponent(new URL(databaseUrl).pathname).replace(/^\/+/, "");
+if (!databaseName.toLowerCase().endsWith("_test")) {
+  throw new Error("TEST_DATABASE_URL must identify a database whose name ends with '_test'.");
+}
+if (
+  process.env.BELL_BELOW_MANAGED_TEST_DATABASE !== "1"
+  && process.env.BELL_BELOW_EXTERNAL_TEST_DATABASE_CONFIRMED !== "1"
+) {
+  throw new Error("The integration test requires a managed database or explicit external confirmation.");
+}
+if (process.env.DATABASE_URL && databaseIdentity(databaseUrl) === databaseIdentity(process.env.DATABASE_URL)) {
+  throw new Error("TEST_DATABASE_URL must not be the development or production DATABASE_URL.");
+}
+
 function createStorage(database: ReturnType<typeof createDatabase>["database"]) {
   const runReader = createPostgresRunReader(database);
   return {

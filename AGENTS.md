@@ -49,4 +49,4 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 - Prefer pure unit tests for domain rules, route tests for HTTP contracts, and integration tests for behavior that genuinely depends on PostgreSQL.
 - Keep changes as small as the coherent feature permits. There is no mechanical line limit, but remove speculative abstractions, duplicate logic, and unrelated cleanup before review.
 - Review the complete diff yourself. Confirm naming and file boundaries still make sense once the implementation is finished.
-- Run `pnpm test` and `pnpm build`. For database changes, also run `pnpm db:check` and the PostgreSQL integration test when `TEST_DATABASE_URL` is available.
+- Run `pnpm test` and `pnpm build`. For database changes, also run `pnpm db:check` and `pnpm test:integration`; the integration command provisions its own isolated PostgreSQL database when Docker is available.

@@ -4,6 +4,7 @@ import { apiPrefix } from "./shared/api.ts";
 export default defineConfig({
   server: {
     host: "127.0.0.1",
+    strictPort: true,
     proxy: {
       [apiPrefix]: "http://127.0.0.1:5174",
     },

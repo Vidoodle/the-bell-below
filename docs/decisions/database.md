@@ -4,7 +4,7 @@ Status: accepted.
 
 ## Decision
 
-PostgreSQL is the persistent store for canonical run state. Starting the executable server requires `DATABASE_URL`.
+PostgreSQL is the persistent store for canonical run state. Executable server startup requires `DATABASE_URL`; the explicit development command supplies the repository-managed database described in [Local PostgreSQL workflows](local-postgresql-workflows.md).
 
 The in-memory implementation is an interchangeable adapter used for unit tests and dependency injection. It is not production persistence. Authored adventure definitions remain in server-side source files; they are not copied into PostgreSQL merely to make them queryable.
 
