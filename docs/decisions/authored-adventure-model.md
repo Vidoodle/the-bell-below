@@ -10,6 +10,7 @@ An `Adventure` is the validated, server-only package of authored locations, scen
 - A scene is an authored situation anchored to exactly one location.
 - An NPC is adventure-scoped and may appear in multiple scenes.
 - A scene's `initialNpcIds` identify the authored NPCs present when that situation begins. The scene does not own them.
+- A scene catalogs its content-defined phase IDs and identifies its initial phase. Phase IDs have meaning only within that scene and are validated by the Adventure rather than enumerated in the database schema.
 - A collective group is an adventure-scoped identity with reusable protected facts, without the personal identity, judgment, goals, knowledge, or memories of an NPC.
 - A scene's group participation records which collective group is present, how it appears to the player, and its initial disposition in that situation. The scene does not own the group definition.
 - An NPC records its typed initial reputation toward each authored protagonist. The server selects the active protagonist's reputation when it builds a presentation instead of exposing the full authored map. Changes during play belong to per-run NPC state.

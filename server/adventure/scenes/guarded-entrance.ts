@@ -2,7 +2,9 @@ import { gatheredCrowd } from "../groups/gathered-crowd.js";
 import { guardDetail } from "../groups/guard-detail.js";
 import { drownedStair } from "../locations/drowned-stair.js";
 import { watchSergeant } from "../npcs/watch-sergeant.js";
-import { sceneId, type SceneDefinition } from "./model.js";
+import { sceneId, scenePhaseId, type SceneDefinition } from "./model.js";
+
+export const guardedEntranceInitialPhaseId = scenePhaseId("guarded");
 
 export const guardedEntrance = {
   id: sceneId("guarded-entrance"),
@@ -10,6 +12,8 @@ export const guardedEntrance = {
   title: "The Guarded Descent",
   description: "A watch sergeant controls the reopened gate at the upper landing while a guard detail keeps the gathered crowd behind the cordon.",
   initialNpcIds: [watchSergeant.id],
+  initialPhaseId: guardedEntranceInitialPhaseId,
+  phaseIds: [guardedEntranceInitialPhaseId],
   groupParticipations: [
     {
       groupId: guardDetail.id,

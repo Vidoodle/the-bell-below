@@ -14,7 +14,7 @@ import { locationId } from "./locations/model.js";
 import { npcId } from "./npcs/model.js";
 import { watchSergeant } from "./npcs/watch-sergeant.js";
 import { guardedEntrance } from "./scenes/guarded-entrance.js";
-import { sceneId } from "./scenes/model.js";
+import { sceneId, scenePhaseId } from "./scenes/model.js";
 
 const opening: AdventureContent = {
   initialSceneId: guardedEntrance.id,
@@ -37,6 +37,7 @@ test("defines the opening adventure content", () => {
   );
   assert.equal(theBellBelow.groups.get(guardDetail.id), guardDetail);
   assert.equal(theBellBelow.groups.get(gatheredCrowd.id), gatheredCrowd);
+  assert.equal(guardedEntrance.initialPhaseId, scenePhaseId("guarded"));
 });
 
 test("rejects duplicate authored IDs", () => {
@@ -51,6 +52,29 @@ test("rejects duplicate group IDs", () => {
     () => createAdventure({ ...opening, groups: [guardDetail, guardDetail] }),
     /Duplicate group ID/,
   );
+});
+
+test("validates authored scene phases", async (context) => {
+  await context.test("duplicate phase IDs", () => {
+    const scene = {
+      ...guardedEntrance,
+      phaseIds: [guardedEntrance.initialPhaseId, guardedEntrance.initialPhaseId],
+    };
+    assert.throws(
+      () => createAdventure({ ...opening, scenes: [scene] }),
+      /duplicate phase IDs/,
+    );
+  });
+  await context.test("missing initial phase", () => {
+    const scene = {
+      ...guardedEntrance,
+      phaseIds: [scenePhaseId("another-phase")],
+    };
+    assert.throws(
+      () => createAdventure({ ...opening, scenes: [scene] }),
+      /does not include initial phase/,
+    );
+  });
 });
 
 test("rejects missing authored references", async (context) => {

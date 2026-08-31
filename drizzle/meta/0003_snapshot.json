@@ -1,0 +1,256 @@
+{
+  "id": "e0caa5ac-5f37-421e-bb71-fb30f9707855",
+  "prevId": "cc46c6ac-a38c-4642-8489-3c6e74b13451",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.characters": {
+      "name": "characters",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "protagonist_id": {
+          "name": "protagonist_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "might": {
+          "name": "might",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grace": {
+          "name": "grace",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wits": {
+          "name": "wits",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "presence": {
+          "name": "presence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "characters_run_id_runs_id_fk": {
+          "name": "characters_run_id_runs_id_fk",
+          "tableFrom": "characters",
+          "tableTo": "runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "characters_run_id_unique": {
+          "name": "characters_run_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "run_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "characters_id_format": {
+          "name": "characters_id_format",
+          "value": "\"characters\".\"id\" ~ '^char[0-9a-f]{30}$'"
+        },
+        "characters_protagonist": {
+          "name": "characters_protagonist",
+          "value": "\"characters\".\"protagonist_id\" IN ('seren', 'veyra', 'cael', 'riona')"
+        },
+        "characters_might_range": {
+          "name": "characters_might_range",
+          "value": "\"characters\".\"might\" BETWEEN 1 AND 5"
+        },
+        "characters_grace_range": {
+          "name": "characters_grace_range",
+          "value": "\"characters\".\"grace\" BETWEEN 1 AND 5"
+        },
+        "characters_wits_range": {
+          "name": "characters_wits_range",
+          "value": "\"characters\".\"wits\" BETWEEN 1 AND 5"
+        },
+        "characters_presence_range": {
+          "name": "characters_presence_range",
+          "value": "\"characters\".\"presence\" BETWEEN 1 AND 5"
+        },
+        "characters_stat_total": {
+          "name": "characters_stat_total",
+          "value": "\"characters\".\"might\" + \"characters\".\"grace\" + \"characters\".\"wits\" + \"characters\".\"presence\" = 12"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.runs": {
+      "name": "runs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "prologue_completed_at": {
+          "name": "prologue_completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_scene_id": {
+          "name": "current_scene_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "runs_id_format": {
+          "name": "runs_id_format",
+          "value": "\"runs\".\"id\" ~ '^runs[0-9a-f]{30}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.run_scene_states": {
+      "name": "run_scene_states",
+      "schema": "",
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scene_id": {
+          "name": "scene_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phase_id": {
+          "name": "phase_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "run_scene_states_run_id_runs_id_fk": {
+          "name": "run_scene_states_run_id_runs_id_fk",
+          "tableFrom": "run_scene_states",
+          "tableTo": "runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "run_scene_states_run_id_scene_id_pk": {
+          "name": "run_scene_states_run_id_scene_id_pk",
+          "columns": [
+            "run_id",
+            "scene_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

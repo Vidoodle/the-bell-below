@@ -6,6 +6,7 @@ import {
   type RunParams,
 } from "../../shared/run.js";
 import type { CreateRun } from "./create.js";
+import type { RunScenePosition } from "../scenes/model.js";
 import type { RunReader } from "./reader.js";
 import type { RunWriter } from "./writer.js";
 
@@ -14,6 +15,7 @@ type RunRoutesOptions = {
   reader: RunReader;
   writer: RunWriter;
   now: () => string;
+  initialScene: RunScenePosition;
 };
 
 export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, options) => {
@@ -33,7 +35,11 @@ export const runRoutes: FastifyPluginAsync<RunRoutesOptions> = async (server, op
   server.post<{ Params: RunParams }>("/:id/prologue", {
     schema: { params: RunParamsSchema },
   }, async (request, reply) => {
-    const run = await options.writer.completePrologue(request.params.id, options.now());
+    const run = await options.writer.completePrologue(
+      request.params.id,
+      options.now(),
+      options.initialScene,
+    );
     return run ?? reply.code(404).send({ error: "Run not found." });
   });
 };

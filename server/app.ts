@@ -16,6 +16,8 @@ import { buildCreateRun } from "./runs/create.js";
 import type { RunReader } from "./runs/reader.js";
 import { runRoutes } from "./runs/routes.js";
 import type { RunWriter } from "./runs/writer.js";
+import { initialRunScenePosition } from "./scenes/model.js";
+import type { RunSceneReader } from "./scenes/reader.js";
 import { sceneRoutes } from "./scenes/routes.js";
 import { StorageError } from "./storage-error.js";
 
@@ -27,6 +29,7 @@ type ServerOptions = {
   runReader?: RunReader;
   runWriter?: RunWriter;
   characterReader?: CharacterReader;
+  runSceneReader?: RunSceneReader;
   adventure?: Adventure;
 };
 
@@ -35,6 +38,8 @@ export function buildServer(options: ServerOptions = {}) {
   const runReader = options.runReader ?? memory.runReader;
   const runWriter = options.runWriter ?? memory.runWriter;
   const characterReader = options.characterReader ?? memory.characterReader;
+  const runSceneReader = options.runSceneReader ?? memory.runSceneReader;
+  const adventure = options.adventure ?? theBellBelow;
   const createRun = buildCreateRun({
     writer: runWriter,
     createCharacterId: options.createCharacterId ?? createCharacterId,
@@ -49,6 +54,7 @@ export function buildServer(options: ServerOptions = {}) {
     reader: runReader,
     writer: runWriter,
     now: options.now ?? (() => new Date().toISOString()),
+    initialScene: initialRunScenePosition(adventure),
   });
   server.register(characterRoutes, {
     prefix: runsPath,
@@ -56,9 +62,10 @@ export function buildServer(options: ServerOptions = {}) {
   });
   server.register(sceneRoutes, {
     prefix: runsPath,
-    adventure: options.adventure ?? theBellBelow,
+    adventure,
     runReader,
     characterReader,
+    runSceneReader,
   });
 
   if (options.production) {

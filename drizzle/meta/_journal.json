@@ -22,6 +22,13 @@
       "when": 1788093796786,
       "tag": "0002_thin_spitfire",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788183661218,
+      "tag": "0003_slim_excalibur",
+      "breakpoints": true
     }
   ]
 }

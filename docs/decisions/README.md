@@ -11,5 +11,6 @@ When a decision changes, mark the old document as superseded and link to its rep
 - [Local PostgreSQL workflows](local-postgresql-workflows.md)
 - [Entity identifiers](entity-identifiers.md)
 - [Run and character ownership](run-and-character-ownership.md)
+- [Run scene state](run-scene-state.md)
 - [Authored adventure model](authored-adventure-model.md)
 - [AI authority](ai-authority.md)

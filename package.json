@@ -18,7 +18,7 @@
     "start": "node .server-dist/server.js --production",
     "test": "pnpm run build:server && node --test \".server-dist/**/*.test.js\"",
     "test:integration": "node scripts/run-postgres-integration.mjs",
-    "test:integration:database": "pnpm run build:server && node --test .server-dist/server/runs/persistence.integration.js"
+    "test:integration:database": "pnpm run build:server && node --test .server-dist/server/runs/persistence.integration-test.js"
   },
   "dependencies": {
     "@fastify/static": "^10.1.3",

@@ -53,6 +53,7 @@ test("serves the observable initial scene for every protagonist", async (context
           scene: {
             title: "The Guarded Descent",
             description: "A watch sergeant controls the reopened gate at the upper landing while a guard detail keeps the gathered crowd behind the cordon.",
+            phase: "guarded",
           },
           npcs: [{
             name: "Watch Sergeant",
@@ -103,4 +104,28 @@ test("requires an existing prologue-complete run", async (context) => {
     assert.equal(response.statusCode, 409);
     assert.deepEqual(response.json(), { error: "Prologue is not complete." });
   });
+});
+
+test("rejects persisted scene references outside the authored adventure", async () => {
+  const server = buildServer({
+    createRunId: () => runId,
+    createCharacterId: () => characterId,
+    runSceneReader: {
+      async find() {
+        return undefined;
+      },
+      async findCurrent(id) {
+        return { runId: id, sceneId: "guarded-entrance", phaseId: "unknown-phase" };
+      },
+    },
+  });
+  await createRun(server, "seren");
+  await server.inject({ method: "POST", url: `/api/runs/${runId}/prologue` });
+
+  const response = await server.inject({
+    method: "GET",
+    url: `/api/runs/${runId}/current-scene`,
+  });
+  assert.equal(response.statusCode, 500);
+  assert.deepEqual(response.json(), { error: "Internal server error." });
 });

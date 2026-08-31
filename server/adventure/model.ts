@@ -67,6 +67,15 @@ export function createAdventure(content: AdventureContent): Adventure {
         );
       }
     }
+    const phaseIds = new Set(scene.phaseIds);
+    if (phaseIds.size !== scene.phaseIds.length) {
+      throw new AdventureValidationError(`Scene ${scene.id} has duplicate phase IDs.`);
+    }
+    if (!phaseIds.has(scene.initialPhaseId)) {
+      throw new AdventureValidationError(
+        `Scene ${scene.id} does not include initial phase ${scene.initialPhaseId}.`,
+      );
+    }
   }
 
   return {

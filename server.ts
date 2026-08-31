@@ -3,6 +3,7 @@ import { createPostgresCharacterReader } from "./server/characters/reader.js";
 import { createDatabase } from "./server/db/client.js";
 import { createPostgresRunReader } from "./server/runs/reader.js";
 import { createPostgresRunWriter } from "./server/runs/writer.js";
+import { createPostgresRunSceneReader } from "./server/scenes/reader.js";
 
 const production = process.argv.includes("--production");
 const port = Number(process.env.PORT) || (production ? 5173 : 5174);
@@ -20,6 +21,7 @@ const server = buildServer({
   runReader,
   runWriter: createPostgresRunWriter(connection.database, runReader),
   characterReader: createPostgresCharacterReader(connection.database),
+  runSceneReader: createPostgresRunSceneReader(connection.database),
 });
 server.addHook("onClose", connection.close);
 

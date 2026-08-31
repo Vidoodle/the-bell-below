@@ -8,6 +8,7 @@ export type CurrentScenePresentation = Readonly<{
   scene: Readonly<{
     title: string;
     description: string;
+    phase: string;
   }>;
   npcs: readonly Readonly<{
     name: string;

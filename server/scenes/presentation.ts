@@ -1,11 +1,12 @@
 import type { CurrentScenePresentation } from "../../shared/current-scene.js";
 import type { ProtagonistId } from "../../shared/protagonist.js";
 import type { Adventure } from "../adventure/model.js";
-import type { SceneId } from "../adventure/scenes/model.js";
+import type { SceneId, ScenePhaseId } from "../adventure/scenes/model.js";
 
 export function createScenePresentation(
   adventure: Adventure,
   sceneId: SceneId,
+  phaseId: ScenePhaseId,
   protagonistId: ProtagonistId,
 ): CurrentScenePresentation {
   const scene = adventure.scenes.get(sceneId);
@@ -35,7 +36,7 @@ export function createScenePresentation(
 
   return {
     location: { name: location.name, description: location.description },
-    scene: { title: scene.title, description: scene.description },
+    scene: { title: scene.title, description: scene.description, phase: phaseId },
     npcs,
     groups,
   };
