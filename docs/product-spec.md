@@ -63,7 +63,7 @@ The DM may:
 
 - interpret the player's goal, approach, targets, and flavor;
 - decompose a submission into mechanically significant actions;
-- classify an action as routine, check, impossible, or clarify;
+- classify an action as routine, check, infeasible, or clarify;
 - select a relevant stat and concrete difficulty from the supported scale, citing the current facts and circumstances that justify them;
 - propose stakes and bounded success, failure, and critical effects;
 - recognize novel solutions to authored obstacles;
@@ -244,17 +244,21 @@ Stats are the only mechanical choices made during protagonist creation. Equipmen
 
 Uncertain, feasible, consequential actions use:
 
-`d10 + stat + situational modifiers` versus difficulty 7, 9, 11, or 13.
+`d10 + stat + situational modifiers` versus difficulty 5, 7, 9, 11, 13, or 15.
 
-Advantage and disadvantage use two d10s and keep the higher or lower. A natural 10 or 1 has no automatic critical meaning. Critical effects require an explicit authored or rules-bounded outcome predicate and cannot make an impossible action possible.
+Advantage and disadvantage use two d10s and keep the higher or lower. When the kept d10 is a natural 10, roll one non-exploding d8 luck die and add it to the total. A natural 1 has no extra penalty. A natural 10 is not automatic success, and neither face alone authorizes a critical effect.
 
 Each stat point changes the success chance of an unclamped check by ten percentage points. The full effective stat range from 1 to 6 therefore changes the chance by fifty percentage points, making protagonist strengths and weaknesses consequential rather than letting the die dominate them.
 
-The engine does not roll a check with no uncertainty. If the validated minimum total already meets the DV, the action is routine; if the validated maximum total cannot meet it, that protagonist and approach are impossible without some further change in circumstances.
+Routine is an AI DM classification for an action that does not warrant a check; it is not inferred from a 100% success probability. Once an accepted action is classified as a check, the server always rolls it. A 100% check is presented as **Trivial** and still requires confirmation. A requested outcome that contradicts established truth or cannot be produced by the approach is infeasible and receives no roll. A check with a success chance greater than zero and at most ten percent is presented as **Impossible**, but remains confirmable; for example, Might 1 against DV 15 succeeds 6.25% of the time because a kept 10 followed by a luck-die result of 4–8 reaches the DV.
+
+Persist the final total and margin from the relevant DV or outcome threshold for narration. A total of 24 against DV 5 should be narrated as qualitatively more commanding than a total that only meets the DV, even though both succeed. Margin alone cannot authorize extra state changes, discoveries, concessions, damage, or other mechanical effects.
+
+Feasibility depends on both outcome and method within the current fiction. Fighting through the Drowned Stair guards can be an Impossible-rated check because it remains within mortal capability. Creating a tunnel to the keep through solid ground by applying Might alone is infeasible; the engine must not turn an invalid approach into a lottery. Tools, time, established magic, or changed circumstances may make a different tunneling approach eligible for a new ruling.
 
 The AI DM proposes a concrete difficulty from the supported scale using the complete relevant context: the attempted outcome and method, character history and capabilities, relationships, leverage, obstacle state, equipment, conditions, and current environment. It must cite the supplied facts that materially raised or lowered the difficulty.
 
-An authored obstacle may specify fixed routine or impossible conditions, a baseline or allowed difficulty range, protected facts, permitted concessions, and bounded consequences. It defines what is true and what may change, not every approach a player might attempt. Improvised tasks use configured global bounds. The engine validates the AI DM's internal fact citations, disclosure-safe rationale, difficulty, modifiers, stakes, and effects before rolling.
+An authored obstacle may specify fixed routine or infeasible conditions, a baseline or allowed difficulty range, protected facts, permitted concessions, and bounded consequences. It defines what is true and what may change, not every approach a player might attempt. Improvised tasks use configured global bounds. The engine validates the AI DM's internal fact citations, disclosure-safe rationale, difficulty, modifiers, stakes, and effects before rolling.
 
 Outside combat, cited narrative circumstances normally explain the final DV. Numeric modifiers come from explicit engine-owned effects such as equipment, conditions, assistance, or an established bonus. The same circumstance cannot change the DV and also supply a modifier. Structured combat uses fixed defenses; contextual factors there may instead justify a validated modifier or advantage and disadvantage.
 
@@ -266,7 +270,7 @@ Resolved actions select effects from an engine-owned vocabulary. Important autho
 
 Ordinary conversation is freeform and requires no check. A social check occurs when the player attempts to overcome meaningful resistance: obtaining a withheld concession, sustaining a consequential lie, coercing compliance, or changing an NPC's committed course.
 
-The AI DM identifies the argument and requested outcome, evaluates leverage, relationship state, contradictions, promises, and circumstances, and classifies the exchange as routine, check, impossible, or clarify. A social check uses the AI DM's validated stat and contextual difficulty. Success grants only a concession permitted by the NPC and authored situation.
+The AI DM identifies the argument and requested outcome, evaluates leverage, relationship state, contradictions, promises, and circumstances, and classifies the exchange as routine, check, infeasible, or clarify. A social check uses the AI DM's validated stat and contextual difficulty. Success grants only a concession permitted by the NPC and authored situation.
 
 ### 7.4 Combat and action economy
 
@@ -302,7 +306,7 @@ For each submission:
 
 1. Persist the player's exact text.
 2. Build a bounded AI DM context from observable scene state, relevant authored facts, character history, relationships, equipment, conditions, and recent committed events.
-3. Ask the AI DM for a structured adjudication: routine, check, impossible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, internal fact citations, a disclosure-safe rationale, stakes, and bounded effects.
+3. Ask the AI DM for a structured adjudication: routine, check, infeasible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, internal fact citations, a disclosure-safe rationale, stakes, and bounded effects.
 4. Resolve references against the observable world.
 5. Instantiate any permitted mundane detail required by the proposal.
 6. Validate feasibility, protected state, cited facts, difficulty bounds, modifiers, targets, costs, preconditions, stakes, and effects.
@@ -311,7 +315,7 @@ For each submission:
 9. Apply the transition atomically and persist current state.
 10. Ask the AI DM to generate dialogue or narration from the committed adjudication and result, then validate the presentation.
 
-The adjudication context may include relevant hidden obstacle facts tagged with disclosure rules when the AI DM needs them to determine whether observation or investigation is routine, a check, or impossible. Internal citations identify the facts used to validate the ruling; the mechanics display and generated prose may include only a separate disclosure-safe rationale. Adjudication, narration, and future suggestion calls are separate stateless provider requests with explicit context. Player-facing stages receive only facts made observable by committed state.
+The adjudication context may include relevant hidden obstacle facts tagged with disclosure rules when the AI DM needs them to determine whether observation or investigation is routine, a check, or infeasible. Internal citations identify the facts used to validate the ruling; the mechanics display and generated prose may include only a separate disclosure-safe rationale. Adjudication, narration, and future suggestion calls are separate stateless provider requests with explicit context. Player-facing stages receive only facts made observable by committed state.
 
 Player text is game content, never system instruction. Attempts to reveal prompts, change hidden state, impersonate the engine, or declare unearned outcomes receive no special authority.
 

@@ -16,7 +16,7 @@ Different parts of the system have different authority:
 | Stat catalog, check scale, resources, action and effect vocabulary, and campaign-specific rules | Campaign definitions |
 | Situation invariants, protected facts, obstacle bounds, permitted concessions, and ending predicates | Authored adventure definitions |
 | Current location, relationships, resources, consequences, and other run history | Committed run state |
-| Interpretation, routine/check/impossible/clarify classification, stat choice, contextual difficulty, stakes, and selection among permitted NPC behaviors | AI DM adjudication proposals |
+| Interpretation, routine/check/infeasible/clarify classification, stat choice, contextual difficulty, stakes, and selection among permitted NPC behaviors | AI DM adjudication proposals |
 | Proposal validation, action economy, random resolution, effect commitment, and ending eligibility | Rules engine |
 | Dialogue, narration, and atmospheric phrasing | AI DM presentation |
 
@@ -32,8 +32,10 @@ The AI DM returns a structured adjudication:
 
 - **routine** when the attempt is feasible and no meaningful uncertainty or resistance warrants a roll;
 - **check** with a relevant stat, concrete difficulty, internal fact citations, a disclosure-safe rationale, stakes, and bounded effects;
-- **impossible** when the requested outcome contradicts established truth or exceeds what the approach can accomplish;
+- **infeasible** when the requested outcome contradicts established truth or exceeds what the approach can accomplish;
 - **clarify** when different reasonable interpretations would materially change risk, cost, target, or outcome.
+
+The AI DM judges feasibility from the requested outcome, the stated approach, the protagonist's capabilities, available tools, time, and the physical and supernatural limits of the setting. Fighting through a guard cordon may be an Impossible-rated check because extraordinary luck could still carry it. Creating a tunnel to the keep through solid ground by applying Might alone is infeasible and receives no roll. If different tools, time, or circumstances could make a superficially similar plan plausible, the AI DM evaluates that materially different approach instead of treating the outcome phrase in isolation.
 
 The server resolves references, validates the proposal, persists the accepted adjudication, rolls if required, and commits the result atomically. Only then does the AI DM receive the committed result for dialogue and narration. Retrying interpretation, delivery, or narration must not produce a second ruling or roll for the same accepted action.
 
@@ -46,7 +48,7 @@ An authored scene defines a situation rather than every possible exchange or pla
 - the location and observable conditions;
 - who is present;
 - what the participants want, know, fear, and refuse;
-- obstacle invariants, any fixed routine or impossible conditions, and optional baseline or bounded difficulty guidance;
+- obstacle invariants, any fixed routine or infeasible conditions, and optional baseline or bounded difficulty guidance;
 - legal concessions, consequence vocabulary, and transitions;
 - any protected facts or resources the scene cannot invent.
 
@@ -54,11 +56,11 @@ Authors do not enumerate every persuasive argument, investigative method, combat
 
 ## Contextual difficulty
 
-*The Bell Below* checks use `d10 + stat + situational modifiers` against 7, 9, 11, or 13. Each stat point changes the success chance of an unclamped check by ten percentage points, so the effective stat range from 1 to 6 expresses a meaningful character strength or weakness. The AI DM selects the concrete difficulty and relevant stat from the active campaign's supplied catalog using the attempted outcome, method, protagonist history, relationships, leverage, obstacle state, equipment, conditions, and environment. It cites only facts present in its supplied context.
+*The Bell Below* checks use `d10 + stat + situational modifiers` against 5, 7, 9, 11, 13, or 15. Each stat point changes the ordinary success chance by ten percentage points, so the effective stat range from 1 to 6 expresses a meaningful character strength or weakness. The AI DM selects the concrete difficulty and relevant stat from the active campaign's supplied catalog using the attempted outcome, method, protagonist history, relationships, leverage, obstacle state, equipment, conditions, and environment. It cites only facts present in its supplied context.
 
-Advantage and disadvantage roll two d10s and keep the higher or lower. A natural 10 or 1 has no automatic critical meaning; any critical effect must come from an explicit authored or rules-bounded outcome predicate.
+Advantage and disadvantage roll two d10s and keep the higher or lower. When the kept d10 is a natural 10, roll one non-exploding d8 luck die and add it to the total. A natural 1 has no extra penalty. A natural 10 is not automatic success, and neither face alone authorizes a critical effect.
 
-The engine rejects a proposed check with no uncertainty. If the validated minimum total already meets the DV, the adjudication is routine; if the validated maximum total cannot meet it, the attempted approach is impossible in the current context. It does not perform a ceremonial roll with a guaranteed result.
+Routine is a semantic AI DM ruling for an action that does not warrant a check; it is not derived from a 100% success probability. Once an accepted action is classified as a check, the server always rolls it. A 100% check is presented as **Trivial**, and the committed total and margin inform how the AI DM narrates the quality of the attempt. Margin alone cannot grant additional mechanical effects. A requested outcome that the approach cannot produce remains infeasible and receives no roll.
 
 An authored obstacle may fix a difficulty when the fiction genuinely supports one stable challenge, or provide a baseline or allowed range. Most obstacles should instead author their resistance, boundaries, and possible consequences, leaving the AI DM to evaluate unanticipated approaches. The engine validates the selected value, modifier limits, cited fact identifiers, and effects. It may reject an ungrounded proposal and request a corrected adjudication; it never silently accepts invented context.
 
