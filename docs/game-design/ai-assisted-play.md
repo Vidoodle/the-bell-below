@@ -27,7 +27,7 @@ The AI DM makes the contextual ruling, but it never receives direct authority to
 The player submits what the protagonist says or does in ordinary language. For the first playable slice, the server rebuilds an explicit request context for every model call from:
 
 - relevant setting and campaign rules;
-- the active protagonist, location, scene, NPC, and group definitions, including information stored directly on those definitions;
+- the active protagonist, location, scene, and NPC definitions, including collective NPCs and information stored directly on those definitions;
 - canonical current run state, including stats, resources, relationships, location, scene phase, and committed consequences;
 - the complete player-facing transcript for the current scene, ending with the player's latest message; and
 - the campaign's allowed stat, difficulty, and effect vocabulary.
@@ -38,7 +38,7 @@ Adjudication may require protected authored information—for example, that an a
 
 The transcript is narrative memory, not canonical mechanics. If narration says that Cael was wounded and passed the guards, the server must also have committed the life loss and scene transition. Prose alone cannot establish a condition, resource change, relationship, discovery, or legal transition.
 
-The prototype does not require a generic fact table, event/participant memory graph, semantic retrieval, summaries, or compaction. Authored information stays on the character, NPC, group, location, or scene that owns it. Run-specific mechanical consequences stay in canonical run state. The complete current-scene transcript supplies conversational continuity. Longer-run memory and context compaction are deferred until the playable game demonstrates a real context limit.
+The prototype does not require a generic fact table, event/participant memory graph, semantic retrieval, summaries, or compaction. Authored information stays on the character, NPC, location, or scene that owns it. Run-specific mechanical consequences stay in canonical run state. The complete current-scene transcript supplies conversational continuity. Longer-run memory and context compaction are deferred until the playable game demonstrates a real context limit.
 
 The AI DM returns a structured adjudication:
 

@@ -17,6 +17,13 @@ const reputations: Record<ProtagonistId, Reputation> = {
   riona: "trusted",
 };
 
+const crowdReputations: Record<ProtagonistId, Reputation> = {
+  seren: "friendly",
+  veyra: "neutral",
+  cael: "friendly",
+  riona: "unfriendly",
+};
+
 async function createRun(server: ReturnType<typeof buildServer>, protagonistId: ProtagonistId) {
   const response = await server.inject({
     method: "POST",
@@ -42,38 +49,43 @@ test("serves the observable initial scene for every protagonist", async (context
         url: `/api/runs/${runId}/current-scene`,
       });
       assert.equal(response.statusCode, 200);
-      assert.equal(response.json().npcs[0].reputation, reputations[protagonistId]);
+      assert.deepEqual(
+        response.json().people.map(({ reputation }: { reputation: Reputation }) => reputation),
+        [reputations[protagonistId], reputations[protagonistId], crowdReputations[protagonistId]],
+      );
 
       if (protagonistId === "seren") {
         assert.deepEqual(response.json(), {
           location: {
             name: "The Drowned Stair",
-            description: "The old processional stair descends through Grayhaven's retaining wall into the flooded cathedral close. The city watch holds its reopened gate.",
+            description: "For forty years, Grayhaven's retaining wall has sealed the only intact landward passage into the flooded Lower Ward. Tonight, its gate stands open. Beyond it, the old processional stair descends toward Saint Orra's cathedral, where the Bell of Mercy has begun to toll again.",
           },
           scene: {
             title: "The Guarded Descent",
-            description: "A watch sergeant controls the reopened gate at the upper landing while a guard detail keeps the gathered crowd behind the cordon.",
+            description: "The tolling has drawn a restless crowd to the upper landing, hungry for a glimpse of the cathedral the Church kept sealed below. A disciplined line of city-watch guards holds them behind a cordon while the watch sergeant decides who may pass. The flooded cathedral close lies at the foot of the stair, with Saint Orra's cathedral beyond it. The Bell must be silenced before midnight; the way down runs through the sergeant's gate.",
             phase: "guarded",
           },
-          npcs: [{
-            name: "Watch Sergeant",
-            description: "The officer responsible for deciding who passes the cordon.",
-            reputation: reputations.seren,
-          }],
-          groups: [
+          people: [
+            {
+              name: "Watch Sergeant",
+              description: "The officer responsible for deciding who passes the cordon.",
+              reputation: reputations.seren,
+            },
             {
               name: "Guard Detail",
               description: "A disciplined line of city-watch guards blocks the reopened gate.",
+              reputation: reputations.seren,
             },
             {
               name: "Gathered Crowd",
               description: "Grayhaven residents press against the cordon to watch the reopened stair.",
+              reputation: crowdReputations.seren,
             },
           ],
         });
         assert.doesNotMatch(
           response.body,
-          /protectedFacts|initialDisposition|initialReputationByProtagonist/,
+          /actsCollectively|protectedFacts|initialDisposition|initialReputationByProtagonist/,
         );
       }
     });

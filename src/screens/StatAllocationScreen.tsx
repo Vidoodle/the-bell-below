@@ -33,7 +33,7 @@ export function StatAllocationScreen({
   return <main className="builder"><section className="sheet">
     <button className="back" onClick={onBack}>← Characters</button>
     <p className="eyebrow">{character.title}</p><h1>Build {character.shortName}</h1>
-    <p className="intro">Spend 8 points across your stats. Raise each from 1 to 5; your character's bonus is added on top. Higher stats improve your chances on related checks.</p>
+    <p className="intro">A recommended build based on this character's background is ready. Adjust it freely; each base stat can range from 1 to 5, and the character's bonus is added on top.</p>
     <p className="benefit"><strong>{character.shortName}'s benefit:</strong> +1 {character.benefit}. {character.benefit} can reach 6.</p>
     <div className="allocation">{statNames.map((stat) => <article
       key={stat}

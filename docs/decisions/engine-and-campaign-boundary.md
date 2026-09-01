@@ -22,7 +22,7 @@ A campaign package owns its playable vocabulary and truth:
 
 - stat and character definitions;
 - check rules, difficulty scale, resources, action economy, and effect vocabulary;
-- locations, scenes, NPCs, groups, lore, obstacles, encounters, and endings;
+- locations, scenes, individual and collective NPCs, lore, obstacles, encounters, and endings;
 - disclosure rules and campaign-specific AI DM context policy;
 - presentation labels and assets.
 

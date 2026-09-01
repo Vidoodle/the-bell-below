@@ -1,11 +1,9 @@
-import type { GroupDefinition, GroupId } from "./groups/model.js";
 import type { LocationDefinition, LocationId } from "./locations/model.js";
 import type { NpcDefinition, NpcId } from "./npcs/model.js";
 import type { SceneDefinition, SceneId } from "./scenes/model.js";
 
 export type AdventureContent = Readonly<{
   initialSceneId: SceneId;
-  groups: readonly GroupDefinition[];
   locations: readonly LocationDefinition[];
   scenes: readonly SceneDefinition[];
   npcs: readonly NpcDefinition[];
@@ -13,7 +11,6 @@ export type AdventureContent = Readonly<{
 
 export type Adventure = Readonly<{
   initialSceneId: SceneId;
-  groups: ReadonlyMap<GroupId, GroupDefinition>;
   locations: ReadonlyMap<LocationId, LocationDefinition>;
   scenes: ReadonlyMap<SceneId, SceneDefinition>;
   npcs: ReadonlyMap<NpcId, NpcDefinition>;
@@ -36,7 +33,6 @@ function indexDefinitions<Id extends string, Definition extends { id: Id }>(
 }
 
 export function createAdventure(content: AdventureContent): Adventure {
-  const groups = indexDefinitions<GroupId, GroupDefinition>("group", content.groups);
   const locations = indexDefinitions<LocationId, LocationDefinition>(
     "location",
     content.locations,
@@ -53,17 +49,10 @@ export function createAdventure(content: AdventureContent): Adventure {
         `Scene ${scene.id} references unknown location ${scene.locationId}.`,
       );
     }
-    for (const initialNpcId of scene.initialNpcIds) {
-      if (!npcs.has(initialNpcId)) {
+    for (const participation of scene.initialNpcParticipations) {
+      if (!npcs.has(participation.npcId)) {
         throw new AdventureValidationError(
-          `Scene ${scene.id} references unknown NPC ${initialNpcId}.`,
-        );
-      }
-    }
-    for (const participation of scene.groupParticipations) {
-      if (!groups.has(participation.groupId)) {
-        throw new AdventureValidationError(
-          `Scene ${scene.id} references unknown group ${participation.groupId}.`,
+          `Scene ${scene.id} references unknown NPC ${participation.npcId}.`,
         );
       }
     }
@@ -80,7 +69,6 @@ export function createAdventure(content: AdventureContent): Adventure {
 
   return {
     initialSceneId: content.initialSceneId,
-    groups,
     locations,
     scenes,
     npcs,

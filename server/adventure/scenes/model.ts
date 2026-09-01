@@ -1,4 +1,3 @@
-import type { GroupId } from "../groups/model.js";
 import type { LocationId } from "../locations/model.js";
 import type { NpcId } from "../npcs/model.js";
 
@@ -13,8 +12,8 @@ export const scenePhaseId = <Value extends string>(value: Value) => (
   value as Value & ScenePhaseId
 );
 
-export type SceneGroupParticipation = Readonly<{
-  groupId: GroupId;
+export type SceneNpcParticipation = Readonly<{
+  npcId: NpcId;
   observableDescription: string;
   initialDisposition: string;
 }>;
@@ -24,8 +23,7 @@ export type SceneDefinition = Readonly<{
   locationId: LocationId;
   title: string;
   description: string;
-  initialNpcIds: readonly NpcId[];
-  groupParticipations: readonly SceneGroupParticipation[];
+  initialNpcParticipations: readonly SceneNpcParticipation[];
   initialPhaseId: ScenePhaseId;
   phaseIds: readonly ScenePhaseId[];
 }>;

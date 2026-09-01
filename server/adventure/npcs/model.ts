@@ -10,6 +10,7 @@ export const npcId = <Value extends string>(value: Value) => value as Value & Np
 export type NpcDefinition = Readonly<{
   id: NpcId;
   name: string;
-  description: string;
+  actsCollectively: boolean;
+  protectedFacts: readonly string[];
   initialReputationByProtagonist: Readonly<Record<ProtagonistId, Reputation>>;
 }>;

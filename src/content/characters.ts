@@ -1,5 +1,5 @@
 import type { ProtagonistId } from "../../shared/protagonist";
-import type { Stat } from "../../shared/stats";
+import type { BaseStats, Stat } from "../../shared/stats";
 
 export type CharacterProfile = {
   id: ProtagonistId;
@@ -10,6 +10,7 @@ export type CharacterProfile = {
   motivation: string;
   prologue: string[];
   benefit: Stat;
+  recommendedStats: BaseStats;
 };
 
 export const characters: CharacterProfile[] = [
@@ -23,6 +24,7 @@ export const characters: CharacterProfile[] = [
       "At the first toll tonight, pain returns to the place where Seren was wounded during the siege. No scar remains. He cannot tell whether the Bell is calling him or guilt is drawing him back. Before the next toll, he is on his way to the Drowned Stair.",
     ],
     benefit: "Might",
+    recommendedStats: { Might: 5, Grace: 2, Wits: 2, Presence: 3 },
   },
   {
     id: "veyra", name: "Veyra Sable", shortName: "Veyra", title: "The Relic Thief",
@@ -34,6 +36,7 @@ export const characters: CharacterProfile[] = [
       "The city watch controls the newly opened stair and admits only those carrying council orders. Veyra has none. She joins the crowd outside the barricade and studies the guards. Somewhere below them, the reliquary is waiting.",
     ],
     benefit: "Grace",
+    recommendedStats: { Might: 2, Grace: 5, Wits: 3, Presence: 2 },
   },
   {
     id: "cael", name: "Brother Cael", shortName: "Cael", title: "The Heretic",
@@ -45,6 +48,7 @@ export const characters: CharacterProfile[] = [
       "Opening the Drowned Stair gives Cael his first chance to search the cathedral itself. The church has already sent his name to the city watch with orders to turn him away. Cael arrives carrying his copied records and nothing that grants him passage.",
     ],
     benefit: "Wits",
+    recommendedStats: { Might: 2, Grace: 2, Wits: 5, Presence: 3 },
   },
   {
     id: "riona", name: "Dame Riona Voss", shortName: "Riona", title: "The Bell-Warden",
@@ -56,6 +60,7 @@ export const characters: CharacterProfile[] = [
       "After the first toll, the council summons her. They name her Bell-Warden and give her a sealed commission ordering her to enter the cathedral and stop the Bell before midnight. The guards at the Drowned Stair are waiting for her. Their captain has orders to admit the Bell-Warden and assist her if asked. The entrance stands open behind them.",
     ],
     benefit: "Presence",
+    recommendedStats: { Might: 3, Grace: 2, Wits: 2, Presence: 5 },
   },
 ];
 

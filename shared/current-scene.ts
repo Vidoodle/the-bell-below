@@ -10,13 +10,9 @@ export type CurrentScenePresentation = Readonly<{
     description: string;
     phase: string;
   }>;
-  npcs: readonly Readonly<{
+  people: readonly Readonly<{
     name: string;
     description: string;
     reputation: Reputation;
-  }>[];
-  groups: readonly Readonly<{
-    name: string;
-    description: string;
   }>[];
 }>;

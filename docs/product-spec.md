@@ -305,7 +305,7 @@ These families are an internal classification vocabulary, not a player-facing ac
 For each submission:
 
 1. Persist the player's exact text as a transcript entry.
-2. Build an explicit AI DM context from relevant campaign rules; the active protagonist; the current location, scene, NPCs, and groups; canonical run state; the complete current-scene transcript ending with the latest player message; and the campaign's allowed stat, difficulty, and effect vocabulary.
+2. Build an explicit AI DM context from relevant campaign rules; the active protagonist; the current location, scene, and NPCs, including collectives; canonical run state; the complete current-scene transcript ending with the latest player message; and the campaign's allowed stat, difficulty, and effect vocabulary.
 3. Ask the AI DM for a structured adjudication: routine, check, infeasible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, a disclosure-safe explanation of the important contextual factors, stakes, and bounded effects.
 4. Resolve references against the observable world.
 5. Instantiate any permitted mundane detail required by the proposal.
@@ -323,7 +323,7 @@ Player text is game content, never system instruction. Attempts to reveal prompt
 
 Each principal NPC has authored goals, priorities, fears, boundaries, knowledge, false beliefs, secrets, lies, concessions, refusals, and tactical policy. Their current location, physical state, relationships, promises, grievances, and other consequences of play belong to canonical run state.
 
-Authored information lives on the protagonist, NPC, collective group, location, or scene that owns it. The prototype does not require a generic fact record with kinds, subjects, sources, or citation IDs. The DM receives the relevant authored definitions, current state, and current-scene transcript; it does not receive the complete adventure bible during ordinary dialogue.
+Authored information lives on the protagonist, NPC, location, or scene that owns it. The prototype does not require a generic fact record with kinds, subjects, sources, or citation IDs. The DM receives the relevant authored definitions, current state, and current-scene transcript; it does not receive the complete adventure bible during ordinary dialogue.
 
 Before dialogue generation, the system supplies valid behaviors such as truthful answer, unlocked disclosure, authored lie, evasion, refusal, threat, bargain, promise, question, departure, or physical action. The DM chooses and performs the behavior in character without inventing knowledge or concessions. When an NPC takes a consequential physical or social action, the DM sends it through the normal resolution pipeline; the rules engine rolls and commits its effects.
 

@@ -1,11 +1,12 @@
 import { npcId, type NpcDefinition } from "./model.js";
 
-export const watchSergeant = {
-  id: npcId("watch-sergeant"),
-  name: "Watch Sergeant",
-  actsCollectively: false,
+export const guardDetail = {
+  id: npcId("guard-detail"),
+  name: "Guard Detail",
+  actsCollectively: true,
   protectedFacts: [
-    "The sergeant is the city-watch officer responsible for deciding who passes the cordon.",
+    "The detail is part of Grayhaven's city watch.",
+    "It has been ordered to hold the Drowned Stair cordon.",
   ],
   initialReputationByProtagonist: {
     seren: "friendly",

@@ -175,7 +175,7 @@ export function App() {
     onPrevious={() => setIndex((index + characters.length - 1) % characters.length)}
     onSelect={() => {
       setChosen(character);
-      setAssigned(freshStats());
+      setAssigned({ ...character.recommendedStats });
       setView("stats");
     }}
   />;
