@@ -64,7 +64,7 @@ The DM may:
 - interpret the player's goal, approach, targets, and flavor;
 - decompose a submission into mechanically significant actions;
 - classify an action as routine, check, infeasible, or clarify;
-- select a relevant stat and concrete difficulty from the supported scale, citing the current facts and circumstances that justify them;
+- select a relevant stat and concrete difficulty from the supported scale, explaining the important current circumstances without revealing protected information;
 - propose stakes and bounded success, failure, and critical effects;
 - recognize novel solutions to authored obstacles;
 - introduce plausible mundane details and objects;
@@ -72,7 +72,7 @@ The DM may:
 - choose among engine-authorized NPC behaviors and concessions;
 - render dialogue and narration after resolution.
 
-The rules engine verifies that cited facts exist in the supplied context, the proposed difficulty and modifiers stay within configured or authored bounds, the requested outcome is feasible, and the effects are permitted. It then determines legal costs, performs rolls, commits approved effects, and rejects mutations outside the rules. In product language the AI DM makes the ruling; the separation exists to keep that ruling grounded, auditable, and recoverable.
+The rules engine verifies identifiers, proposal shape, configured or authored bounds, legal costs, and permitted effects. It rejects mechanically invalid mutations, performs rolls, and commits approved effects. It does not attempt to mechanically prove that the AI DM chose the best contextual difficulty or feasibility classification; prompts, representative evaluations, and playtesting cover that judgment. In product language the AI DM makes the ruling; the separation exists to keep the resulting mechanics binding, auditable, and recoverable.
 
 ### 3.3 Improvisation has boundaries
 
@@ -256,11 +256,11 @@ Persist the final total and margin from the relevant DV or outcome threshold for
 
 Feasibility depends on both outcome and method within the current fiction. Fighting through the Drowned Stair guards can be an Impossible-rated check because it remains within mortal capability. Creating a tunnel to the keep through solid ground by applying Might alone is infeasible; the engine must not turn an invalid approach into a lottery. Tools, time, established magic, or changed circumstances may make a different tunneling approach eligible for a new ruling.
 
-The AI DM proposes a concrete difficulty from the supported scale using the complete relevant context: the attempted outcome and method, character history and capabilities, relationships, leverage, obstacle state, equipment, conditions, and current environment. It must cite the supplied facts that materially raised or lowered the difficulty.
+The AI DM proposes a concrete difficulty from the supported scale using the complete relevant context: the attempted outcome and method, character history and capabilities, relationships, leverage, obstacle state, equipment, conditions, current environment, and established scene conversation. Its player-facing explanation names the important contextual factors without disclosing protected information.
 
-An authored obstacle may specify fixed routine or infeasible conditions, a baseline or allowed difficulty range, protected facts, permitted concessions, and bounded consequences. It defines what is true and what may change, not every approach a player might attempt. Improvised tasks use configured global bounds. The engine validates the AI DM's internal fact citations, disclosure-safe rationale, difficulty, modifiers, stakes, and effects before rolling.
+An authored obstacle may specify fixed routine or infeasible conditions, a baseline or allowed difficulty range, protected information, permitted concessions, and bounded consequences. It defines what is true and what may change, not every approach a player might attempt. Improvised tasks use configured global bounds. The engine validates the AI DM's identifiers, disclosure-safe explanation, difficulty, modifiers, stakes, and effects before rolling.
 
-Outside combat, cited narrative circumstances normally explain the final DV. Numeric modifiers come from explicit engine-owned effects such as equipment, conditions, assistance, or an established bonus. The same circumstance cannot change the DV and also supply a modifier. Structured combat uses fixed defenses; contextual factors there may instead justify a validated modifier or advantage and disadvantage.
+Outside combat, the AI DM's narrative factors normally explain the final DV. Numeric modifiers come from explicit engine-owned effects such as equipment, conditions, assistance, or an established bonus. The same circumstance cannot change the DV and also supply a modifier. Structured combat uses fixed defenses; contextual factors there may instead justify a validated modifier or advantage and disadvantage.
 
 ### 7.2 Consequences
 
@@ -280,7 +280,7 @@ The DM decomposes multi-part submissions and validates their total cost against 
 
 Combat flavor never overrides resolution. “She feints and drives the blade beneath its ribs” may describe a standard attack, but the final narration describes a wound only if the attack hits. A claimed maneuver grants a mechanical effect only when it maps to a legal ability or validated improvised action.
 
-Core defenses, action economy, damage, and condition rules remain engine-owned. The AI DM may propose bounded situational modifiers or advantage and disadvantage from cited context. For example, Seren's established familiarity with city-watch training may make a particular feint or defensive read easier; the engine verifies that grounding and applies the validated modifier before rolling.
+Core defenses, action economy, damage, and condition rules remain engine-owned. The AI DM may propose bounded situational modifiers or advantage and disadvantage from the supplied context. For example, Seren's established familiarity with city-watch training may make a particular feint or defensive read easier; the engine verifies that the proposed modifier is supported and within bounds before rolling.
 
 The AI DM chooses NPC actions within authored goals and tactical policies. NPC actions use the same validated action economy, checks, dice, and committed effects as protagonist actions. The player controls only the protagonist. The initial demo does not support recruitable combat companions.
 
@@ -304,38 +304,35 @@ These families are an internal classification vocabulary, not a player-facing ac
 
 For each submission:
 
-1. Persist the player's exact text.
-2. Build a bounded AI DM context from observable scene state, relevant authored facts, character history, relationships, equipment, conditions, and recent committed events.
-3. Ask the AI DM for a structured adjudication: routine, check, infeasible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, internal fact citations, a disclosure-safe rationale, stakes, and bounded effects.
+1. Persist the player's exact text as a transcript entry.
+2. Build an explicit AI DM context from relevant campaign rules; the active protagonist; the current location, scene, NPCs, and groups; canonical run state; the complete current-scene transcript ending with the latest player message; and the campaign's allowed stat, difficulty, and effect vocabulary.
+3. Ask the AI DM for a structured adjudication: routine, check, infeasible, or clarify; goal, approach, targets, and action costs; and, for a check, stat, difficulty, a disclosure-safe explanation of the important contextual factors, stakes, and bounded effects.
 4. Resolve references against the observable world.
 5. Instantiate any permitted mundane detail required by the proposal.
-6. Validate feasibility, protected state, cited facts, difficulty bounds, modifiers, targets, costs, preconditions, stakes, and effects.
+6. Validate protected state, identifiers, difficulty bounds, modifiers, targets, costs, preconditions, stakes, effects, and classification-specific invariants.
 7. Clarify only material ambiguity.
-8. Persist the accepted adjudication, roll when required, and construct a complete resolved-action event bundle.
+8. Persist the accepted adjudication, roll when required, and construct a complete resolved action.
 9. Apply the transition atomically and persist current state.
-10. Ask the AI DM to generate dialogue or narration from the committed adjudication and result, then validate the presentation.
+10. Ask the AI DM to generate dialogue or narration from the transcript plus the committed adjudication and result, validate the presentation, and append it to the transcript.
 
-The adjudication context may include relevant hidden obstacle facts tagged with disclosure rules when the AI DM needs them to determine whether observation or investigation is routine, a check, or infeasible. Internal citations identify the facts used to validate the ruling; the mechanics display and generated prose may include only a separate disclosure-safe rationale. Adjudication, narration, and future suggestion calls are separate stateless provider requests with explicit context. Player-facing stages receive only facts made observable by committed state.
+The adjudication context may include relevant protected authored information when the AI DM needs it to determine whether observation or investigation is routine, a check, or infeasible. Adjudication, narration, and future suggestion calls are separate stateless provider requests with explicit context. Player-facing stages receive only information made observable by authored boundaries and committed state. The provider's conversation state is never the source of truth.
 
 Player text is game content, never system instruction. Attempts to reveal prompts, change hidden state, impersonate the engine, or declare unearned outcomes receive no special authority.
 
 ## 9. NPCs, knowledge, and memory
 
-Each principal NPC has structured goals, priorities, fears, boundaries, location, physical state, relationship values, promises, grievances, knowledge, false beliefs, secrets, disclosure rules, lies, concessions, refusals, and tactical policy.
+Each principal NPC has authored goals, priorities, fears, boundaries, knowledge, false beliefs, secrets, lies, concessions, refusals, and tactical policy. Their current location, physical state, relationships, promises, grievances, and other consequences of play belong to canonical run state.
 
-Facts use stable identifiers. The DM receives only the speaker's permitted knowledge, current perceptions, relevant memories, and authorized behavior. It does not receive the complete adventure bible during ordinary dialogue.
+Authored information lives on the protagonist, NPC, collective group, location, or scene that owns it. The prototype does not require a generic fact record with kinds, subjects, sources, or citation IDs. The DM receives the relevant authored definitions, current state, and current-scene transcript; it does not receive the complete adventure bible during ordinary dialogue.
 
 Before dialogue generation, the system supplies valid behaviors such as truthful answer, unlocked disclosure, authored lie, evasion, refusal, threat, bargain, promise, question, departure, or physical action. The DM chooses and performs the behavior in character without inventing knowledge or concessions. When an NPC takes a consequential physical or social action, the DM sends it through the normal resolution pipeline; the rules engine rolls and commits its effects.
 
-The demo stores:
+The initial playable slice stores:
 
-- canonical current state;
-- an append-only event ledger;
-- recent scene context;
-- tagged significant memories linked to characters, locations, facts, promises, and events;
-- private NPC memories of what each NPC witnessed or learned.
+- canonical current state and accepted mechanical results; and
+- the complete player-facing transcript, including exact player messages and AI DM dialogue or narration.
 
-These are data responsibilities, not separate services. Summaries support continuity but never override canonical state.
+For each call in the first Drowned Stair slice, the application resends the complete current-scene transcript. Transcript prose provides conversational continuity but never overrides canonical state. Generic event-memory projections, tagged long-term memories, semantic retrieval, summaries, and compaction are deferred until a longer playable run demonstrates the need.
 
 ## 10. Presentation
 
@@ -384,9 +381,9 @@ The initial implementation needs these responsibilities, which may coexist in on
 - **Web client:** selection, transcript, freeform composer, state panels, combat, and endings.
 - **Application API:** run lifecycle, action submission, streaming, and resume.
 - **Reusable AI DM orchestrator:** bounded context exchange, provider-neutral adjudication and presentation requests, validation handoff, retry, and recovery.
-- **Reusable runtime:** run and action lifecycle, content and ruleset selection, stable identities, seeded randomness, atomic commitment, replay protection, and event persistence.
+- **Reusable runtime:** run and action lifecycle, content and ruleset selection, stable identities, seeded randomness, atomic commitment, replay protection, and action persistence.
 - **Campaign package:** stat and character definitions, resolution rules, action and effect vocabulary, authored locations, scenes, NPC constraints, lore, resources, clocks, encounters, and endings.
-- **Persistence:** event ledger, current state, transcript, memories, and content version.
+- **Persistence:** current state, accepted adjudications and results, transcript, and content version.
 - **Provider adapter:** replaceable access to the initial hosted text model.
 
 The runtime must be testable without a live model by supplying deterministic adjudication proposals through a fake AI DM. Automated validated-proposal paths must reach every ending; the player-facing game does not require authored action menus. Campaign content and rules should be declarative where practical, versioned separately from runs, and validated for identifiers, predicates, invariants, and reachability. Reusable orchestration and persistence code must receive campaign definitions through explicit dependencies rather than importing a *The Bell Below* singleton or branching on its IDs.
@@ -425,7 +422,7 @@ Playtesting should also verify that conversations feel freeform, NPC resistance 
 ### Milestone 0 — Content and contracts
 
 - Finalize the adventure bible, six-location graph, three NPC policies, protagonists, assets, and endings.
-- Define proposals, effects, facts, knowledge, events, runtime entities, and ending predicates.
+- Define the first proposal and effect contracts, authored knowledge boundaries, runtime entities needed by the slice, and ending predicates.
 - Build static validation and reachability tests.
 
 ### Milestone 1 — Headless deterministic slice
