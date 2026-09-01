@@ -14,4 +14,5 @@ When a decision changes, mark the old document as superseded and link to its rep
 - [Run scene state](run-scene-state.md)
 - [Authored adventure model](authored-adventure-model.md)
 - [AI authority](ai-authority.md)
-- [Check resolution](check-resolution.md)
+- [The Bell Below check resolution](check-resolution.md)
+- [Engine and campaign boundary](engine-and-campaign-boundary.md)

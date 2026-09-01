@@ -13,6 +13,7 @@ Different parts of the system have different authority:
 | Concern | Authority |
 | --- | --- |
 | Lore, hidden truth, principal NPCs, major discoveries, and endings | Authored adventure definitions |
+| Stat catalog, check scale, resources, action and effect vocabulary, and campaign-specific rules | Campaign definitions |
 | Situation invariants, protected facts, obstacle bounds, permitted concessions, and ending predicates | Authored adventure definitions |
 | Current location, relationships, resources, consequences, and other run history | Committed run state |
 | Interpretation, routine/check/impossible/clarify classification, stat choice, contextual difficulty, stakes, and selection among permitted NPC behaviors | AI DM adjudication proposals |
@@ -36,6 +37,8 @@ The AI DM returns a structured adjudication:
 
 The server resolves references, validates the proposal, persists the accepted adjudication, rolls if required, and commits the result atomically. Only then does the AI DM receive the committed result for dialogue and narration. Retrying interpretation, delivery, or narration must not produce a second ruling or roll for the same accepted action.
 
+The four classifications and committed-action lifecycle are reusable. The check payload receives its available stat identifiers, difficulty scale, effect vocabulary, and other mechanical bounds from the active campaign package. Provider-neutral orchestration must not hardcode *The Bell Below*'s stat names or content IDs, even though the first implementation only needs to exercise this campaign.
+
 ## Authored scenes
 
 An authored scene defines a situation rather than every possible exchange or player approach. It establishes:
@@ -51,7 +54,7 @@ Authors do not enumerate every persuasive argument, investigative method, combat
 
 ## Contextual difficulty
 
-Checks use `d10 + stat + situational modifiers` against 7, 9, 11, or 13. Each stat point changes the success chance of an unclamped check by ten percentage points, so the effective stat range from 1 to 6 expresses a meaningful character strength or weakness. The AI DM selects the concrete difficulty and relevant stat from the attempted outcome, method, protagonist history, relationships, leverage, obstacle state, equipment, conditions, and environment. It cites only facts present in its supplied context.
+*The Bell Below* checks use `d10 + stat + situational modifiers` against 7, 9, 11, or 13. Each stat point changes the success chance of an unclamped check by ten percentage points, so the effective stat range from 1 to 6 expresses a meaningful character strength or weakness. The AI DM selects the concrete difficulty and relevant stat from the active campaign's supplied catalog using the attempted outcome, method, protagonist history, relationships, leverage, obstacle state, equipment, conditions, and environment. It cites only facts present in its supplied context.
 
 Advantage and disadvantage roll two d10s and keep the higher or lower. A natural 10 or 1 has no automatic critical meaning; any critical effect must come from an explicit authored or rules-bounded outcome predicate.
 

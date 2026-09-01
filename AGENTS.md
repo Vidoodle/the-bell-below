@@ -34,6 +34,7 @@ Build the game as a sequence of playable slices. Keep each change focused on the
 ## Gameplay and lore
 
 - Prefer the smallest end-to-end playable behavior over disconnected setup work.
+- Treat *The Bell Below* as the first campaign package for a reusable engine and AI DM orchestration system. Campaign-specific stats, rules, locations, NPCs, lore, resources, and endings must not become implicit universal engine assumptions. Preserve clean boundaries, but do not build a plugin framework or generic campaign creator until another concrete campaign requires it.
 - Treat an authored scene as a situation with participants, stakes, boundaries, and legal transitions, not as a dialogue tree or a list of every possible player action.
 - Keep protected truth and major content in server-only authored definitions, per-run consequences in committed state, and generated prose in presentation. Do not blur these categories for implementation convenience.
 - Keep mechanics reproducible from committed state, an accepted AI DM adjudication, and a random seed. The AI DM may classify an attempt, select a stat and contextual difficulty from the supported scale, cite situational factors, propose bounded effects, choose among authorized NPC behaviors, and narrate an outcome. The server must validate the proposal and owns rules limits, randomness, mechanical success, and committed state.

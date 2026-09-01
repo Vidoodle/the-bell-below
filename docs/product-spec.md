@@ -1,8 +1,8 @@
 # The Bell Below — Demo Product and Technical Specification
 
 **Status:** Working draft
-**Version:** 0.3
-**Date:** 2026-08-31
+**Version:** 0.4
+**Date:** 2026-09-01
 **Product:** Public, single-player, AI-assisted web RPG demo
 **Target playtime:** 60–90 minutes
 
@@ -42,6 +42,12 @@ It does not include:
 - runtime image generation;
 - player-supplied model credentials;
 - rewind, save branching, manual rerolls, or recovery after ordinary death.
+
+These are demo-scope exclusions, not a declaration that the implementation is permanently a single-campaign product. *The Bell Below* is the first campaign package for an engine and AI DM orchestration system intended to support other authored modules and, eventually, campaign-creation tools.
+
+Future campaign packages may define different stat catalogs, character schemas, rules, resources, locations, NPCs, lore, obstacles, and endings. The reusable core should retain run and action lifecycle, bounded AI DM orchestration, proposal validation and commitment, seeded resolution, persistence, idempotency, recovery, and provider adapters without assuming *The Bell Below* names or identifiers.
+
+Extensibility is a boundary requirement, not current feature scope. The demo does not add dynamic campaign loading, a plugin framework, a universal schema language, or creator UI. Keep campaign-owned concepts behind explicit seams and introduce broader abstractions only when a second concrete campaign or creator workflow supplies real requirements. A future creator may assist in producing a campaign package, but that package must be validated, versioned, and fixed before play; it does not give runtime generation authority over canonical truth.
 
 ## 3. Design laws
 
@@ -373,12 +379,13 @@ The initial implementation needs these responsibilities, which may coexist in on
 
 - **Web client:** selection, transcript, freeform composer, state panels, combat, and endings.
 - **Application API:** run lifecycle, action submission, streaming, and resume.
-- **AI DM orchestrator:** interpretation, adjudication, NPC decisions, plausible detail generation, resolution requests, dialogue, and narration.
-- **Rules and adventure engine:** validation, action economy, dice, combat, committed effects, authored facts, NPC constraints, clocks, and endings.
+- **Reusable AI DM orchestrator:** bounded context exchange, provider-neutral adjudication and presentation requests, validation handoff, retry, and recovery.
+- **Reusable runtime:** run and action lifecycle, content and ruleset selection, stable identities, seeded randomness, atomic commitment, replay protection, and event persistence.
+- **Campaign package:** stat and character definitions, resolution rules, action and effect vocabulary, authored locations, scenes, NPC constraints, lore, resources, clocks, encounters, and endings.
 - **Persistence:** event ledger, current state, transcript, memories, and content version.
 - **Provider adapter:** replaceable access to the initial hosted text model.
 
-The rules and adventure engine must be testable without a live model by supplying deterministic adjudication proposals through a fake AI DM. Automated validated-proposal paths must reach every ending; the player-facing game does not require authored action menus. Adventure content should be declarative where practical, versioned separately from runs, and validated for identifiers, predicates, invariants, and reachability.
+The runtime must be testable without a live model by supplying deterministic adjudication proposals through a fake AI DM. Automated validated-proposal paths must reach every ending; the player-facing game does not require authored action menus. Campaign content and rules should be declarative where practical, versioned separately from runs, and validated for identifiers, predicates, invariants, and reachability. Reusable orchestration and persistence code must receive campaign definitions through explicit dependencies rather than importing a *The Bell Below* singleton or branching on its IDs.
 
 ## 13. Acceptance criteria
 

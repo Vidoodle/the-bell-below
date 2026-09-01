@@ -6,6 +6,8 @@ Status: accepted.
 
 An `Adventure` is the validated, server-only package of authored locations, scenes, NPCs, and collective groups. `AdventureContent` is the unprocessed collection used to construct it.
 
+This is the authored-content model for one campaign package, not the universal definition of the engine. A future campaign may surround its adventure content with different stat, character, rules, resource, and effect definitions while reusing the same orchestration and committed-action lifecycle. The current implementation should inject its selected `Adventure` into reusable consumers rather than importing one *The Bell Below* singleton, but it should not add a generic plugin system before a second campaign creates a concrete need.
+
 - A location is a persistent authored place within the adventure.
 - A scene is an authored situation anchored to exactly one location.
 - An NPC is adventure-scoped and may appear in multiple scenes.

@@ -1,4 +1,4 @@
-# Check resolution
+# The Bell Below check resolution
 
 Status: accepted.
 
@@ -6,7 +6,7 @@ Date: 2026-08-31.
 
 ## Decision
 
-Uncertain, feasible, consequential actions use `d10 + stat + situational modifiers` against one of four supported difficulties:
+Within *The Bell Below*, uncertain, feasible, consequential actions use `d10 + stat + situational modifiers` against one of four supported difficulties:
 
 | Difficulty | DV |
 | --- | ---: |
@@ -27,6 +27,8 @@ Effective stats range from 1 to 6. Each stat point changes the success chance of
 Advantage and disadvantage roll two d10s and keep the higher or lower. Natural 10 and natural 1 have no automatic critical meaning. Critical effects require an explicit authored or rules-bounded outcome predicate.
 
 The engine does not roll when the validated minimum total already meets the DV or the validated maximum total cannot meet it. The former is routine; the latter is impossible for that protagonist and approach in the current circumstances. Fictionally impossible actions cannot become possible because of a die result.
+
+This stat catalog and resolution rule belong to the campaign package, not to the reusable engine. Another campaign may define different stats, ranges, or resolution mechanics while using the same bounded adjudication, validation, commitment, persistence, and narration lifecycle.
 
 ## Why
 
